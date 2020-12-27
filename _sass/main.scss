@@ -1,5 +1,5 @@
 #main {
-    max-width: 720px;
+    width: 720px;
 }
 
 #content {
@@ -14,6 +14,7 @@ body {
     background-color: #06090c;
     display: flex;
 	justify-content: center;
+	margin: 0;
 }
 
 a {
@@ -25,8 +26,8 @@ a:active, a:focus {
 	outline: none;
 }
 
-h1, h2, p {
-  margin: 0;
+h1, h2 {
+  	margin: 0;
 }
 
 header {

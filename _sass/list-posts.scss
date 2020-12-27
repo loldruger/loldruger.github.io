@@ -1,0 +1,42 @@
+.post-item {
+    background-color: rgb(25, 27, 28);
+    margin: 0 0 0.6em;
+    padding: 1.1em;
+    border-radius: 20px;
+}
+
+.item-label {
+    position: relative;
+    top: 0.4em;
+    margin-bottom: 1em;
+}
+
+.post-item-etc {
+    display: flex;
+    align-items: center;
+}
+
+.label-item > span {
+    border: solid 1px #5d5753;
+    background-color: #5d5753;
+    color: #c7c7c7;
+    border-radius: 2em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-size: 9pt;
+}
+
+.label-item > span > a {
+    color: #fff;
+}
+
+.label-item > span:hover {
+    border: solid 1px #ff2f2f;
+    background-color: #ff2f2f;
+    color: white;
+    // #ff6767?
+}
+
+.post-label {
+      position: relative;
+}

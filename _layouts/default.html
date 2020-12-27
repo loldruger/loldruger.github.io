@@ -4,11 +4,14 @@
         <meta charset="utf-8">
         <title>{{ page.title }}</title>
         <link rel="stylesheet" href="/assets/css/styles.css">
+        <link rel="stylesheet" href="/assets/css/list-posts.css">
     </head>
     <body>
-        <header><a href = '/'>UNIVERSE</a></header>
-        {{ content }}
-        {% include list-posts.html %}
-        <footer>푸터풋ㅌㅋㅋ</footer>
+        <div id = 'main'>
+            <header><a href = '/'>UNIVERSE</a></header>
+            <div id = "content">{{ content }}</div>
+            {% include list-posts.html %}
+            <footer>푸터풋ㅌㅋㅋ{{ title }}</footer>            
+        </div>
     </body>
 </html>

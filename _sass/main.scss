@@ -1,3 +1,38 @@
-.current {
-    color: green;
-  }
+#main {
+    max-width: 720px;
+}
+
+#content {
+	padding: 1.1em;
+}
+
+* {
+	color: white;
+}
+
+body {
+    background-color: #06090c;
+    display: flex;
+	justify-content: center;
+}
+
+a {
+	text-decoration: none;
+	color: #509dff;
+}
+
+a:active, a:focus {
+	outline: none;
+}
+
+h1, h2, p {
+  margin: 0;
+}
+
+footer {
+	background-color: #1a7a4c;
+	padding: 1.1em;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	color: #fff;
+}

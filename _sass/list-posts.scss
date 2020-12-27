@@ -43,9 +43,25 @@
     background-color: #ff2f2f;
 }
 
-.pagination {
+#pagination {
     display: flex;
     margin: 0 1em;
+    align-items: center;
+}
+
+#paginator-number {
+    position: relative;
+    bottom: 5px;
+}
+
+#paginator-number > span {
+    background-color: #2d374d;
+    padding: 2px 8px;
+    border-radius: 2em;
+}
+
+#paginator-current {
+    background-color: #4867ac !important;
 }
 
 .paginator-button {

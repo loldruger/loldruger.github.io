@@ -4,5 +4,5 @@ url: "https://loldruger.github.io/"
 plugins:
   - jekyll-paginate
 
-paginate: 3
+paginate: 1
 paginate_path: "/:num/"

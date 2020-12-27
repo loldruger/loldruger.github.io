@@ -8,6 +8,24 @@
     {% endif %}
     <div class = 'spacer'></div>
     <!-- <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span> -->
+
+    {% assign a = paginator.page | minus:'3' %}
+    {% assign b = paginator.page | plus:'3' %}
+    {% assign c = paginator.total_pages | plus:'1' %}
+
+    {% for i in (a..b) limit: 10 %}
+        {% if i <= 0 %}
+            {% continue %}
+        {% endif %}
+
+        {% if i == c %}
+            {% break %}
+        {% endif %}
+
+        <span>{{i}}</span>
+    {% endfor %}
+
+    <div class = 'spacer'></div>
     {% if paginator.next_page %}
         <a href="{{ paginator.next_page_path }}" class="paginator-container">
             <span>next page</span>

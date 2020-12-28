@@ -1,9 +1,9 @@
-<div id="pagination">
+<div class="pagination">
     
     {% if paginator.previous_page %}
     <a href="{{ paginator.previous_page_path }}" class="paginator-container">
     {% else %}
-    <a style = "visibility: hidden;" href="{{ paginator.previous_page_path }}" class="paginator-container">
+    <a style = "visibility: hidden;" class="paginator-container">
     {% endif %}        
         <img class = "paginator-button" src="/assets/images/icon-nevigate-prev.svg" alt="tags: " width="32px" height="32px">
         <span>prev page</span>
@@ -40,7 +40,7 @@
     {% if paginator.next_page %}
     <a href="{{ paginator.next_page_path }}" class="paginator-container">
     {% else %}
-    <a style = "visibility: hidden;" href="{{ paginator.next_page_path }}" class="paginator-container">
+    <a style = "visibility: hidden;" class="paginator-container">
     {% endif %}    
         <span>next page</span>
         <img class = "paginator-button" src="/assets/images/icon-nevigate-next.svg" alt="tags: " width="32px" height="32px">

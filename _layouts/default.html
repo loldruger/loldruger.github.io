@@ -9,6 +9,7 @@
         <div id = 'main'>
             <header><a href = '/'>UNIVERSE</a></header>
             <div id = "content" class = "post-item">{{ content }}</div>
+            {% include page-navigator.html %}
             <h2>Lateast posts</h2>
 
             {% if paginator.posts %}

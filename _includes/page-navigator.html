@@ -1,0 +1,23 @@
+{% if page.id %}
+    <div class="pagination">
+        {% if page.next %}
+        <a href="{{page.next.url}}" class="paginator-container">
+        {% else %}
+        <a style = "visibility: hidden;" class="paginator-container">
+        {% endif %}
+            
+            <img class = "paginator-button" src="/assets/images/icon-nevigate-prev.svg" alt="tags: " width="32px" height="32px">
+            <span>{{page.next.title}}</span>
+        </a>
+        
+        <div class = 'spacer'></div>
+        {% if page.previous %}
+        <a href="{{page.previous.url}}" class="paginator-container">
+        {% else %}
+        <a style = "visibility: hidden;" class="paginator-container">
+        {% endif %}
+            <span>{{page.previous.title}}</span>
+            <img class = "paginator-button" src="/assets/images/icon-nevigate-next.svg" alt="tags: " width="32px" height="32px">
+        </a>
+    </div>
+{% endif %}

@@ -31,7 +31,35 @@
             <div from="2018-07" to="2019-12">
                 <h3 class="company-name">Daedan</h3>
                 <span class="division-name">Research Engineer |  Research Department</span>
+                <div class="title">4. Automated documentation job</div>
+                <div class="content" from="2018-07" to="2019-03">
+                    <p>
+                        I was responsible for writing the device installation status reporting docs. It was originally a job to be done by hand, but I automated it using Google Spreadsheet and Google Apps Script.
+                        It even automatically sent the report to my boss's email. So this greatly improved the workflow and reduced the time to write the report.
+                    </p>
+                </div>
 
+                <div class="title">3. Modeling and Developing many kinds of sensors abstracted module</div>
+                <div class="content" from="2018-07" to="2019-05">
+                    <p>
+                        I modeled a mathematical model of the sensors which were written in the firmware literally in the form of a table, to just only one line of 2nd order polynomial function which approximates the trend of the real data. 
+                        This work made the bunch of codes to be removed and the firmware to be more readable and maintainable. And I mocked interface concept to the sensors objects to be more abstracted and flexible.
+                    </p>
+                    <p>
+                        Similarly, I developed a driver for many custom 8-seg displays. It was designed and developed to have a universal API to be able to replace the display module easily.
+                    </p>
+                </div>
+                <div class="title">2. Developed a Driver which interfaces with Lora Transmission Module</div>
+                <div class="content" from="2018-10" to="2018-12">
+                    <p>
+                        To attach remote control functionality to the firmware I developed, I worked to implement a driver interface for a Lora transmission module using ANSI C.
+                        There could be a chance that I could control a device directly or use remote control simultaneously, so I had to adopt a simple mutex concept to prevent data races or corruption.
+                    </p>
+                    <P>
+                        By the limitation of the Lora technology, it could transmit only about 60 bits of serialized data at once. So I had to implement a generic bitwise deserialization parser. It was so well designed that it could be used in other projects as well.
+                        Also I needed to satisfy the requirement of the Lora module protocol which is confliction avoidance stratgey.
+                    </P>
+                </div>
                 <div class="title">1. Developed an Automated Control Firmware for Industrial Refrigeration</div>
                 <div class="content" from="2018-07" to="2019-03">
                     <p>
@@ -43,24 +71,6 @@
                         That's why I architected the firmware more abstractly and modularly. for example, I segregated the firmware into 3 layers: Business Logic Layer(Application Layer), Bridge Layer, and Hardware Abstraction Layer(integrated with HAL).
                     </p>
                 </div>
-                <div class="title">2. Modeling and Developed many kind of sensors abstracted module</div>
-                <div class="content" from="2018-07" to="2019-05">
-                    <p>
-                        
-                    </p>
-                </div>
-                <div class="title">3. Developed a Driver which interfaces with Lora Transmission Module</div>
-                <div class="content" from="2018-10" to="2018-12">
-                    <p>
-                        To attach remote control functionality to the firmware I developed, I worked to implement a driver interface for a Lora transmition module using ANSI C.
-                        There could be a chance that controls a device directly or remote control simultaneously, so I had to adopt a simple mutex concept to prevent data race or corruption.
-                    </p>
-                    <P>
-                        By the limitation of the Lora technology, it could transmit only about 60 bits of serialized data at once. So I had to implement a generic bitwise deserialization parser. It was so well designed that it could be used in other projects as well.
-                        Also I needed to satisfy the requirement of the Lora module protocol which is confliction avoidance stratgey.
-                    </P>
-                </div>
-
             </div>
         </section>
 

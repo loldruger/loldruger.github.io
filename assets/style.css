@@ -28,6 +28,7 @@
 :root {
     --normal-color: #393939;
     --abnormal-color: #525252;
+    --link-color: #2A78CC;
     --label-color: #FFFFFF;
     --level-5: #FFCF2A;
     --level-4: #FF5959;
@@ -78,6 +79,11 @@ h3 {
 p {
     margin-left: 1em;
     text-align: justify;
+}
+
+a {
+    font-weight: 700;
+    color: var(--link-color);
 }
 
 level {
@@ -217,5 +223,11 @@ section:hover {
 .date {
     font-weight: 400;
     color: var(--abnormal-color);
+}
+
+.participants {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
 }
 

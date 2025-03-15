@@ -40,8 +40,13 @@ header {
     font-weight: 700;
     font-size: 2.5em;
 }
+html {
+    display: flex;
+    justify-content: center;
 
+}
 body {
+    width: 210mm;
     padding: 17px;
 }
 

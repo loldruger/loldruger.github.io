@@ -21,7 +21,7 @@
 
 * {
     font-family: 'Roboto Condensed', sans-serif;
-    font-weight: 100;
+    font-weight: 400;
     color: var(--normal-color);
 }
 
@@ -60,6 +60,7 @@ h1 {
     font-weight: 700;
     font-size: 2em;
     margin-bottom: 13px;
+    margin-top: 13px;
 }
 
 h2 {
@@ -161,6 +162,10 @@ section:hover {
     align-items: center;
 }
 
+.indent {
+    padding-left: 8px;
+}
+
 .sub-title {
     display: flex;
     color: var(--abnormal-color);
@@ -213,3 +218,4 @@ section:hover {
     font-weight: 400;
     color: var(--abnormal-color);
 }
+

@@ -69,6 +69,10 @@ h3 {
     margin-bottom: 4px;
 }
 
+p {
+    margin-left: 1em;
+}
+
 level {
     padding: 2px 7px;
     border-radius: 50%;
@@ -185,5 +189,16 @@ section:hover {
 .division-name {
     font-weight: 400;
     font-size: 1.1em;
-    margin-bottom: 16em;
+}
+
+.title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.content > p{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 400;
 }

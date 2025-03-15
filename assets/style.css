@@ -22,9 +22,11 @@
 * {
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 100;
+    color: var(--normal-color);
 }
 
 :root {
+    --normal-color: #393939;
     --label-color: #FFFFFF;
     --level-5: #FFCF2A;
     --level-4: #FF5959;
@@ -33,15 +35,33 @@
     --level-1: #9BDC86;
 }
 
+header {
+    text-align: center;
+    font-weight: 700;
+    font-size: 2.5em;
+}
+
+body {
+    padding: 17px;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 2em;
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
 strength {
     color: var(--label-color);
-    font-family: 'Roboto Condensed', sans-serif;
     font-weight: 700;
-    text-shadow: #686868 0px 0px 2px;
-
+    text-shadow: #686868 0px 0px 1px;
     width: 100%;
     border-radius: 30px;
-    padding: 2px 10px;
+    padding: 2px 11px;
     margin-bottom: 8px;
 }
 
@@ -71,7 +91,7 @@ strength[level="1"] {
 
 section {
     border-left: 6px solid #ccc;
-    padding-left: 15px;
+    padding-left: 14px;
 }
 
 section:hover {
@@ -89,11 +109,10 @@ section:hover {
 .skills-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 6px;
+    border-spacing: 0 12px;
 }
 
 .label-cell {
-    
     font-weight: bold;
     white-space: nowrap;
 

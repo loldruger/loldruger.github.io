@@ -1,0 +1,65 @@
+:root {
+    --label-color: #FFFFFF;
+    --level-5: #FFCF2A;
+    --level-4: #FF5959;
+    --level-3: #B257DF;
+    --level-2: #2A78CC;
+    --level-1: #9BDC86;
+}
+
+strength {
+    color: var(--label-color);
+    font-weight: bold;
+
+    width: 100%;
+    border-radius: 30px;
+    padding: 2px 10px;
+    margin-bottom: 8px;
+}
+
+strength[level="5"] {
+    background-color: var(--level-5);
+}
+
+strength[level="4"] {
+    background-color: var(--level-4);
+}
+
+strength[level="3"] {
+    background-color: var(--level-3);
+}
+
+strength[level="2"] {
+    background-color: var(--level-2);
+}
+
+strength[level="1"] {
+    background-color: var(--level-1);
+}
+
+.flexbox {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.skills-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px; /* 행 간격 */
+}
+
+.label-cell {
+    font-weight: bold;
+    white-space: nowrap;
+    padding-right: 20px;
+    vertical-align: top;
+}
+
+.label-cell {
+    font-weight: bold;
+    white-space: nowrap;
+    padding-right: 20px;
+    vertical-align: top;
+}

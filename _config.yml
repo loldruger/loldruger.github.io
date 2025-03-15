@@ -1,8 +1,0 @@
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "https://loldruger.github.io/"
-
-plugins:
-  - jekyll-paginate
-
-paginate: 5
-paginate_path: "/:num/"

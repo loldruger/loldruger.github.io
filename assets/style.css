@@ -235,16 +235,14 @@ section:hover {
 .projects-table {
     width: 100%;
     border-collapse: collapse;
-    
-    /* margin: 20px 0; */
 }
 
 .projects-table th {
-    background-color: #f2f2f2;
+
     font-weight: bold;
     text-align: left;
     padding: 10px;
-    border-bottom: 2px solid #ddd;
+
 }
 
 .projects-table td {

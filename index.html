@@ -40,11 +40,27 @@
                     </p>
                     <p>
                         Because this device would be running 24/7, I was responsible for the stability of the firmware. It must be considered accumulated errors and any memory leak.
-                        That's why I architected the firmware more abstractly and modularly. for example, I segregated the firmware into 3 layers: Business Logic Layer(Application Layer), Middleware Layer, and Hardware Abstraction Layer.
+                        That's why I architected the firmware more abstractly and modularly. for example, I segregated the firmware into 3 layers: Business Logic Layer(Application Layer), Bridge Layer, and Hardware Abstraction Layer(integrated with HAL).
                     </p>
                 </div>
+                <div class="title">2. Modeling and Developed many kind of sensors abstracted module</div>
+                <div class="content" from="2018-07" to="2019-05">
+                    <p>
+                        
+                    </p>
+                </div>
+                <div class="title">3. Developed a Driver which interfaces with Lora Transmission Module</div>
+                <div class="content" from="2018-10" to="2018-12">
+                    <p>
+                        To attach remote control functionality to the firmware I developed, I worked to implement a driver interface for a Lora transmition module using ANSI C.
+                        There could be a chance that controls a device directly or remote control simultaneously, so I had to adopt a simple mutex concept to prevent data race or corruption.
+                    </p>
+                    <P>
+                        By the limitation of the Lora technology, it could transmit only about 60 bits of serialized data at once. So I had to implement a generic bitwise deserialization parser. It was so well designed that it could be used in other projects as well.
+                        Also I needed to satisfy the requirement of the Lora module protocol which is confliction avoidance stratgey.
+                    </P>
+                </div>
 
-                <div class="title">2. Developed a Driver which interfaces with Lora Transmission Module</div>
             </div>
         </section>
 
@@ -60,10 +76,6 @@
         </span>
 
         <section>
-
-
-            
-
             <div class="skills-container">
                 <div class="skills-container">
                     <table class="skills-table">

@@ -165,7 +165,7 @@ section:hover {
 .skills-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 12px;
+    border-spacing: 16px 12px;
 }
 
 .label-cell {

@@ -224,7 +224,7 @@ section:hover {
 
 .title {
     margin-top: 10px;
-    margin-bottom: 1px;
+    margin-bottom: 10px;
     font-weight: 700;
     font-size: 1.2em;
 }
@@ -244,6 +244,10 @@ section:hover {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 1.1em;
+}
+
+.experience-item {
+    margin-bottom: 20px;
 }
 
 .projects-table {

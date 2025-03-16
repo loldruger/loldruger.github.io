@@ -35,6 +35,7 @@
     --level-3: #B257DF;
     --level-2: #2A78CC;
     --level-1: #9BDC86;
+    --level-0: #c5c5c5;
 }
 
 header {
@@ -148,6 +149,11 @@ strength[level="1"] {
     background-color: var(--level-1);
 }
 
+strength[level="0"] {
+    background-color: var(--level-0);
+}
+
+
 section {
     border-left: 6px solid #ccc;
     padding-left: 14px;
@@ -168,8 +174,16 @@ section:hover {
     align-items: center;
 }
 
-.indent {
-    padding-left: 8px;
+.indent[level="1"] {
+    padding-left: 1em;
+}
+
+.indent[level="2"] {
+    padding-left: 1.5em;
+}
+
+.indent[level="3"] {
+    padding-left: 2em;
 }
 
 .sub-title {

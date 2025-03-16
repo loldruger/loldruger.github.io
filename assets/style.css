@@ -199,7 +199,6 @@ section:hover {
 
 .inline {
     display: inline-block;
-    
 }
 
 .spacer {
@@ -208,10 +207,23 @@ section:hover {
 }
 
 .flexbox {
-    display: inline-flex;
-    flex-wrap: wrap;
+    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.inline-flexbox {
+    display: inline-flex;
+}
+
+.flexbox.inline > h1 {
+    min-width: fit-content;
+}
+
+.flexbox.inline > *:not(h1) {
+    position: relative;
+    bottom: -3px;
+    min-width: fit-content;
 }
 
 .skills-table {

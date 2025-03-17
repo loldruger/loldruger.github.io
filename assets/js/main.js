@@ -1,6 +1,7 @@
-const foldingCircles = document.querySelectorAll('.folding-circle');
 
 const main = () => {
+    const foldingCircles = document.querySelectorAll('.folding-circle');
+    
     for (let circle of foldingCircles) {
         circle.addEventListener('click', () => {
             const contentBody = circle.parentElement.parentElement.querySelectorAll('.content-body');

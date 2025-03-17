@@ -197,7 +197,9 @@ section:hover {
     width: 100%;
 }
 
-
+.repo img{
+    width: 100%;
+}
 
 .sub-title {
     display: flex;

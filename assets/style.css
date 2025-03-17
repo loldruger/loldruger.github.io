@@ -162,7 +162,9 @@ strength[level="0"] {
     background-color: var(--level-0);
 }
 
-
+highlight {
+    background-color: yellow;
+}
 
 
 

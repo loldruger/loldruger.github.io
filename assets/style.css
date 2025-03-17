@@ -300,6 +300,7 @@ highlight {
     background-color: #000;
     transition: all 0.2s ease-in-out;
     min-width: fit-content;
+
 }
 
 .folding-circle:hover {
@@ -312,7 +313,12 @@ highlight {
     fill: var(--label-color);
     position: relative;
     bottom: -1px;
-    
+}
+
+.folding-circle.folded {
+    transform: rotate(-90deg);
+    background-color: var(--link-color);
+    /* transition: transform 0.3s ease; */
 }
 
 .projects-table {
@@ -337,8 +343,4 @@ highlight {
 .projects-table img {
     display: block;
     max-width: 100%;
-}
-
-.projects-table tr:hover {
-    background-color: #f5f5f5;
 }

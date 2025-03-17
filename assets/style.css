@@ -197,6 +197,10 @@ section:hover {
     width: 100%;
 }
 
+.title-area > .date {
+    align-content: center;
+}
+
 .repo img{
     width: 100%;
 }

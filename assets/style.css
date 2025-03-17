@@ -191,6 +191,14 @@ section:hover {
     padding-left: 2em;
 }
 
+.title-area {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+
+
 .sub-title {
     display: flex;
     color: var(--abnormal-color);
@@ -208,6 +216,7 @@ section:hover {
 
 .flexbox {
     display: flex;
+    
     justify-content: center;
     align-items: center;
 }
@@ -216,14 +225,8 @@ section:hover {
     display: inline-flex;
 }
 
-.flexbox.inline > h1 {
-    min-width: fit-content;
-}
-
-.flexbox.inline > *:not(h1) {
-    position: relative;
-    bottom: -3px;
-    min-width: fit-content;
+.flexbox.inline > * {
+    /* min-width: fit-content; */
 }
 
 .skills-table {
@@ -270,6 +273,26 @@ section:hover {
 
 .experience-item {
     margin-bottom: 20px;
+}
+
+.folding-circle {
+    border-radius: 50%;
+    background-color: #000;
+    transition: all 0.2s ease-in-out;
+    min-width: fit-content;
+}
+
+.folding-circle:hover {
+    cursor: pointer;
+    background-color: var(--link-color);
+    transition: all 0.2s ease-in-out;
+}
+
+.folding-circle > svg {
+    fill: var(--label-color);
+    position: relative;
+    bottom: -1px;
+    
 }
 
 .projects-table {

@@ -102,6 +102,10 @@
     line-height: 1.5;
 }
 
+.stack-container {
+    margin-top: 8px;
+}
+
 .content > p {
     margin-top: 10px;
     margin-bottom: 10px;

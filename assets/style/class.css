@@ -2,7 +2,6 @@
     padding: var(--standard-padding);
     margin-bottom: 16px;
     border-left: 6px solid #ccc;
-    transition: all 0.2s ease-in-out;
 }
 
 .content-body:hover {
@@ -14,7 +13,6 @@
 
 .content-body.rolled-up {
     display: none;
-    transition: all 0.2s ease-in-out;
 }
 
 .indent[level="0.5"] {

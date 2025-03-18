@@ -1,15 +1,16 @@
-
 const main = () => {
     const foldingCircles = document.querySelectorAll('.folding-circle');
     
     for (const circle of foldingCircles) {
+        const contentList = circle.parentElement.parentElement.querySelector('.content-list');
+
         circle.addEventListener('click', () => {
-            const contentBody = circle.parentElement.parentElement.querySelectorAll('.content-list > .content-body');
             circle.classList.toggle('folded');
 
-            for (const sibling of contentBody) {
+            for (const sibling of contentList.children) {
                 sibling.classList.toggle('rolled-up');
             }
+  
         });
     }
 }

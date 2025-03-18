@@ -40,7 +40,13 @@
 }
 
 .title-area > .date {
+    position: relative;
+    top: 2px;
     align-content: center;
+}
+
+.title-area.with-subtitle {
+    display: block;
 }
 
 .repo img{
@@ -59,7 +65,6 @@
 
 .flexbox {
     display: flex;
-    
     justify-content: center;
     align-items: center;
 }

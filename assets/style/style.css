@@ -1,0 +1,96 @@
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url('/assets/fonts/Roboto_Condensed-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url('/assets/fonts/Roboto_Condensed-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url('/assets/fonts/Roboto_Condensed-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 400;
+    color: var(--normal-color);
+}
+
+:root {
+    --normal-color: #393939;
+    --abnormal-color: #525252;
+    --link-color: #2A78CC;
+    --label-color: #FFFFFF;
+    --level-5: #FFCF2A;
+    --level-4: #FF5959;
+    --level-3: #B257DF;
+    --level-2: #2A78CC;
+    --level-1: #9BDC86;
+    --level-0: #c5c5c5;
+    
+    --standard-padding: 16px;
+}
+
+header {
+    text-align: center;
+    font-weight: 700;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+}
+
+html {
+    display: flex;
+    justify-content: center;
+
+}
+
+body {
+    width: 210mm;
+    padding: var(--standard-padding);
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 2em;
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-bottom: 4px;
+}
+
+p {
+    margin-left: 1em;
+    text-align: justify;
+}
+
+a {
+    font-weight: 700;
+    color: var(--link-color);
+}
+
+
+
+#level-container {
+    display: inline-flex;
+
+    align-items: center;
+}
+
+

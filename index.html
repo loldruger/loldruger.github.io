@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
-    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/style/style.css">
+    <link rel="stylesheet" href="/assets/style/custom-tag.css">
+    <link rel="stylesheet" href="/assets/style/class.css">
     <title>résumé</title>
 </head>
     <body>
@@ -15,10 +17,12 @@
             <div class="content-meta">
                 <h1>Profile & Contact</h1>
             </div>
-            <div class="content-body">
-                <div class="indent" level="1"> Name: Siyoung Jang</div>
-                <div class="indent" level="1"> email:
-                    <a href="mailto:ykvcwp2kq@mozmail.com">ykvcwp2kq@mozmail.com</a>
+            <div class="content-list">
+                <div class="content-body">
+                    <div class="indent" level="1"> Name: Siyoung Jang</div>
+                    <div class="indent" level="1"> email:
+                        <a href="mailto:ykvcwp2kq@mozmail.com">ykvcwp2kq@mozmail.com</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -35,13 +39,14 @@
                     </svg>
                 </span>
             </div>
-
-            <div class="content-body">
-                <div class="indent" level="1"> 
-                    Korea University (Sejong Campus) <br>
-                    <b>Major:</b> Electronics and Information Engineering <br>
-                    <b>Expected Graduation:</b> 2027 <br>
-                    <b>GPA:</b> 2.83/4.5 <br>
+            <div class="content-list">
+                <div class="content-body">
+                    <div class="indent" level="1"> 
+                        Korea University (Sejong Campus) <br>
+                        <b>Major:</b> Electronics and Information Engineering <br>
+                        <b>Expected Graduation:</b> 2027 <br>
+                        <b>GPA:</b> 2.83/4.5 <br>
+                    </div>
                 </div>
             </div>
         </section>
@@ -58,162 +63,164 @@
                     </svg>
                 </span>
             </div>
-            <div class="content-body">
-                <div class="indent" level="1" from="2020-12" to="2021-09">
-                    <h1 class="company-name inline">Aiara</h1>
-    
-                    <div class="indent" level="1">
-                        <div class="division-name">Software Engineer | Development Department Team 1</div>
-                        <div class="reason-for-resigning">Resigned for conscription</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="title">3. Developed Web Rest API</div>
-                        <div class="date">2021-06 ~ 2021-08</div>
-                        <div>Stack: 
-                            <span class="inline-flexbox"><strength level="3">Java</strength></span>
-                            <span class="inline-flexbox"><strength level="3">Spring</strength></span>
-                            <span class="inline-flexbox"><strength level="1">Hibernate</strength></span>
-                            <span class="inline-flexbox"><strength level="1">QueryDSL</strength></span>
-                            <span class="inline-flexbox"><strength level="1">Oracle 19c</strength></span>
-                        </div>
-                        <div class="content" from="2021-06" to="2021-08">
-                            <p>
-                                Using Java Spring, Hibernate, QueryDSL, Oracle 19c, I participated in developing a web backend API for a 3D furniture placement simulator.
-                                I thoroughly studied the implementation of the JPA layer in advance, and with abundant prior knowledge of OS and network. Based on this understanding, I enhanced the quality of the code.
-                                I worked on many core features of the project such as <highlight>leveraging the DB connection pool</highlight>, <highlight>managing the multithreaded Spring scheduler</highlight>, and <highlight>implementing an FTPS server</highlight>. Additionally, I wrote <highlight>a batch query to migrate the database to another</highlight>.
-                            </p>
-                            <p>
-                                I also helped the front-end team <highlight>optimize the performance of the web application</highlight> by analyzing the app's memory leakage and performance bottleneck using Browser DevTools.
-                                I integrated this project's development environment with Windows WSL2, connecting the Java backend and React frontend efficiently.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="title">2. Developed an iOS Financial and Community Service App</div>
-                        <div class="date">2021-02 ~ 2021-04</div>
-                        <div>Stack: 
-                            <span class="inline-flexbox"><strength level="3">Swift</strength></span>
-                            <span class="inline-flexbox"><strength level="1">SwiftUI</strength></span>
-                        </div>
-                        <div class="content" from="2021-02" to="2021-04">
-                            <p>
-                                I was assigned urgently to this project because the due date was so tight. But I was quickly able to adapt to the project. And although the seriously unstable and each-time-changing API protocol made this project harder to develop,
-                                I wrote UI components flexibly as much as possible so that whenever the API changes, I could just change the API layer only. At that time, SwiftUI/iOS13 didn't support many of the UI components, so I had to implement them by hand.
-                                So I made some custom UI components "Pull to Refresh", "Infinite Scroll", "Wrap Around Container", and "Universal Grid View". I leveraged Swift with its Protocol-oriented programming and limited extension usage for this project to make the code more readable and maintainable.
-                                I needed to finish this project in 2 months; I had to work on the project literally 24/7. I was so exhausted, but I was able to finish the project on time.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="title">1. Developed a Web Based Writing Service integrated with SNS</div>
-                        <div class="date">2021-01 ~ 2021-08</div>
-                        <div>Stack: 
-                            <span class="inline-flexbox"><strength level="5">Vue.js</strength></span>
-                            <span class="inline-flexbox"><strength level="4">Vuex</strength></span>
-                            <span class="inline-flexbox"><strength level="4">Vuetify</strength></span>
-                            <span class="inline-flexbox"><strength level="4">PostgreSQL</strength></span>
-                            <span class="inline-flexbox"><strength level="3">GraphQL</strength></span>
-                            <span class="inline-flexbox"><strength level="3">Objection.js</strength></span>
-                            <span class="inline-flexbox"><strength level="3">Knex.js</strength></span>
-                            <span class="inline-flexbox"><strength level="1">Apollo Server</strength></span>
-                            <span class="inline-flexbox"><strength level="1">Apollo Client</strength></span>
-                        </div>
-                        <div class="content" from="2021-01" to="2021-08">
-                            <p>
-                                With a bunch of stacks such as Vue, Vuex, Vuex-pathify, Vuetify, Apollo Client&Server, GraphQL, Objection.js, Knex.js, PostgreSQL, I solely developed a web based writing service integrated with SNS.
-                            </p>
-                            <p>
-                                It took me two months to understand the whole structure of the project and the code base. I had to learn a lot of new stacks I listed above.
-                                After understanding, I re-architected the relational database schema for the quite complex tables due to the nature of the SNS service because the original schema was Wiki based.
-                            </p>
-                            <p>
-                                Again, I separated the backend layer into a couple of layers: Business Logic Layer, Bridge Layer, and Endpoint Layer. I was responsible for this project to develop the backend API and the frontend UI.
-                                This project really needed to be clarified to configure the development environment. So I documented and wrote instructions for setup and deployment. I ultimately chose to use WSL for the development environment.
-                                And VSCode as the IDE for remote browser debugging and remote server debugging. It required some PowerShell scripts for IP table configuration and port forwarding.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="content-list">
+                <div class="content-body">
+                    <div class="indent" level="1" from="2020-12" to="2021-09">
+                        <h1 class="company-name inline">Aiara</h1>
         
-            <div class="content-body">
-            <div class="indent" level="1" from="2018-07" to="2019-12">
-                <h1 class="company-name">Daedan</h1>
-                <div class="indent" level="1">
-                    <div class="division-name">Research Engineer | Research Department</div>
-                    <div class="reason-for-resigning">Resigned for study</div>
-                </div>
-                <div class="experience-item">
-                    <div class="title">4. Automated documentation job</div>
-                    <div class="date">2019-05 ~ 2019-06</div>
-                    <div>Stack: 
-                        <span class="inline-flexbox"><strength level="5">Google Spreadsheet</strength></span>
-                        <span class="inline-flexbox"><strength level="4">Google Apps Script</strength></span>
-                    </div>
-                    <div class="content" from="2019-05" to="2019-06">
-                        <p>
-                            I was responsible for writing the device installation status reporting docs. It was originally a job to be done by hand, but I automated it using Google Spreadsheet and Google Apps Script.
-                            It even automatically sent the report to my boss's email. So this greatly improved the workflow and reduced the time to write the report.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="title">3. Modeled Mathematically and Developed Many Kinds Abstracted Modules of Sensors</div>
-                    <div class="date">2018-07 ~ 2019-05</div>
-                    <div>Stack: 
-                        <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
-                        <span class="inline-flexbox"><strength level="2">HAL</strength></span>
-                    </div>
-                    <div class="content" from="2018-07" to="2019-05">
-                        <p>
-                            I modeled a mathematical model of the sensors which were written in the firmware literally in the form of a table, to just only one line of 2nd order polynomial function which approximates the trend of the real data. 
-                            This work made a bunch of codes to be removed and the firmware to be more readable and maintainable. I mocked the interface concept to the sensor objects to be more abstracted and flexible.
-                        </p>
-                        <p>
-                            Similarly, I developed a driver for many custom 8-seg displays. It was designed and developed to have a universal API to be able to replace the display module easily.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="title">2. Developed a Driver which interfaces with Lora Transmission Module</div>
-                    <div class="date">2018-10 ~ 2018-12</div>
-                    <div>Stack: 
-                        <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
-                        <span class="inline-flexbox"><strength level="2">HAL</strength></span>
-                    </div>
-                    <div class="content" from="2018-10" to="2018-12">
-                        <p>
-                            To attach remote control functionality to the firmware I developed, I worked to implement a driver interface for a Lora transmission module using ANSI C.
-                            There could be a chance that I could control a device directly or use remote control simultaneously, so I had to adopt a simple mutex concept to prevent data races or corruption.
-                        </p>
-                        <p>
-                            By the limitation of the Lora technology, it could transmit only about 60 bits of serialized data at once. So I had to implement a generic bitwise deserialization parser. It was so well designed that it could be used in other projects as well.
-                            Also I needed to satisfy the requirement of the Lora module protocol which is confliction avoidance stratgey.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="title">1. Developed an Automated Control Firmware for Industrial Refrigeration</div>
-                    <div class="date">2018-07 ~ 2019-03</div>
-                    <div>Stack: 
-                        <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
-                        <span class="inline-flexbox"><strength level="2">HAL</strength></span>
-                    </div>
-                    <div class="content" from="2018-07" to="2019-03">
-                        <p>
-                            Using ANSI C, I was solely assigned to the main project to develop a firmware which required to control industrial refrigeration systems and to provide an ergonomic user experience.
-                            This project required me a lot of research such as understanding data sheet of the components and the refrigeration system.
-                        </p>
-                        <p>
-                            Because this device would be running 24/7, I was responsible for the stability of the firmware. It must be considered accumulated errors and any memory leak.
-                            That's why I architected the firmware more abstractly and modularly. For example, I segregated the firmware into 3 layers: Business Logic Layer(Application Layer), Bridge Layer, and Hardware Abstraction Layer(integrated with HAL).
-                        </p>
+                        <div class="indent" level="1">
+                            <div class="division-name">Software Engineer | Development Department Team 1</div>
+                            <div class="reason-for-resigning">Resigned for conscription</div>
+                        </div>
+                        <div class="experience-item">
+                            <div class="title">3. Developed Web Rest API</div>
+                            <div class="date">2021-06 ~ 2021-08</div>
+                            <div>Stack: 
+                                <span class="inline-flexbox"><strength level="3">Java</strength></span>
+                                <span class="inline-flexbox"><strength level="3">Spring</strength></span>
+                                <span class="inline-flexbox"><strength level="1">Hibernate</strength></span>
+                                <span class="inline-flexbox"><strength level="1">QueryDSL</strength></span>
+                                <span class="inline-flexbox"><strength level="1">Oracle 19c</strength></span>
+                            </div>
+                            <div class="content" from="2021-06" to="2021-08">
+                                <p>
+                                    Using Java Spring, Hibernate, QueryDSL, Oracle 19c, I participated in developing a web backend API for a 3D furniture placement simulator.
+                                    I thoroughly studied the implementation of the JPA layer in advance, and with abundant prior knowledge of OS and network. Based on this understanding, I enhanced the quality of the code.
+                                    I worked on many core features of the project such as <highlight>leveraging the DB connection pool</highlight>, <highlight>managing the multithreaded Spring scheduler</highlight>, and <highlight>implementing an FTPS server</highlight>. Additionally, I wrote <highlight>a batch query to migrate the database to another</highlight>.
+                                </p>
+                                <p>
+                                    I also helped the front-end team <highlight>optimize the performance of the web application</highlight> by analyzing the app's memory leakage and performance bottleneck using Browser DevTools.
+                                    I integrated this project's development environment with Windows WSL2, connecting the Java backend and React frontend efficiently.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="experience-item">
+                            <div class="title">2. Developed an iOS Financial and Community Service App</div>
+                            <div class="date">2021-02 ~ 2021-04</div>
+                            <div>Stack: 
+                                <span class="inline-flexbox"><strength level="3">Swift</strength></span>
+                                <span class="inline-flexbox"><strength level="1">SwiftUI</strength></span>
+                            </div>
+                            <div class="content" from="2021-02" to="2021-04">
+                                <p>
+                                    I was assigned urgently to this project because the due date was so tight. But I was quickly able to adapt to the project. And although the seriously unstable and each-time-changing API protocol made this project harder to develop,
+                                    I wrote UI components flexibly as much as possible so that whenever the API changes, I could just change the API layer only. At that time, SwiftUI/iOS13 didn't support many of the UI components, so I had to implement them by hand.
+                                    So I made some custom UI components "Pull to Refresh", "Infinite Scroll", "Wrap Around Container", and "Universal Grid View". I leveraged Swift with its Protocol-oriented programming and limited extension usage for this project to make the code more readable and maintainable.
+                                    I needed to finish this project in 2 months; I had to work on the project literally 24/7. I was so exhausted, but I was able to finish the project on time.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="experience-item">
+                            <div class="title">1. Developed a Web Based Writing Service integrated with SNS</div>
+                            <div class="date">2021-01 ~ 2021-08</div>
+                            <div>Stack: 
+                                <span class="inline-flexbox"><strength level="5">Vue.js</strength></span>
+                                <span class="inline-flexbox"><strength level="4">Vuex</strength></span>
+                                <span class="inline-flexbox"><strength level="4">Vuetify</strength></span>
+                                <span class="inline-flexbox"><strength level="4">PostgreSQL</strength></span>
+                                <span class="inline-flexbox"><strength level="3">GraphQL</strength></span>
+                                <span class="inline-flexbox"><strength level="3">Objection.js</strength></span>
+                                <span class="inline-flexbox"><strength level="3">Knex.js</strength></span>
+                                <span class="inline-flexbox"><strength level="1">Apollo Server</strength></span>
+                                <span class="inline-flexbox"><strength level="1">Apollo Client</strength></span>
+                            </div>
+                            <div class="content" from="2021-01" to="2021-08">
+                                <p>
+                                    With a bunch of stacks such as Vue, Vuex, Vuex-pathify, Vuetify, Apollo Client&Server, GraphQL, Objection.js, Knex.js, PostgreSQL, I solely developed a web based writing service integrated with SNS.
+                                </p>
+                                <p>
+                                    It took me two months to understand the whole structure of the project and the code base. I had to learn a lot of new stacks I listed above.
+                                    After understanding, I re-architected the relational database schema for the quite complex tables due to the nature of the SNS service because the original schema was Wiki based.
+                                </p>
+                                <p>
+                                    Again, I separated the backend layer into a couple of layers: Business Logic Layer, Bridge Layer, and Endpoint Layer. I was responsible for this project to develop the backend API and the frontend UI.
+                                    This project really needed to be clarified to configure the development environment. So I documented and wrote instructions for setup and deployment. I ultimately chose to use WSL for the development environment.
+                                    And VSCode as the IDE for remote browser debugging and remote server debugging. It required some PowerShell scripts for IP table configuration and port forwarding.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
+                <div class="content-body">
+                <div class="indent" level="1" from="2018-07" to="2019-12">
+                    <h1 class="company-name">Daedan</h1>
+                    <div class="indent" level="1">
+                        <div class="division-name">Research Engineer | Research Department</div>
+                        <div class="reason-for-resigning">Resigned for study</div>
+                    </div>
+                    <div class="experience-item">
+                        <div class="title">4. Automated documentation job</div>
+                        <div class="date">2019-05 ~ 2019-06</div>
+                        <div>Stack: 
+                            <span class="inline-flexbox"><strength level="5">Google Spreadsheet</strength></span>
+                            <span class="inline-flexbox"><strength level="4">Google Apps Script</strength></span>
+                        </div>
+                        <div class="content" from="2019-05" to="2019-06">
+                            <p>
+                                I was responsible for writing the device installation status reporting docs. It was originally a job to be done by hand, but I automated it using Google Spreadsheet and Google Apps Script.
+                                It even automatically sent the report to my boss's email. So this greatly improved the workflow and reduced the time to write the report.
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="experience-item">
+                        <div class="title">3. Modeled Mathematically and Developed Many Kinds Abstracted Modules of Sensors</div>
+                        <div class="date">2018-07 ~ 2019-05</div>
+                        <div>Stack: 
+                            <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
+                            <span class="inline-flexbox"><strength level="2">HAL</strength></span>
+                        </div>
+                        <div class="content" from="2018-07" to="2019-05">
+                            <p>
+                                I modeled a mathematical model of the sensors which were written in the firmware literally in the form of a table, to just only one line of 2nd order polynomial function which approximates the trend of the real data. 
+                                This work made a bunch of codes to be removed and the firmware to be more readable and maintainable. I mocked the interface concept to the sensor objects to be more abstracted and flexible.
+                            </p>
+                            <p>
+                                Similarly, I developed a driver for many custom 8-seg displays. It was designed and developed to have a universal API to be able to replace the display module easily.
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="experience-item">
+                        <div class="title">2. Developed a Driver which interfaces with Lora Transmission Module</div>
+                        <div class="date">2018-10 ~ 2018-12</div>
+                        <div>Stack: 
+                            <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
+                            <span class="inline-flexbox"><strength level="2">HAL</strength></span>
+                        </div>
+                        <div class="content" from="2018-10" to="2018-12">
+                            <p>
+                                To attach remote control functionality to the firmware I developed, I worked to implement a driver interface for a Lora transmission module using ANSI C.
+                                There could be a chance that I could control a device directly or use remote control simultaneously, so I had to adopt a simple mutex concept to prevent data races or corruption.
+                            </p>
+                            <p>
+                                By the limitation of the Lora technology, it could transmit only about 60 bits of serialized data at once. So I had to implement a generic bitwise deserialization parser. It was so well designed that it could be used in other projects as well.
+                                Also I needed to satisfy the requirement of the Lora module protocol which is confliction avoidance stratgey.
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="experience-item">
+                        <div class="title">1. Developed an Automated Control Firmware for Industrial Refrigeration</div>
+                        <div class="date">2018-07 ~ 2019-03</div>
+                        <div>Stack: 
+                            <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
+                            <span class="inline-flexbox"><strength level="2">HAL</strength></span>
+                        </div>
+                        <div class="content" from="2018-07" to="2019-03">
+                            <p>
+                                Using ANSI C, I was solely assigned to the main project to develop a firmware which required to control industrial refrigeration systems and to provide an ergonomic user experience.
+                                This project required me a lot of research such as understanding data sheet of the components and the refrigeration system.
+                            </p>
+                            <p>
+                                Because this device would be running 24/7, I was responsible for the stability of the firmware. It must be considered accumulated errors and any memory leak.
+                                That's why I architected the firmware more abstractly and modularly. For example, I segregated the firmware into 3 layers: Business Logic Layer(Application Layer), Bridge Layer, and Hardware Abstraction Layer(integrated with HAL).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
         </section>
 
@@ -229,73 +236,75 @@
                     </svg>
                 </span>
             </div>
-            <div class="content-body">
-                <div class="indent" level="1" from="2025.02" isWip="true">
-                    <div class="experience-item">
-                        <div class="title">3. Dreamscape Forest Anipals</div>
-                        <div class="date">2025.02 ~ WIP</div>
-                        <div class="participants">
-                            <div>Backend Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
-                            <div>Frontend Developer: <a href="https://github.com/rovks134">rovks134</a></div>
-                            <div>Main Artist: <a href="https://github.com/person6737">persona6737</a> (Pending)</div>
+            <div class="content-list">
+                <div class="content-body">
+                    <div class="indent" level="1" from="2025.02" isWip="true">
+                        <div class="experience-item">
+                            <div class="title">3. Dreamscape Forest Anipals</div>
+                            <div class="date">2025.02 ~ WIP</div>
+                            <div class="participants">
+                                <div>Backend Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
+                                <div>Frontend Developer: <a href="https://github.com/rovks134">rovks134</a></div>
+                                <div>Main Artist: <a href="https://github.com/person6737">persona6737</a> (Pending)</div>
+                            </div>
+                            <div>Backend Stack:
+                                <span class="inline-flexbox"><strength level="3">Rust 2024 edition</strength></span>
+                                <span class="inline-flexbox"><strength level="3">Tokio Axum</strength></span>
+                                <span class="inline-flexbox"><strength level="4">PostgreSQL</strength></span>
+                            </div>
+                            <div>Frontend Stack:
+                                <span class="inline-flexbox"><strength level="4">Godot 4.4 Mono C# 11.0</strength></span>
+                            </div>
+                            <div>Will be Available on:
+                                <span class="inline-flexbox"><strength level="0">Android</strength></span>
+                                <span class="inline-flexbox"><strength level="0">iOS</strength></span>
+                            </div>
+                            <div class="content" from="2025.02" isWip="true">
+                                <p>
+                                    A mobile game targeting everyone who loves adorably redesigned animal characters. 
+                                    The game is designed to be played by anyone, regardless of age or experience, ensuring a universally enjoyable experience.
+                                </p>
+                            </div>
+        
                         </div>
-                        <div>Backend Stack:
-                            <span class="inline-flexbox"><strength level="3">Rust 2024 edition</strength></span>
-                            <span class="inline-flexbox"><strength level="3">Tokio Axum</strength></span>
-                            <span class="inline-flexbox"><strength level="4">PostgreSQL</strength></span>
-                        </div>
-                        <div>Frontend Stack:
-                            <span class="inline-flexbox"><strength level="4">Godot 4.4 Mono C# 11.0</strength></span>
-                        </div>
-                        <div>Will be Available on:
-                            <span class="inline-flexbox"><strength level="0">Android</strength></span>
-                            <span class="inline-flexbox"><strength level="0">iOS</strength></span>
-                        </div>
-                        <div class="content" from="2025.02" isWip="true">
-                            <p>
-                                A mobile game targeting everyone who loves adorably redesigned animal characters. 
-                                The game is designed to be played by anyone, regardless of age or experience, ensuring a universally enjoyable experience.
-                            </p>
-                        </div>
-    
                     </div>
                 </div>
-            </div>
-            <div class="content-body">
-                <div class="indent" level="1" from="2025.01" isPending="true">
-                    <div class="title">2. Proschedio.py</div>
-                    <div class="date">2025.01 ~ Pending</div>
-                    <div class="participants">
-                        <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
-                    </div>
-                    <div>Stack:
-                        <span class="inline-flexbox"><strength level="3">Python 3</strength></span>
-                    </div>
-                    <div>Will Be Available on:
-                        <span class="inline-flexbox"><strength level="0">Every OS which can execute Python 3</strength></span>
-                    </div>
-                    <div class="content repo" from="2025.01" isPending="true">
-                        <a href="https://github.com/loldruger/proschedio"><img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=proschedio" alt=""></a>
-                    </div>
-                </div>
-            </div>
-            <div class="content-body">
-                <div class="indent" level="1" from="2024.10" isPending="true">
-                    <div class="experience-item">
-                        <div class="title">1. Semantic.js</div>
-                        <div class="date">2024.10 ~ Pending</div>
+                <div class="content-body">
+                    <div class="indent" level="1" from="2025.01" isPending="true">
+                        <div class="title">2. Proschedio.py</div>
+                        <div class="date">2025.01 ~ Pending</div>
                         <div class="participants">
                             <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
                         </div>
                         <div>Stack:
-                            <span class="inline-flexbox"><strength level="5">TypeScript 5.8</strength></span>
-                            <span class="inline-flexbox"><strength level="4">JavaScript ES2024</strength></span>
+                            <span class="inline-flexbox"><strength level="3">Python 3</strength></span>
                         </div>
-                        <div>Available on:
-                            <span class="inline-flexbox"><strength level="5">Web</strength></span>
+                        <div>Will Be Available on:
+                            <span class="inline-flexbox"><strength level="0">Every OS which can execute Python 3</strength></span>
                         </div>
-                        <div class="content repo" from="2024.10" isPending="true">
-                            <a href="https://github.com/loldruger/semantic.js"><img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=semantic.js" alt=""></a>
+                        <div class="content repo" from="2025.01" isPending="true">
+                            <a href="https://github.com/loldruger/proschedio"><img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=proschedio" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-body">
+                    <div class="indent" level="1" from="2024.10" isPending="true">
+                        <div class="experience-item">
+                            <div class="title">1. Semantic.js</div>
+                            <div class="date">2024.10 ~ Pending</div>
+                            <div class="participants">
+                                <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
+                            </div>
+                            <div>Stack:
+                                <span class="inline-flexbox"><strength level="5">TypeScript 5.8</strength></span>
+                                <span class="inline-flexbox"><strength level="4">JavaScript ES2024</strength></span>
+                            </div>
+                            <div>Available on:
+                                <span class="inline-flexbox"><strength level="5">Web</strength></span>
+                            </div>
+                            <div class="content repo" from="2024.10" isPending="true">
+                                <a href="https://github.com/loldruger/semantic.js"><img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=semantic.js" alt=""></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,24 +323,45 @@
                     </svg>
                 </span>
             </div>
-        
-            <div class="content-body">
-                <div class="indent" level="1" from="2023-03" isMaintaining="true">
-                    <div class="title">1. upbit-rs</div>
-                    <div class="date">2023-03 ~ Maintaining</div>
-                    <div>Stack:
-                        <span class="inline-flexbox">
-                            <strength level="3">Rust 2021 edition</strength>
-                        </span>
-                        <span class="inline-flexbox">
-                            <strength level="1">Reqwest</strength>
-                        </span>
+            <div class="content-list">
+                <div class="content-body">
+                    <div class="indent" level="1" from="2023-03" isMaintaining="true">
+                        <div class="title">1. upbit-rs</div>
+                        <div class="date">2023-03 ~ Maintaining</div>
+                        <div>Stack:
+                            <span class="inline-flexbox">
+                                <strength level="3">Rust 2021 edition</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="1">Reqwest</strength>
+                            </span>
+                        </div>
+                        <div class="participants">
+                            <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
+                        </div>
+                        <div class="content repo" from="2023-03" isMaintaining="true">
+                            <a href="https://github.com/loldruger/upbit-rs"><img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=upbit-rs" alt=""></a>
+                        </div>
                     </div>
-                    <div class="participants">
-                        <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
-                    </div>
-                    <div class="content repo" from="2023-03" isMaintaining="true">
-                        <a href="https://github.com/loldruger/upbit-rs"><img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=upbit-rs" alt=""></a>
+                </div>
+                <div class="content-body">
+                    <div class="indent" level="1" from="2023-03" isMaintaining="true">
+                        <div class="title">1. upbit-rs</div>
+                        <div class="date">2023-03 ~ Maintaining</div>
+                        <div>Stack:
+                            <span class="inline-flexbox">
+                                <strength level="3">Rust 2021 edition</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="1">Reqwest</strength>
+                            </span>
+                        </div>
+                        <div class="participants">
+                            <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
+                        </div>
+                        <div class="content repo" from="2023-03" isMaintaining="true">
+                            <a href="https://github.com/loldruger/upbit-rs"><img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=upbit-rs" alt=""></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -349,50 +379,52 @@
                     </svg>
                 </span>
             </div>
-            <div class="content-body">
-                <div class="indent" level="1" from="2019-09" to="2020-06">
-                    <div class="title">2. Random Moai Defense</div>
-                    <div class="date">2019-09 ~ 2020-06</div>
-                    <div class="participants">
-                        <div>Main Developer: <a href="https://github.com/MyNameIsDabin">Dabin</a></div>
-                        <div>Main Artist & Sub Dev: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
-                        <div>Game Designer: <strong>Both of Us</strong></div>
-                    </div>
-                    <div>Stack:
-                        <span class="inline-flexbox"><strength level="0">Godot 3.x</strength></span>
-                    </div>
-                    <div>Available on:
-                        <span class="inline-flexbox"><strength level="0">Android</strength></span>
-                        <span class="inline-flexbox"><strength level="0">iOS</strength></span>
-                    </div>
-                    <div class="content" from="2019-09" to="2020-06">
-                        <p>It is not just a common fixed-path defense game; every five stages, the monsters' path changes! Additionally, the user places Moai towers. This action may block the path, but the path will make a detour around the Moai tower the user placed. This simple mechanism and the unique Moai concept spread rapidly through many personal media channels. This resulted in our achieving the top spot in Strategy Game Popularity Rankings for a long time. Then we briefly reached the top spot in Comprehensive Game Popularity Rankings but remained in the top 5 for a long time. And it has been downloaded a total of over 50,000 times.</p>
+            <div class="content-list">
+                <div class="content-body">
+                    <div class="indent" level="1" from="2019-09" to="2020-06">
+                        <div class="title">2. Random Moai Defense</div>
+                        <div class="date">2019-09 ~ 2020-06</div>
+                        <div class="participants">
+                            <div>Main Developer: <a href="https://github.com/MyNameIsDabin">Dabin</a></div>
+                            <div>Main Artist & Sub Dev: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
+                            <div>Game Designer: <strong>Both of Us</strong></div>
+                        </div>
+                        <div>Stack:
+                            <span class="inline-flexbox"><strength level="0">Godot 3.x</strength></span>
+                        </div>
+                        <div>Available on:
+                            <span class="inline-flexbox"><strength level="0">Android</strength></span>
+                            <span class="inline-flexbox"><strength level="0">iOS</strength></span>
+                        </div>
+                        <div class="content" from="2019-09" to="2020-06">
+                            <p>It is not just a common fixed-path defense game; every five stages, the monsters' path changes! Additionally, the user places Moai towers. This action may block the path, but the path will make a detour around the Moai tower the user placed. This simple mechanism and the unique Moai concept spread rapidly through many personal media channels. This resulted in our achieving the top spot in Strategy Game Popularity Rankings for a long time. Then we briefly reached the top spot in Comprehensive Game Popularity Rankings but remained in the top 5 for a long time. And it has been downloaded a total of over 50,000 times.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="content-body">
-                <div class="indent" level="1" from="2017-11" to="2017-12">
-                    <div class="title">1. 빤스런</div>
-                    <div class="date">2017-11 ~ 2017-12</div>
-                    <div class="participants">
-                        <div>Main Developer: <a href="https://play.google.com/store/apps/dev?id=7302400084345857961">MPMaker</a></div>
-                        <div>Main Artist: <a href="https://github.com/loldruger">loldruger</a> (Me Again)</div>
-                        <div>Game Designer: <strong>Both of Us</strong></div>
-                    </div>
-                    <div>Stack:
-                        <span class="inline-flexbox"><strength level="0">Game Maker Studio</strength></span>
-                    </div>
-                    <div>Available on:
-                        <span class="inline-flexbox"><strength level="0">Android</strength></span>
-                        <span class="inline-flexbox"><strength level="0">iOS</strength></span>
-                    </div>
-                    <div class="content" from="2017-11" to="2017-12">
-                        <p>
-                            With minimal interaction, such as tapping or long tapping, players can make the character run faster or perform parkour moves to escape the inferno.
-                            빤스런 was incredibly popular in Korea during that time. We quickly achieved the top spot in the Comprehensive Popularity Rankings for games on the Google Play Store and maintained it for a significant period.
-                            As a result, the game has been downloaded over 500,000 times and is loved by players.
-                        </p>
+    
+                <div class="content-body">
+                    <div class="indent" level="1" from="2017-11" to="2017-12">
+                        <div class="title">1. 빤스런</div>
+                        <div class="date">2017-11 ~ 2017-12</div>
+                        <div class="participants">
+                            <div>Main Developer: <a href="https://play.google.com/store/apps/dev?id=7302400084345857961">MPMaker</a></div>
+                            <div>Main Artist: <a href="https://github.com/loldruger">loldruger</a> (Me Again)</div>
+                            <div>Game Designer: <strong>Both of Us</strong></div>
+                        </div>
+                        <div>Stack:
+                            <span class="inline-flexbox"><strength level="0">Game Maker Studio</strength></span>
+                        </div>
+                        <div>Available on:
+                            <span class="inline-flexbox"><strength level="0">Android</strength></span>
+                            <span class="inline-flexbox"><strength level="0">iOS</strength></span>
+                        </div>
+                        <div class="content" from="2017-11" to="2017-12">
+                            <p>
+                                With minimal interaction, such as tapping or long tapping, players can make the character run faster or perform parkour moves to escape the inferno.
+                                빤스런 was incredibly popular in Korea during that time. We quickly achieved the top spot in the Comprehensive Popularity Rankings for games on the Google Play Store and maintained it for a significant period.
+                                As a result, the game has been downloaded over 500,000 times and is loved by players.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -410,26 +442,28 @@
                     </svg>
                 </span>
             </div>
+            <div class="content-list">
                 <div class="content-body">
-                <div class="indent" level="1" from="2017.10">
-                    <div class="title">TEPS 710 (outdated)</div>
-                    <div class="date">2017.10</div>
-                </div>
-                <div class="indent" level="1" from="2017.10">
-                    <div class="title">TOEIC 800 (outdated)</div>
-                    <div class="date">2016.10</div>
-                </div>
-                <div class="indent" level="1" from="2016.08">
-                    <div class="title">정보처리산업기사</div>
-                    <div class="date">2016.08</div>
-                </div>
-                <div class="indent" level="1" from="2015.12">
-                    <div class="title">전자기기기능사</div>
-                    <div class="date">2015.12</div>
-                </div>
-                <div class="indent" level="1" from="2015.02">
-                    <div class="title">1종보통운전면허</div>
-                    <div class="date">2015.02</div>
+                    <div class="indent" level="1" from="2017.10">
+                        <div class="title">TEPS 710 (outdated)</div>
+                        <div class="date">2017.10</div>
+                    </div>
+                    <div class="indent" level="1" from="2017.10">
+                        <div class="title">TOEIC 800 (outdated)</div>
+                        <div class="date">2016.10</div>
+                    </div>
+                    <div class="indent" level="1" from="2016.08">
+                        <div class="title">정보처리산업기사</div>
+                        <div class="date">2016.08</div>
+                    </div>
+                    <div class="indent" level="1" from="2015.12">
+                        <div class="title">전자기기기능사</div>
+                        <div class="date">2015.12</div>
+                    </div>
+                    <div class="indent" level="1" from="2015.02">
+                        <div class="title">1종보통운전면허</div>
+                        <div class="date">2015.02</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -453,61 +487,62 @@
                 <level level="2">2</level>
                 <level level="1">1</level>
             </span> -->
-
-            <div class="content-body">
-                <div class="skills-container">
+            <div class="content-list">
+                <div class="content-body">
                     <div class="skills-container">
-                        <table class="skills-table">
-                            <tr>
-                                <td class="label-cell">Languages</td>
-                                <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=5>C</strength></span>
-                                    <span class="inline-flexbox"><strength level=5>TypeScript</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>JavaScript</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Rust</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>C++</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Python3</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Java</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>C#</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Swift</strength></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-cell">Frameworks</td>
-                                <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=5>Vue.js</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>Node.js</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>Deno</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Spring</strength></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-cell">Databases</td>
-                                <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=5>JSON DB with Exploiting Postman</strength></span>
-                                    <span class="inline-flexbox"><strength level=5>IndexedDB</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>PostgreSQL</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>MariaDB</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>SQLite</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>Redis</strength></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-cell">Tools & Engines</td>
-                                <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=5>Godot 4</strength></span>
-                                    <span class="inline-flexbox"><strength level=5>Postman</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>Docker</strength></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-cell">Etc.</td>
-                                <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=3>BashShell</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>PowerShell</strength></span>
-                                </td>
-                            </tr>
-                        </table>
+                        <div class="skills-container">
+                            <table class="skills-table">
+                                <tr>
+                                    <td class="label-cell">Languages</td>
+                                    <td class="skills-cell">
+                                        <span class="inline-flexbox"><strength level=5>C</strength></span>
+                                        <span class="inline-flexbox"><strength level=5>TypeScript</strength></span>
+                                        <span class="inline-flexbox"><strength level=4>JavaScript</strength></span>
+                                        <span class="inline-flexbox"><strength level=3>Rust</strength></span>
+                                        <span class="inline-flexbox"><strength level=3>C++</strength></span>
+                                        <span class="inline-flexbox"><strength level=3>Python3</strength></span>
+                                        <span class="inline-flexbox"><strength level=3>Java</strength></span>
+                                        <span class="inline-flexbox"><strength level=3>C#</strength></span>
+                                        <span class="inline-flexbox"><strength level=3>Swift</strength></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-cell">Frameworks</td>
+                                    <td class="skills-cell">
+                                        <span class="inline-flexbox"><strength level=5>Vue.js</strength></span>
+                                        <span class="inline-flexbox"><strength level=4>Node.js</strength></span>
+                                        <span class="inline-flexbox"><strength level=4>Deno</strength></span>
+                                        <span class="inline-flexbox"><strength level=3>Spring</strength></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-cell">Databases</td>
+                                    <td class="skills-cell">
+                                        <span class="inline-flexbox"><strength level=5>JSON DB with Exploiting Postman</strength></span>
+                                        <span class="inline-flexbox"><strength level=5>IndexedDB</strength></span>
+                                        <span class="inline-flexbox"><strength level=4>PostgreSQL</strength></span>
+                                        <span class="inline-flexbox"><strength level=4>MariaDB</strength></span>
+                                        <span class="inline-flexbox"><strength level=4>SQLite</strength></span>
+                                        <span class="inline-flexbox"><strength level=4>Redis</strength></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-cell">Tools & Engines</td>
+                                    <td class="skills-cell">
+                                        <span class="inline-flexbox"><strength level=5>Godot 4</strength></span>
+                                        <span class="inline-flexbox"><strength level=5>Postman</strength></span>
+                                        <span class="inline-flexbox"><strength level=4>Docker</strength></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-cell">Etc.</td>
+                                    <td class="skills-cell">
+                                        <span class="inline-flexbox"><strength level=3>BashShell</strength></span>
+                                        <span class="inline-flexbox"><strength level=3>PowerShell</strength></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -526,53 +561,55 @@
                 </span>
             </div>
         
-            <div class="content-body">
-                <table class="projects-table">
-                    <thead>
-                        <tr>
-                            <th>Project</th>
-                            <th>Progress</th>
-                            <th>Period</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>DFA Backend</td>
-                            <td><img src="https://progress-bar.xyz/0/" alt="progress 0%"></td>
-                            <td>2025.02 ~ WIP</td>
-                        </tr>
-                        <tr>
-                            <td>DFA Frontend</td>
-                            <td><img src="https://progress-bar.xyz/20/" alt="progress 20%"></td>
-                            <td>2025.02 ~ WIP</td>
-                        </tr>
-                        <tr>
-                            <td>Proschedio.py</td>
-                            <td><img src="https://progress-bar.xyz/10/" alt="progress 10%"></td>
-                            <td>2025.01 ~ Pending</td>
-                        </tr>
-                        <tr>
-                            <td>Semantic.js</td>
-                            <td><img src="https://progress-bar.xyz/33/" alt="progress 33%"></td>
-                            <td>2024.10 ~ Pending</td>
-                        </tr>
-                        <tr>
-                            <td>Upbit-rs</td>
-                            <td><img src="https://progress-bar.xyz/100?progress_color=33a0da" alt="progress 100%"></td>
-                            <td>2023.03 ~ Maintaining</td>
-                        </tr>
-                        <tr>
-                            <td>Random Moai Defense</td>
-                            <td><img src="https://progress-bar.xyz/100/" alt="progress 100%"></td>
-                            <td>2019.09 ~ 2020.06</td>
-                        </tr>
-                        <tr>
-                            <td>빤스런</td>
-                            <td><img src="https://progress-bar.xyz/100/" alt="progress 100%"></td>
-                            <td>2017.11 ~ 2017.12</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="content-list">
+                <div class="content-body">
+                    <table class="projects-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Progress</th>
+                                <th>Period</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>DFA Backend</td>
+                                <td><img src="https://progress-bar.xyz/0/" alt="progress 0%"></td>
+                                <td>2025.02 ~ WIP</td>
+                            </tr>
+                            <tr>
+                                <td>DFA Frontend</td>
+                                <td><img src="https://progress-bar.xyz/20/" alt="progress 20%"></td>
+                                <td>2025.02 ~ WIP</td>
+                            </tr>
+                            <tr>
+                                <td>Proschedio.py</td>
+                                <td><img src="https://progress-bar.xyz/10/" alt="progress 10%"></td>
+                                <td>2025.01 ~ Pending</td>
+                            </tr>
+                            <tr>
+                                <td>Semantic.js</td>
+                                <td><img src="https://progress-bar.xyz/33/" alt="progress 33%"></td>
+                                <td>2024.10 ~ Pending</td>
+                            </tr>
+                            <tr>
+                                <td>Upbit-rs</td>
+                                <td><img src="https://progress-bar.xyz/100?progress_color=33a0da" alt="progress 100%"></td>
+                                <td>2023.03 ~ Maintaining</td>
+                            </tr>
+                            <tr>
+                                <td>Random Moai Defense</td>
+                                <td><img src="https://progress-bar.xyz/100/" alt="progress 100%"></td>
+                                <td>2019.09 ~ 2020.06</td>
+                            </tr>
+                            <tr>
+                                <td>빤스런</td>
+                                <td><img src="https://progress-bar.xyz/100/" alt="progress 100%"></td>
+                                <td>2017.11 ~ 2017.12</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </body>

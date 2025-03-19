@@ -72,5 +72,11 @@ toggle-button {
     cursor: pointer;
 }
 
-toggle-button > div {
+toggle-button > svg > circle {
+    transition: transform 0.1s ease;
+}
+
+toggle-button > svg > circle.active {
+    transform: translateX(calc(100% - 12px));
+    transition: transform 0.1s ease;
 }

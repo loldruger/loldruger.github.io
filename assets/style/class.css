@@ -2,6 +2,7 @@
     padding: var(--standard-padding);
     margin-bottom: 16px;
     border-left: 6px solid #ccc;
+    transition: all 0.2s ease-in-out;
 }
 
 .content-body:hover {
@@ -57,13 +58,16 @@
     margin-left: 0px;
 }
 
+.block {
+    display: block;
+}
+
 .inline {
     display: inline-block;
 }
 
 .flexbox {
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
@@ -96,8 +100,16 @@
     font-size: 1.2em;
 }
 
-.multiline {
+.text-multiline {
     line-height: 1.5;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.align-right {
+    justify-content: flex-end;
 }
 
 .stack-container {
@@ -108,11 +120,6 @@
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: 400;
-}
-
-.date {
-    font-weight: 400;
-    color: var(--abnormal-color);
 }
 
 .participants {

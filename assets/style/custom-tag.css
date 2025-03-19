@@ -67,3 +67,10 @@ strength[level="0"] {
 highlight {
     background-color: yellow;
 }
+
+toggle-button {
+    cursor: pointer;
+}
+
+toggle-button > div {
+}

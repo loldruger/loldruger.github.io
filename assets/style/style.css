@@ -137,7 +137,7 @@ time {
     fill: var(--link-color);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     :root {
         --background-color: #1e1e1e;
         --normal-color: #ffffff;
@@ -154,4 +154,4 @@ time {
         --level-1: #9BDC86;
         --level-0: #c5c5c5;
     }
-}
+} */

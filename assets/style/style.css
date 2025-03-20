@@ -26,10 +26,10 @@
 }
 
 :root {
-    --button-style-0-background-color: #c5e1ff;
-    --button-style-0-border: #2A78CC;
+    --button-style-0-background-color: #daebfc;
+    --button-style-0-background-color-hover: #e7f2fe;
     --button-style-1-background-color: #c5e1ff;
-    --button-style-1-border: #1f3955;
+    --button-style-1-background-color-hover: #1f3955;
     
     --normal-color: #393939;
     --abnormal-color: #525252;
@@ -49,7 +49,7 @@ header {
     text-align: center;
     font-weight: 700;
     font-size: 2.5em;
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
 }
 
 html {
@@ -96,10 +96,21 @@ time {
     color: var(--abnormal-color);
 }
 
+/* button[type="image"] {
+
+} */
+
 #level-container {
     display: inline-flex;
-
     align-items: center;
 }
 
+#contact-email {
+    position: relative;
+    bottom: 1px;
+}
 
+#contact-email > g {
+    font-weight: 400;
+    fill: var(--link-color);
+}

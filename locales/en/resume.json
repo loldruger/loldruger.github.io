@@ -1,0 +1,25 @@
+{
+    "resume": {
+        "title": "Résumé",
+        "profile": {
+            "title": "Profile & Contact",
+            "name": "Siyoung Jang",
+            "email": "ykvcwp2kq@mozmail.com"
+        },
+        "education": {
+            "title": "Education",
+            "university": "Korea University (Sejong Campus)",
+            "major": "Electronics and Information Engineering",
+            "graduation": "2027 Expected",
+            "gpa": "2.83/4.5"
+        },
+        "experience": {
+            "title": "Experience",
+            "jobTitle": "Software Engineer",
+            "team": "Development Department Team 1",
+            "resigned_for": "Resigned for conscription",
+            "company": "Aiara",
+            "years": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06"
+        }
+    }
+}

@@ -91,7 +91,6 @@ const main = async () => {
     const userLangSetting = localStorage.getItem(LANG_STORAGE_KEY);
     const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    getLastUpdateDate();
 
     if (userThemeSetting !== null) {
         setTheme(userThemeSetting === 'true', false);
@@ -146,7 +145,7 @@ const main = async () => {
     //     });
     // }
 
-
+    await getLastUpdateDate();
 }
 
 await main();

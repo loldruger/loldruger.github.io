@@ -68,7 +68,10 @@
 
 .flexbox {
     display: flex;
-    align-items: center;
+}
+
+.flexbox.column {
+    flex-direction: column;
 }
 
 .inline-flexbox {
@@ -98,10 +101,6 @@
 
     font-weight: 700;
     font-size: 1.2em;
-}
-
-.text-multiline {
-    line-height: 1.5;
 }
 
 .text-align-right-h {
@@ -135,8 +134,11 @@
 }
 
 .participants {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: var(--standard-padding);
+    margin-bottom: var(--standard-padding);
     font-size: 1.1em;
 }
 .participants a[href^="http"], 
@@ -161,6 +163,8 @@
     background-position: center;
     opacity: 1;
 }
+
+
 
 .experience-item {
     margin-bottom: 20px;

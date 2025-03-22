@@ -70,6 +70,19 @@ const setLanguage = (lang, savePreference) => {
     }
 };
 
+const getLastUpdateDate = async () => {
+    const res = await fetch('https://api.github.com/repos/loldruger/loldruger.github.io/branches/main');
+    const data = await res.json();
+
+    const lastCommitDate = (new Date(data.commit.commit.committer.date));
+    const lastUpdateElement = document.getElementById('last-update');
+    lastCommitDate.setHours(lastCommitDate.getHours() + 9);
+
+    if (lastUpdateElement) {
+        lastUpdateElement.textContent += `${lastCommitDate.toISOString().replace("T", " ").slice(0, 19)}`;
+    }
+}
+
 const main = async () => {
     const fetcher = new Fetcher();
 
@@ -77,6 +90,8 @@ const main = async () => {
     const userThemeSetting = localStorage.getItem(THEME_STORAGE_KEY);
     const userLangSetting = localStorage.getItem(LANG_STORAGE_KEY);
     const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    getLastUpdateDate();
 
     if (userThemeSetting !== null) {
         setTheme(userThemeSetting === 'true', false);

@@ -33,6 +33,10 @@
     --button-style-1-background-color: #c5e1ff;
     --button-style-1-background-color-hover: #1f3955;
     
+    --button-theme-background-color: #a1cdfc;
+    --button-theme-color-hover: #939df9;
+    --button-theme-color-hover-drop-shadow: #939df9;
+
     --normal-color: #393939;
     --abnormal-color: #525252;
     --section-line-color: #515151;
@@ -52,6 +56,11 @@
 
 :root.dark-mode {
     --background-color: #1e1e1e;
+
+    --button-theme-background-color: #fff1c5;
+    --button-theme-color-hover: #ffba4b;
+    --button-theme-color-hover-drop-shadow: #ffba4b;
+
     --normal-color: #ffffff;
     --abnormal-color: #c5c5c5;
     --section-line-color: #585550;
@@ -118,9 +127,19 @@ time {
     color: var(--abnormal-color);
 }
 
-/* button[type="image"] {
+#dark-mode-button {
+    background-color: var(--button-theme-background-color);
+}
 
-} */
+#dark-mode-button > svg > path {
+    transition: all 0.2s ease-in-out;
+}
+
+#dark-mode-button:hover > svg > path {
+    fill: var(--button-theme-color-hover);
+    filter: drop-shadow(0 0 3px var(--button-theme-background-color));
+    transition: all 0.2s ease-in-out;
+}
 
 #level-container {
     display: inline-flex;

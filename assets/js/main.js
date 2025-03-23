@@ -71,15 +71,39 @@ const setLanguage = (lang, savePreference) => {
 };
 
 const getLastUpdateDate = async () => {
-    const res = await fetch('https://api.github.com/repos/loldruger/loldruger.github.io/branches/main');
-    const data = await res.json();
-
-    const lastCommitDate = (new Date(data.commit.commit.committer.date));
     const lastUpdateElement = document.getElementById('last-update');
-    lastCommitDate.setHours(lastCommitDate.getHours() + 9);
 
-    if (lastUpdateElement) {
-        lastUpdateElement.textContent += `${lastCommitDate.toISOString().replace("T", " ").slice(0, 19)}`;
+    if (!lastUpdateElement) {
+        console.error('last-update element not found');
+        return;
+    }
+
+    const fetchLastCommitDate = async () => {
+        const res = await fetch('https://api.github.com/repos/loldruger/loldruger.github.io/branches/main');
+        const data = await res.json();
+
+        const lastCommitDate = new Date(data.commit.commit.committer.date);
+        const koreanDate = new Date(lastCommitDate);
+        koreanDate.setHours(koreanDate.getHours() + 9);
+        
+        const lastUpdateText = koreanDate.toISOString().replace("T", " ").slice(0, 19);
+        
+        return lastUpdateText;
+    }
+    
+    let lastCommitDate = localStorage.getItem('last-update');
+
+    if (!lastCommitDate) {
+        lastCommitDate = await fetchLastCommitDate();
+        if (lastCommitDate) {
+            localStorage.setItem('last-update', lastCommitDate);
+        }
+    }
+
+    if (lastCommitDate) {
+        lastUpdateElement.textContent += lastCommitDate;
+    } else {
+        lastUpdateElement.textContent += '0000-00-00 00:00:00';
     }
 }
 
@@ -145,7 +169,7 @@ const main = async () => {
     //     });
     // }
 
-    await getLastUpdateDate();
+    await getLastUpdateDate(); 
 }
 
 await main();

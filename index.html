@@ -58,7 +58,7 @@
             }
         }
     </style>
-    <header>Résumé</header>
+    <header>${resume.title}</header>
 
     <!-- <toggle-button class="flexbox align-right-v toggle-button mb-1">
         <svg width="3em" height="1.4em" viewBox="0 0 23 16">
@@ -96,19 +96,19 @@
         </button>
     </div>
     
-    <time id="last-update" class="block text-align-right-h">last update: </time>
+    <time id="last-update" class="block text-align-right-h">${resume.lastUpdate}: </time>
 
     <section>
         <div class="content-meta">
-            <h1>Profile & Contact</h1>
+            <h1>${resume.profile.title}</h1>
         </div>
         <div class="content-list">
             <div class="content-body">
                 <div class="flexbox flex-column indent" level="1">
-                    <div><b>Name:</b> Siyoung Jang</div>
+                    <div><b>Name:</b> ${resume.profile.name}</div>
                     <div><b>e-mail:</b> 
-                        <a class="inline-flexbox align-center-v" href="mailto:ykvcwp2kq@mozmail.com">
-                            ykvcwp2kq@mozmail.com
+                        <a class="inline-flexbox align-center-v" href="mailto:${resume.profile.email}">
+                            ${resume.profile.email}
                             <span class="ml-1 mt-1">
                                 <svg id="contact-email" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="20" height="17" viewBox="0 0 20 17"><g><path d="M16,17C16,17,14.6,15.6,14.6,15.6C14.6,15.6,16.175,14,16.175,14C16.175,14,12,14,12,14C12,14,12,12,12,12C12,12,16.175,12,16.175,12C16.175,12,14.6,10.4,14.6,10.4C14.6,10.4,16,9,16,9C16,9,20,13,20,13C20,13,16,17,16,17ZM8.4,8C8.4,8,15,4.15,15,4.15C15,4.15,15,2,15,2C15,2,14.75,2,14.75,2C14.75,2,8.4,5.675,8.4,5.675C8.4,5.675,2.225,2,2.225,2C2.225,2,2,2,2,2C2,2,2,4.2,2,4.2C2,4.2,8.4,8,8.4,8ZM1.875,14C1.35833,14,0.916667,13.8167,0.55,13.45C0.183333,13.0833,0,12.6417,0,12.125C0,12.125,0,1.875,0,1.875C0,1.35833,0.183333,0.916667,0.55,0.55C0.916667,0.183333,1.35833,0,1.875,0C1.875,0,15.125,0,15.125,0C15.6417,0,16.0833,0.183333,16.45,0.55C16.8167,0.916667,17,1.35833,17,1.875C17,1.875,17,7.1,17,7.1C16.8333,7.06667,16.6667,7.04167,16.5,7.025C16.3333,7.00833,16.1667,7,16,7C14.3667,7,12.9583,7.5875,11.775,8.7625C10.5917,9.9375,10,11.35,10,13C10,13.1667,10.0083,13.3333,10.025,13.5C10.0417,13.6667,10.0667,13.8333,10.1,14C10.1,14,1.875,14,1.875,14Z" fill-opacity="1" /></g></svg>
                             </span>

@@ -142,14 +142,9 @@ time {
     transition: all 0.2s ease-in-out;
 }
 
-#level-container {
-    display: inline-flex;
-    align-items: center;
-}
-
 #contact-email {
     position: relative;
-    bottom: 1px;
+    /* bottom: 1px; */
 }
 
 #contact-email > g {

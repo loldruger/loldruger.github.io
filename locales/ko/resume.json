@@ -1,6 +1,7 @@
 {
     "resume": {
         "title": "이력서",
+        "lastUpdate": "마지막 변경시각",
         "profile": {
             "title": "프로필 및 연락처",
             "name": "장시영",
@@ -13,13 +14,17 @@
             "graduation": "2027년 예상",
             "gpa": "2.83/4.5"
         },
-        "experience": {
+        "workExperience": {
             "title": "경력",
-            "jobTitle": "소프트웨어 엔지니어",
-            "team": "개발 1팀",
-            "resignedFor": "군대",
-            "company": "아이아라",
-            "years": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06"
+            "items": [
+                {
+                    "jobTitle": "소프트웨어 엔지니어",
+                    "team": "개발 1팀",
+                    "resignedFor": "군복무",
+                    "company": "아이아라",
+                    "years": "2020-12 ~ 2021-09"
+                }
+            ]
         }
     }
 }

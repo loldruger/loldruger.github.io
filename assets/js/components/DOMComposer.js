@@ -4,9 +4,9 @@
 
 export class DOMComposer {
     /**
-     * @type {HTMLElementKind}
+     * @type {HTMLElementKind?}
      */
-    #tag;
+    #tag = null;
 
     /**
     * @type {Array<DOMComposer>}
@@ -19,9 +19,9 @@ export class DOMComposer {
     #attribute = {};
 
     /**
-     * @type {Record<keyof HTMLElementEventMap, (e: Event) => void>}
+     * @type {Partial<Record<keyof HTMLElementEventMap, (e: Event) => void>>}
      */
-    #events;
+    #events = {};
 
     /**
      * @private
@@ -29,24 +29,32 @@ export class DOMComposer {
     constructor() { }
 
     /**
-     * @param {HTMLElementKind} tag
+     * @param {Object} params
+     * @param {HTMLElementKind} params.tag
      * @returns {DOMComposer}
      */
-    static new(tag) {
+    static new({ tag }) {
         const composer = new DOMComposer();
         composer.#tag = tag;
+
         return composer;
     }
 
     /**
-     * @param {HTMLElementKind} tag 
-     * @param {string} raw 
+     * @param {Object} params
+     * @param {HTMLElementKind} params.tag
+     * @param {string} params.rawAttributes
      * @returns {DOMComposer}
      */
-    static newRaw(tag, raw) {
+    static newRaw({ tag, rawAttributes }) {
         const composer = new DOMComposer();
         composer.#tag = tag;
-        composer.#attribute.raw = raw;
+
+        for (const set of rawAttributes.split(' ')) {
+            const [name, value] = set.split('=');
+            composer.setAttribute({ name, value });
+        }
+
         return composer;
     }
 
@@ -83,6 +91,18 @@ export class DOMComposer {
 
         return this;
     }
+
+    /**
+     * @param {Object} params
+     * @param {string} params.html
+     * @returns {DOMComposer}
+     */
+    setInnerHTML({ html }) {
+        this.#attribute.innerHTML = html;
+
+        return this;
+    }
+
     /**
      * @param {DOMComposer} child
      * @returns {DOMComposer}
@@ -94,18 +114,13 @@ export class DOMComposer {
     }
 
     /**
-     * @param {string} rawAttributes
-     * @returns {DOMComposer}
-     */
-    appendChildRaw(rawAttributes) {
-        return this;
-    }
-
-    /**
      * @param {DOMComposer} this
      * @returns {HTMLElement}
      */
     toHTMLElement(this) {
+        if (!this.#tag) {
+            throw new Error('Tag is not defined.');
+        }
         const element = document.createElement(this.#tag);
 
 

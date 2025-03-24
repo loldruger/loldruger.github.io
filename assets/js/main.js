@@ -1,6 +1,7 @@
 //@ts-check
 
-import { Fetcher } from './i18n/lib.js';
+import { i18n } from './i18n/lib.js';
+import template from './components/template.js';
 
 const LANG_STORAGE_KEY = 'user-lang-setting';
 const THEME_STORAGE_KEY = 'user-dark-mode-setting';
@@ -108,7 +109,7 @@ const getLastUpdateDate = async () => {
 }
 
 const main = async () => {
-    const fetcher = new Fetcher();
+    // document.body.appendChild(template());
 
     const foldingCircles = document.querySelectorAll('.folding-circle');
     const userThemeSetting = localStorage.getItem(THEME_STORAGE_KEY);
@@ -169,7 +170,10 @@ const main = async () => {
     //     });
     // }
 
-    await getLastUpdateDate(); 
+    await getLastUpdateDate();
+
+    // const fetcher = new Fetcher();
+    // console.log(await fetcher.fetchDataByLocale('ko'));
 }
 
 await main();

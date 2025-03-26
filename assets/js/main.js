@@ -1,7 +1,7 @@
 //@ts-check
 
 import { i18n } from './i18n/lib.js';
-import template from './components/template.js';
+import { template } from './const.js';
 
 const LANG_STORAGE_KEY = 'user-lang-setting';
 const THEME_STORAGE_KEY = 'user-dark-mode-setting';
@@ -13,7 +13,7 @@ const DARK_MODE_CLASS = 'dark-mode';
 const updateThemeUI = (isDarkMode) => {
     const sunIcon = document.getElementById('sun');
     const moonIcon = document.getElementById('moon');
-    
+
     if (isDarkMode) {
         moonIcon?.classList.add('hidden');
         sunIcon?.classList.remove('hidden');
@@ -29,7 +29,7 @@ const updateThemeUI = (isDarkMode) => {
 const updateLanguageUI = (isEnglishMode) => {
     const langEn = document.getElementById('lang-en');
     const langKo = document.getElementById('lang-ko');
-    
+
     if (isEnglishMode) {
         langKo?.classList.remove('hidden');
         langEn?.classList.add('hidden');
@@ -49,9 +49,9 @@ const setTheme = (isDarkMode, savePreference) => {
     } else {
         document.documentElement.classList.remove(DARK_MODE_CLASS);
     }
-    
+
     updateThemeUI(isDarkMode);
-    
+
     if (savePreference) {
         localStorage.setItem(THEME_STORAGE_KEY, isDarkMode ? 'true' : 'false');
     }
@@ -65,7 +65,7 @@ const setLanguage = (lang, savePreference) => {
     document.documentElement.lang = lang;
 
     updateLanguageUI(lang === 'en');
-    
+
     if (savePreference) {
         localStorage.setItem(LANG_STORAGE_KEY, lang);
     }
@@ -86,12 +86,12 @@ const getLastUpdateDate = async () => {
         const lastCommitDate = new Date(data.commit.commit.committer.date);
         const koreanDate = new Date(lastCommitDate);
         koreanDate.setHours(koreanDate.getHours() + 9);
-        
+
         const lastUpdateText = koreanDate.toISOString().replace("T", " ").slice(0, 19);
-        
+
         return lastUpdateText;
     }
-    
+
     let lastCommitDate = localStorage.getItem('last-update');
 
     if (!lastCommitDate) {
@@ -109,7 +109,9 @@ const getLastUpdateDate = async () => {
 }
 
 const main = async () => {
-    // document.body.appendChild(template());
+    template().forEach(element => {
+        document.body.appendChild(element.toHTMLElement());
+    });
 
     const foldingCircles = document.querySelectorAll('.folding-circle');
     const userThemeSetting = localStorage.getItem(THEME_STORAGE_KEY);
@@ -122,10 +124,10 @@ const main = async () => {
     } else {
         setTheme(prefersDarkMode, false);
     }
-    
+
     if (userLangSetting !== null) {
-        setLanguage(userLangSetting ? 'en' : 'ko' , false);
-    }else {
+        setLanguage(userLangSetting ? 'en' : 'ko', false);
+    } else {
         setLanguage(document.documentElement.lang === 'en' ? 'en' : 'ko', false);
     }
 
@@ -159,7 +161,7 @@ const main = async () => {
             for (const sibling of contentList?.children ?? []) {
                 sibling.classList.toggle('rolled-up');
             }
-  
+
         });
     }
 

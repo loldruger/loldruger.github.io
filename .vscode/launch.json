@@ -9,7 +9,9 @@
             "url": "http://localhost:3000/index.html",
             "webRoot": "${workspaceFolder}",
             "port": 3000,
-            "firefoxArgs": ["--headless"],
+            "firefoxArgs": [
+                "--headless"
+            ],
             "pathMappings": [
                 {
                     "url": "http://localhost:3000",

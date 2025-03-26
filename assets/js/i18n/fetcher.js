@@ -2,7 +2,11 @@
 
 const BASE_URL = 'https://api.github.com/repos/loldruger/loldruger.github.io/contents';
 const BRANCH = 'main';
-
+export class i18n {
+    static t(n) {
+        return n;
+    }
+}
 export class Fetcher {
     /**
      * @param {'en'|'ko'} locale
@@ -33,7 +37,7 @@ export class Fetcher {
         const binary = atob(encoded.content.replace(/\s/g, ''));
         const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
         const decodedContent = new TextDecoder('utf-8').decode(bytes);
-        
+
         return JSON.parse(decodedContent);
     }
 }

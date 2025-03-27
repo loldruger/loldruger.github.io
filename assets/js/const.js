@@ -4,9 +4,9 @@ import OptionButtons from './OptionButtons.js';
 import { i18n } from './i18n/lib.js';
 import { eventRegistry } from './DOMinator/EventRegistry.js';
 
-const setTheme = eventRegistry.getEventCallback('change-theme') ?? (() => { console.error('No change-theme event registered'); });
-const changeLang = eventRegistry.getEventCallback('change-lang') ?? (() => { console.error('No change-lang event registered'); });
-const foldSection = eventRegistry.getEventCallback('fold-section') ?? (() => { console.error('No fold-section event registered'); });
+const setTheme = eventRegistry.getEventCallback('change-theme');
+const changeLang = eventRegistry.getEventCallback('change-lang');
+const foldSection = eventRegistry.getEventCallback('fold-section');
 
 const events = () => {
     const optionButtons = new OptionButtons();
@@ -87,7 +87,44 @@ const foldingCircle = DOMComposer.new({ tag: 'span' })
     .appendChild({
         child: DOMComposer.newRaw({ tag: 'svg', rawAttributes: `class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"` })
             .appendChild({ child: DOMComposer.newRaw({ tag: 'path', rawAttributes: `d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z"` }) })
+            .setEvent({ event: 'click', callback: foldSection, alias: 'fold-section' })
     });
+
+/** 
+ * @param {DOMComposer} contentTitleArea
+ * @param {DOMComposer} contentBodyArea
+ * @returns {DOMComposer}
+ */
+const sectionFrame = (contentTitleArea, contentBodyArea) => {
+    return DOMComposer.new({ tag: 'section' })
+        .appendChild({
+            child: DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'flexbox align-center-v inline' })
+                .appendChild({
+                    child: DOMComposer.new({ tag: 'div' })
+                        .setAttribute({ name: 'class', value: 'title-area' })
+                        .appendChild({
+                            child: contentTitleArea
+                        })
+                })
+        })
+        .appendChild({
+            child: DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'content-list' })
+                .appendChild({
+                    child: DOMComposer.new({ tag: 'div' })
+                        .setAttribute({ name: 'class', value: 'content-body' })
+                        .appendChild({
+                            child: DOMComposer.new({ tag: 'div' })
+                                .setAttribute({ name: 'class', value: 'indent flexbox flex-column gap-1' })
+                                .setAttribute({ name: 'level', value: '1' })
+                                .appendChild({
+                                    child: contentBodyArea
+                                })
+                        })
+                })
+        })
+}
 
 const sectionProfile = DOMComposer.new({ tag: 'section' })
     .appendChild({
@@ -129,6 +166,8 @@ const sectionProfile = DOMComposer.new({ tag: 'section' })
             })
     });
 
+resume.push(sectionFrame());
+
 function sectionEdu() {
     const section = DOMComposer.new({ tag: 'section' })
         .appendChild({
@@ -150,7 +189,7 @@ function sectionEdu() {
                         })
                 })
                 .appendChild({ child: foldingCircle })
-                .setEvent({ event: 'click', callback: foldSection, alias: 'fold-section' })
+
 
         })
 

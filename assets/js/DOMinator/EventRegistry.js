@@ -42,7 +42,7 @@ class EventRegistry {
      * Retrieves the event handler function associated with an alias.
      * Relies on JSDoc/ts-check for alias type validation.
      * @param {string} alias - The alias of the handler to retrieve.
-     * @returns {EventHandler | undefined} The callback function, or undefined if the alias is not found.
+     * @returns {EventHandler} The callback function, or undefined if the alias is not found.
      */
     getEventCallback(alias) {
         // Runtime type check for alias was removed.
@@ -53,7 +53,7 @@ class EventRegistry {
             // Log a warning if no handler is found for a requested alias during lookup.
             console.warn(`EventRegistry Warning: No handler found for alias '${alias}'.`);
         }
-        return handler;
+        return handler ?? (() => { console.error(`No ${alias} event registered`); });
     }
 
     /**

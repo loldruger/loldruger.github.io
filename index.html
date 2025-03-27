@@ -105,8 +105,8 @@
     <section>
         <div class="flexbox align-center-v inline">
             <div class="title-area">
-                <h1 class="inline">Education</h1>
-                <time class="indent date" level="0.5">2016-03 ~ 2027-03 (Expected)</time>
+                <h1 class="inline">${resume.education.title}</h1>
+                <time class="indent date" level="0.5">${resume.education.date}</time>
             </div>
             <span class="folding-circle">
                 <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none"
@@ -118,10 +118,10 @@
         <div class="content-list">
             <div class="content-body">
                 <div class="indent flexbox flex-column gap-1" level="1">
-                    <div><b>University:</b> Korea University (Sejong Campus)</div>
-                    <div><b>Major:</b> Electronics and Information Engineering</div>
-                    <div><b>Expected Graduation:</b> 2027</div>
-                    <div><b>GPA:</b> 2.83/4.5</div>
+                    <div><b>University:</b> ${resume.education.university}</div>
+                    <div><b>Major:</b> ${resume.education.major}</div>
+                    <div><b>Expected Graduation:</b> ${resume.education.graduation}</div>
+                    <div><b>GPA:</b> ${resume.education.gpa}</div>
                 </div>
             </div>
         </div>

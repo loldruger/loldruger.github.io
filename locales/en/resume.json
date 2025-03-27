@@ -8,18 +8,59 @@
         },
         "education": {
             "title": "Education",
+            "date": "2016-03 ~ 2027-03 (Expected)",
             "university": "Korea University (Sejong Campus)",
             "major": "Electronics and Information Engineering",
             "graduation": "2027 Expected",
             "gpa": "2.83/4.5"
         },
-        "experience": {
-            "title": "Experience",
-            "jobTitle": "Software Engineer",
-            "team": "Development Department Team 1",
-            "resignedFor": "Resigned for conscription",
-            "company": "Aiara",
-            "years": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06"
+        "workExperience": {
+            "title": "Work Experience",
+            "items": [
+                    {
+                        "jobTitle": "Software Engineer",
+                        "team": "Development Department Team 1",
+                        "resignedFor": "Resigned for conscription",
+                        "company": "Aiara",
+                        "durations": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06",
+                        "experience": [
+                            {
+                                "title": "3. Developed Web Rest API",
+                                "duration": "2021-06 ~ 2021-08",
+                                "stacks": [{"lang": "Java", "level": 3}, {"lang": "Spring", "level": 3}, {"lang": "Hibernate", "level": 1}, {"lang": "QueryDSL", "level": 2}, {"lang": "Oracle 19c", "level": 1}],
+                                "contents": [
+                                    {"p1": "Using Java Spring, Hibernate, QueryDSL, Oracle 19c, I participated in developing a web backend API for a 3D furniture placement simulator. I thoroughly studied the implementation of the JPA layer in advance, and with abundant prior knowledge of OS and network. Based on this understanding, I enhanced the quality of the code. I worked on many core features of the project such as <highlight>leveraging the DB connection pool</highlight>, <highlight>managing the multithreaded Spring scheduler</highlight>, and <highlight>implementing an FTPS server</highlight>. Additionally, I wrote <highlight>a batch query to migrate the database to another</highlight>."},
+                                    {"p2": "I also helped the front-end team <highlight>optimize the performance of the web application</highlight> by analyzing the app's memory leakage and performance bottleneck using Browser DevTools. I integrated this project's development environment with Windows WSL2, connecting the Java backend and React frontend efficiently."}
+                                ]
+                            },
+                            {
+                                "title": "2. Developed an iOS Financial and Community Service App",
+                                "duration": "2021-02 ~ 2021-04",
+                                "stacks": [[{"lang": "Swift", "level": 3}, {"lang": "SwiftUI", "level": 3}]],
+                                "contents": ["I was assigned urgently to this project because the due date was so tight. But I was quickly able to adapt to the project. And although the seriously unstable and each-time-changing API protocol made this project harder to develop, I wrote UI components flexibly as much as possible so that whenever the API changes, I could just change the API layer only. At that time, SwiftUI/iOS13 didn't support many of the UI components, so I had to implement them by hand. So I made some custom UI components \"Pull to Refresh\", \"Infinite Scroll\", \"Wrap Around Container\", and \"Universal Grid View\". I leveraged Swift with its Protocol-oriented programming and limited extension usage for this project to make the code more readable and maintainable. I needed to finish this project in 2 months; I had to work on the project literally 24/7. I was so exhausted, but I was able to finish the project on time."]
+                            },
+                            {
+                                "title": "1. Developed a Web Based Writing Service integrated with SNS",
+                                "duration": "2021-01 ~ 2021-08",
+                                "stacks": [{"lang": "Vue.js", "level": 5}, {"lang": "Vuex", "level": 4}, {"lang": "Vuetify", "level": 4}, {"lang": "PostgreSQL", "level": 4}, {"lang": "GraphQL", "level": 3}, {"lang": "Objection.js", "level": 3}, {"lang": "Knex.js", "level": 3}, {"lang": "Apollo Server", "level": 1}, {"lang": "Apollo Client", "level": 1}],
+                                "contents": [
+                                    {"p1": "With a bunch of stacks such as Vue, Vuex, Vuex-pathify, Vuetify, Apollo Client&Server, GraphQL, Objection.js, Knex.js, PostgreSQL, I solely developed a web based writing service integrated with SNS."},
+                                    {"p2": "It took me two months to understand the whole structure of the project and the code base. I had to learn a lot of new stacks I listed above. After understanding, I re-architected the relational database schema for the quite complex tables due to the nature of the SNS service because the original schema was Wiki based."},
+                                    {"p3": "Again, I separated the backend layer into a couple of layers: Business Logic Layer, Bridge Layer, and Endpoint Layer. I was responsible for this project to develop the backend API and the frontend UI. This project really needed to be clarified to configure the development environment. So I documented and wrote instructions for setup and deployment. I ultimately chose to use WSL for the development environment. And VSCode as the IDE for remote browser debugging and remote server debugging. It required some PowerShell scripts for IP table configuration and port forwarding."}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "jobTitle": "...",
+                        "team": "...",
+                        "resignedFor": "...",
+                        "company": "...",
+                        "years": "..."
+                    }
+                ]
+            
+
         }
     }
 }

@@ -1,7 +1,7 @@
 //@ts-check
 
 /**
- * @typedef {'section'|'header'|'div'|'span'|'button'|'time'|'h1'|'h2'|'h3'|'h4'|'h5'|'h6'|'a'|'b'|'p'|'img'|'br'|'hr'|'input'|'meta'|'link'} HTMLElementKind
+ * @typedef {'section'|'header'|'div'|'span'|'button'|'time'|'h1'|'h2'|'h3'|'h4'|'h5'|'h6'|'a'|'b'|'p'|'img'|'br'|'hr'|'input'|'meta'|'link'|'table'|'tr'|'td'|'th'|'thead'|'tbody'} HTMLElementKind
  * @typedef {'svg'|'path'|'rect'|'circle'|'line'|'polyline'|'polygon'|'g'|'text'} SVGElementKind
  * @typedef {keyof HTMLElementEventMap} HtmlEventName
  */

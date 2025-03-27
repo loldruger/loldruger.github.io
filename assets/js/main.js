@@ -5,13 +5,14 @@
 import DOMComposer from './DOMinator/DOMComposer.js';
 import WorkerPool from './DOMinator/WorkerPool.js';
 import { eventRegistry } from './DOMinator/EventRegistry.js';
-import { template, events } from './const.js';
+import { resume, events } from './const.js';
 /**
  * @typedef {import('./DOMinator/DOMComposer.js').HtmlEventName} HtmlEventName
  * @typedef {import('./DOMinator/EventRegistry.js').EventHandler} EventHandler
  * @typedef {import('./DOMinator/WorkerPool.js').WorkerResult} WorkerResult
  * @typedef {import('./DOMinator/WorkerPool.js').WorkerTask} WorkerTask
  */
+
 
 // --- Core Functions ---
 
@@ -255,7 +256,7 @@ function escapeHtml(unsafe) {
 
 // Wait for the DOM to be ready before running the example
 document.addEventListener('DOMContentLoaded', () => {
-
+    events();
     const appRootElement = document.getElementById('app');
 
     if (!appRootElement) {
@@ -268,8 +269,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. Create DOM Structure using DOMComposer ---
     console.log('Creating virtual DOM structure...');
-    events();
-    template().forEach(section => {
+
+    resume.forEach(section => {
         rootContainer.appendChild({ child: section });
     });
 

@@ -25,7 +25,7 @@ const main = async () => {
     //     });
     // }
 
-    await getLastUpdateDate();
+    // await getLastUpdateDate();
 
     // const fetcher = new Fetcher();
     // console.log(await fetcher.fetchDataByLocale('ko'));

@@ -1,7 +1,11 @@
 {
     "resume": {
         "title": "Résumé",
+<<<<<<< HEAD
         "lastUpdate": "....",
+=======
+        "lastUpdate": "...",
+>>>>>>> 9d45b33 (WIP)
         "profile": {
             "title": "Profile & Contact",
             "name": "Siyoung Jang",
@@ -14,6 +18,7 @@
             "graduation": "2027 Expected",
             "gpa": "2.83/4.5"
         },
+<<<<<<< HEAD
         "experience": {
             "title": "Experience",
             "jobTitle": "Software Engineer",
@@ -21,6 +26,579 @@
             "resignedFor": "Resigned for conscription",
             "company": "Aiara",
             "years": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06"
+=======
+        "workExperience": {
+            "title": "Work Experience",
+            "duration": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06",
+            "items": [
+                {
+                    "company": "Aiara",
+                    "duration": "2020-12 ~ 2021-09",
+                    "jobTitle": "Software Engineer",
+                    "division": "Development Department Team 1",
+                    "resignedFor": "Resigned for conscription",
+                    "experiences": [
+                        {
+                            "title": "3. Developed Web Rest API",
+                            "duration": "2021-06 ~ 2021-08",
+                            "stacks": [
+                                {
+                                    "lang": "Java",
+                                    "level": 3
+                                },
+                                {
+                                    "lang": "Spring",
+                                    "level": 3
+                                },
+                                {
+                                    "lang": "Hibernate",
+                                    "level": 1
+                                },
+                                {
+                                    "lang": "QueryDSL",
+                                    "level": 1
+                                },
+                                {
+                                    "lang": "Oracle 19c",
+                                    "level": 1
+                                }
+                            ],
+                            "contents": [
+                                "Using Java Spring, Hibernate, QueryDSL, Oracle 19c, I participated in developing a web backend API for a 3D furniture placement simulator. I thoroughly studied the implementation of the JPA layer in advance, and with abundant prior knowledge of OS and network. Based on this understanding, I enhanced the quality of the code. I worked on many core features of the project such as <highlight>leveraging the DB connection pool</highlight>, <highlight>managing the multithreaded Spring scheduler</highlight>, and <highlight>implementing an FTPS server</highlight>. Additionally, I wrote <highlight>a batch query to migrate the database to another</highlight>.",
+                                "I also helped the front-end team <highlight>optimize the performance of the web application</highlight> by analyzing the app's memory leakage and performance bottleneck using Browser DevTools. I integrated this project's development environment with Windows WSL2, connecting the Java backend and React frontend efficiently."
+                            ]
+                        },
+                        {
+                            "title": "2. Developed an iOS Financial and Community Service App",
+                            "duration": "2021-02 ~ 2021-04",
+                            "stacks": [
+                                {
+                                    "lang": "Swift",
+                                    "level": 3
+                                },
+                                {
+                                    "lang": "SwiftUI",
+                                    "level": 1
+                                }
+                            ],
+                            "contents": [
+                                "I was assigned urgently to this project because the due date was so tight. But I was quickly able to adapt to the project. And although the seriously unstable and each-time-changing API protocol made this project harder to develop, I wrote UI components flexibly as much as possible so that whenever the API changes, I could just change the API layer only. At that time, SwiftUI/iOS13 didn't support many of the UI components, so I had to implement them by hand. So I made some custom UI components \"Pull to Refresh\", \"Infinite Scroll\", \"Wrap Around Container\", and \"Universal Grid View\". I leveraged Swift with its Protocol-oriented programming and limited extension usage for this project to make the code more readable and maintainable. I needed to finish this project in 2 months; I had to work on the project literally 24/7. I was so exhausted, but I was able to finish the project on time."
+                            ]
+                        },
+                        {
+                            "title": "1. Developed a Web Based Writing Service integrated with SNS",
+                            "duration": "2021-01 ~ 2021-08",
+                            "stacks": [
+                                {
+                                    "lang": "Vue.js",
+                                    "level": 5
+                                },
+                                {
+                                    "lang": "Vuex",
+                                    "level": 4
+                                },
+                                {
+                                    "lang": "Vuetify",
+                                    "level": 4
+                                },
+                                {
+                                    "lang": "PostgreSQL",
+                                    "level": 4
+                                },
+                                {
+                                    "lang": "GraphQL",
+                                    "level": 3
+                                },
+                                {
+                                    "lang": "Objection.js",
+                                    "level": 3
+                                },
+                                {
+                                    "lang": "Knex.js",
+                                    "level": 3
+                                },
+                                {
+                                    "lang": "Apollo Server",
+                                    "level": 1
+                                },
+                                {
+                                    "lang": "Apollo Client",
+                                    "level": 1
+                                }
+                            ],
+                            "contents": [
+                                "With a bunch of stacks such as Vue, Vuex, Vuex-pathify, Vuetify, Apollo Client&Server, GraphQL, Objection.js, Knex.js, PostgreSQL, I solely developed a web based writing service integrated with SNS.",
+                                "It took me two months to understand the whole structure of the project and the code base. I had to learn a lot of new stacks I listed above. After understanding, I re-architected the relational database schema for the quite complex tables due to the nature of the SNS service because the original schema was Wiki based.",
+                                "Again, I separated the backend layer into a couple of layers: Business Logic Layer, Bridge Layer, and Endpoint Layer. I was responsible for this project to develop the backend API and the frontend UI. This project really needed to be clarified to configure the development environment. So I documented and wrote instructions for setup and deployment. I ultimately chose to use WSL for the development environment. And VSCode as the IDE for remote browser debugging and remote server debugging. It required some PowerShell scripts for IP table configuration and port forwarding."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "company": "Daedan",
+                    "duration": "2018-07 ~ 2019-12",
+                    "jobTitle": "Research Engineer",
+                    "team": "Research Department",
+                    "resignedFor": "Resigned for study",
+                    "experiences": [
+                        {
+                            "title": "4. Automated Documentation Job",
+                            "duration": "2019-05 ~ 2019-06",
+                            "stacks": [
+                                {
+                                    "lang": "Google Spreadsheet",
+                                    "level": 5
+                                },
+                                {
+                                    "lang": "Google Apps Script",
+                                    "level": 4
+                                }
+                            ],
+                            "contents": [
+                                "I was responsible for writing the device installation status reporting docs. It was originally a job to be done by hand, but I automated it using Google Spreadsheet and Google Apps Script. It even automatically sent the report to my boss's email. So this greatly improved the workflow and reduced the time to write the report."
+                            ]
+                        },
+                        {
+                            "title": "3. Modeled Mathematically and Developed Many Kinds Abstracted Modules of Sensors",
+                            "duration": "2018-07 ~ 2019-05",
+                            "stacks": [
+                                {
+                                    "lang": "ANSI C",
+                                    "level": 5
+                                },
+                                {
+                                    "lang": "HAL",
+                                    "level": 2
+                                }
+                            ],
+                            "contents": [
+                                "I modeled a mathematical model of the sensors which were written in the firmware literally in the form of a table, to just only one line of 2nd order polynomial function which approximates the trend of the real data. This work made a bunch of codes to be removed and the firmware to be more readable and maintainable. I mocked the interface concept to the sensor objects to be more abstracted and flexible.",
+                                "Similarly, I developed a driver for many custom 8-seg displays. It was designed and developed to have a universal API to be able to replace the display module easily."
+                            ]
+                        },
+                        {
+                            "title": "2. Developed a Driver which interfaces with Lora Transmission Module",
+                            "duration": "2018-10 ~ 2018-12",
+                            "stacks": [
+                                {
+                                    "lang": "ANSI C",
+                                    "level": 5
+                                },
+                                {
+                                    "lang": "HAL",
+                                    "level": 2
+                                }
+                            ],
+                            "contents": [
+                                "To attach remote control functionality to the firmware I developed, I worked to implement a driver interface for a Lora transmission module using ANSI C. There could be a chance that I could control a device directly or use remote control simultaneously, so I had to adopt a simple mutex concept to prevent data races or corruption.",
+                                "By the limitation of the Lora technology, it could transmit only about 60 bits of serialized data at once. So I had to implement a generic bitwise deserialization parser. It was so well designed that it could be used in other projects as well. Also I needed to satisfy the requirement of the Lora module protocol which is confliction avoidance stratgey."
+                            ]
+                        },
+                        {
+                            "title": "1. Developed an Automated Control Firmware for Industrial Refrigeration",
+                            "duration": "2018-07 ~ 2019-03",
+                            "stacks": [
+                                {
+                                    "lang": "ANSI C",
+                                    "level": 5
+                                },
+                                {
+                                    "lang": "HAL",
+                                    "level": 2
+                                }
+                            ],
+                            "contents": [
+                                "Using ANSI C, I was solely assigned to the main project to develop a firmware which required to control industrial refrigeration systems and to provide an ergonomic user experience. This project required me a lot of research such as understanding data sheet of the components and the refrigeration system.",
+                                "Because this device would be running 24/7, I was responsible for the stability of the firmware. It must be considered accumulated errors and any memory leak. That's why I architected the firmware more abstractly and modularly. For example, I segregated the firmware into 3 layers: Business Logic Layer(Application Layer), Bridge Layer, and Hardware Abstraction Layer(integrated with HAL)."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "currentProjects": {
+            "title": "My Current Major Projects",
+            "durationSummary": "2024-10 ~ WIP",
+            "items": [
+                {
+                    "title": "3. Dreamscape Forest Anipals",
+                    "duration": "2025.02 ~ WIP",
+                    "participants": [
+                        "Backend Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)",
+                        "Frontend Developer: <a href=\"https://github.com/rovks134\">rovks134</a>",
+                        "Main Artist: <a href=\"https://github.com/person6737\">persona6737</a> (Pending)"
+                    ],
+                    "backendStacks": [
+                        {
+                            "lang": "Rust 2024 edition",
+                            "level": 3
+                        },
+                        {
+                            "lang": "Tokio Axum",
+                            "level": 3
+                        }
+                    ],
+                    "frontendStacks": [
+                        {
+                            "lang": "PostgreSQL",
+                            "level": 4
+                        },
+                        {
+                            "lang": "Godot 4.4 Mono C# 11.0",
+                            "level": 4
+                        }
+                    ],
+                    "platforms": [
+                        {
+                            "lang": "Android",
+                            "level": 0
+                        },
+                        {
+                            "lang": "iOS",
+                            "level": 0
+                        }
+                    ],
+                    "contents": [
+                        "A mobile game targeting everyone who loves adorably redesigned animal characters. The game is designed to be played by anyone, regardless of age or experience, ensuring a universally enjoyable experience."
+                    ],
+                    "isWip": true
+                },
+                {
+                    "title": "2. Proschedio.py",
+                    "duration": "2025.01 ~ Pending",
+                    "participants": [
+                        "Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)"
+                    ],
+                    "backendStacks": [
+                        {
+                            "lang": "Python 3",
+                            "level": 3
+                        }
+                    ],
+                    "platforms": [
+                        {
+                            "lang": "Every OS which can execute Python 3",
+                            "level": 0
+                        }
+                    ],
+                    "contents": [],
+                    "repoLink": "https://github.com/loldruger/proschedio",
+                    "repoImageSrc": "https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=proschedio",
+                    "isPending": true
+                },
+                {
+                    "title": "1. Semantic.js",
+                    "duration": "2024.10 ~ Pending",
+                    "participants": [
+                        "Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)"
+                    ],
+                    "frontendStacks": [
+                        {
+                            "lang": "TypeScript 5.8",
+                            "level": 5
+                        },
+                        {
+                            "lang": "JavaScript ES2024",
+                            "level": 4
+                        }
+                    ],
+                    "platforms": [
+                        {
+                            "lang": "Web",
+                            "level": 5
+                        }
+                    ],
+                    "contents": [],
+                    "repoLink": "https://github.com/loldruger/semantic.js",
+                    "repoImageSrc": "https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=semantic.js",
+                    "isPending": true
+                }
+            ]
+        },
+        "maintainingProjects": {
+            "title": "Maintaining Projects",
+            "durationSummary": "2023-03 ~ Maintaining",
+            "items": [
+                {
+                    "title": "1. upbit-rs",
+                    "duration": "2023-03 ~ Maintaining",
+                    "participants": [
+                        "Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)"
+                    ],
+                    "backendStacks": [
+                        {
+                            "lang": "Rust 2021 edition",
+                            "level": 3
+                        },
+                        {
+                            "lang": "Reqwest",
+                            "level": 1
+                        }
+                    ],
+                    "contents": [],
+                    "repoLink": "https://github.com/loldruger/upbit-rs",
+                    "repoImageSrc": "https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=upbit-rs",
+                    "isMaintaining": true
+                }
+            ]
+        },
+        "previousProjects": {
+            "title": "Previous Projects I Participated",
+            "durationSummary": "2017-11 ~ 2017-12, 2019-09 ~ 2020-06",
+            "items": [
+                {
+                    "title": "2. Random Moai Defense",
+                    "duration": "2019-09 ~ 2020-06",
+                    "participants": [
+                        "Main Developer: <a href=\"https://github.com/MyNameIsDabin\">Dabin</a>",
+                        "Main Artist & Sub Dev: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)",
+                        "Game Designer: <strong>Both of Us</strong>"
+                    ],
+                    "frontendStacks": [
+                        {
+                            "lang": "Godot 3.x",
+                            "level": 0
+                        }
+                    ],
+                    "platforms": [
+                        {
+                            "lang": "Android",
+                            "level": 0
+                        },
+                        {
+                            "lang": "iOS",
+                            "level": 0
+                        }
+                    ],
+                    "contents": [
+                        "It is not just a common fixed-path defense game; every five stages, the monsters' path changes! Additionally, the user places Moai towers. This action may block the path, but the path will make a detour around the Moai tower the user placed. This simple mechanism and the unique Moai concept spread rapidly through many personal media channels. This resulted in our achieving the top spot in Strategy Game Popularity Rankings for a long time. Then we briefly reached the top spot in Comprehensive Game Popularity Rankings but remained in the top 5 for a long time. And it has been downloaded a total of over 50,000 times."
+                    ]
+                },
+                {
+                    "title": "1. 빤스런",
+                    "duration": "2017-11 ~ 2017-12",
+                    "participants": [
+                        "Main Developer: <a href=\"https://play.google.com/store/apps/dev?id=7302400084345857961\">MPMaker</a>",
+                        "Main Artist: <a href=\"https://github.com/loldruger\">loldruger</a> (Me Again)",
+                        "Game Designer: <strong>Both of Us</strong>"
+                    ],
+                    "frontendStacks": [
+                        {
+                            "lang": "Game Maker Studio",
+                            "level": 0
+                        }
+                    ],
+                    "platforms": [
+                        {
+                            "lang": "Android",
+                            "level": 0
+                        },
+                        {
+                            "lang": "iOS",
+                            "level": 0
+                        }
+                    ],
+                    "contents": [
+                        "With minimal interaction, such as tapping or long tapping, players can make the character run faster or perform parkour moves to escape the inferno. 빤스런 was incredibly popular in Korea during that time. We quickly achieved the top spot in the Comprehensive Popularity Rankings for games on the Google Play Store and maintained it for a significant period. As a result, the game has been downloaded over 500,000 times and is loved by players."
+                    ]
+                }
+            ]
+        },
+        "certifications": {
+            "title": "Certifications",
+            "durationSummary": "2015-10 ~ 2017-10",
+            "items": [
+                {
+                    "name": "TEPS 710 (outdated)",
+                    "date": "2017.10"
+                },
+                {
+                    "name": "TOEIC 800 (outdated)",
+                    "date": "2016.10"
+                },
+                {
+                    "name": "정보처리산업기사",
+                    "date": "2016.08"
+                },
+                {
+                    "name": "전자기기기능사",
+                    "date": "2015.12"
+                },
+                {
+                    "name": "1종보통운전면허",
+                    "date": "2015.02"
+                }
+            ]
+        },
+        "skills": {
+            "title": "Skills",
+            "subTitle": "Stacks I Experienced Colored by Proficiency Level",
+            "categories": [
+                {
+                    "name": "Languages",
+                    "items": [
+                        {
+                            "skill": "C",
+                            "level": 5
+                        },
+                        {
+                            "skill": "TypeScript",
+                            "level": 5
+                        },
+                        {
+                            "skill": "JavaScript",
+                            "level": 4
+                        },
+                        {
+                            "skill": "Rust",
+                            "level": 3
+                        },
+                        {
+                            "skill": "C++",
+                            "level": 3
+                        },
+                        {
+                            "skill": "Python3",
+                            "level": 3
+                        },
+                        {
+                            "skill": "Java",
+                            "level": 3
+                        },
+                        {
+                            "skill": "C#",
+                            "level": 3
+                        },
+                        {
+                            "skill": "Swift",
+                            "level": 3
+                        }
+                    ]
+                },
+                {
+                    "name": "Frameworks",
+                    "items": [
+                        {
+                            "skill": "Vue.js",
+                            "level": 5
+                        },
+                        {
+                            "skill": "Node.js",
+                            "level": 4
+                        },
+                        {
+                            "skill": "Deno",
+                            "level": 4
+                        },
+                        {
+                            "skill": "Spring",
+                            "level": 3
+                        }
+                    ]
+                },
+                {
+                    "name": "Databases",
+                    "items": [
+                        {
+                            "skill": "JSON DB with Exploiting Postman",
+                            "level": 5
+                        },
+                        {
+                            "skill": "IndexedDB",
+                            "level": 5
+                        },
+                        {
+                            "skill": "PostgreSQL",
+                            "level": 4
+                        },
+                        {
+                            "skill": "MariaDB",
+                            "level": 4
+                        },
+                        {
+                            "skill": "SQLite",
+                            "level": 4
+                        },
+                        {
+                            "skill": "Redis",
+                            "level": 4
+                        }
+                    ]
+                },
+                {
+                    "name": "Tools & Engines",
+                    "items": [
+                        {
+                            "skill": "Godot 4",
+                            "level": 5
+                        },
+                        {
+                            "skill": "Postman",
+                            "level": 5
+                        },
+                        {
+                            "skill": "Docker",
+                            "level": 4
+                        }
+                    ]
+                },
+                {
+                    "name": "Etc.",
+                    "items": [
+                        {
+                            "skill": "BashShell",
+                            "level": 3
+                        },
+                        {
+                            "skill": "PowerShell",
+                            "level": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        "projectProgress": {
+            "title": "Progress of Projects",
+            "subTitle": "additional info",
+            "items": [
+                {
+                    "name": "DFA Backend",
+                    "progress": 0,
+                    "period": "2025.02 ~ WIP"
+                },
+                {
+                    "name": "DFA Frontend",
+                    "progress": 25,
+                    "period": "2025.02 ~ WIP"
+                },
+                {
+                    "name": "Proschedio",
+                    "progress": 10,
+                    "period": "2025.01 ~ Pending"
+                },
+                {
+                    "name": "Semantic.js",
+                    "progress": 33,
+                    "period": "2024.10 ~ Pending"
+                },
+                {
+                    "name": "Upbit-rs",
+                    "progress": 100,
+                    "period": "2023.03 ~ Maintaining",
+                    "color": "33a0da"
+                },
+                {
+                    "name": "Random Moai Defense",
+                    "progress": 100,
+                    "period": "2019.09 ~ 2020.06"
+                },
+                {
+                    "name": "빤스런",
+                    "progress": 100,
+                    "period": "2017.11 ~ 2017.12"
+                }
+            ]
+>>>>>>> 9d45b33 (WIP)
         }
     }
 }

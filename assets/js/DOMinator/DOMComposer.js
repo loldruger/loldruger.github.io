@@ -143,6 +143,15 @@ export default class DOMComposer {
     }
 
     /**
+     * @returns {DOMComposer}
+     */
+    static glue() {
+        const composer = new DOMComposer();
+        composer.#tag = 'div'; // Default tag for glue
+        composer.#isSvgRelated = false; // Not SVG related
+        return composer;
+    }
+    /**
      * Sets an attribute on the element.
      * @param {{ name: string, value: string }} params
      * @returns {DOMComposer} The instance for chaining.

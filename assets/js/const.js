@@ -137,8 +137,12 @@ const createSectionFrame = ({ titleContent, bodyContent, requiresFolding = true,
 
 // --- Section Creation Functions ---
 
-/** Creates Profile Section */
-const createProfileSection = (/** @type {ResumeProfile} */ profileData) => {
+/**
+ * @param {ResumeProfile} profileData
+ * @param {GeneralStrings} commonData 
+ * @returns {DOMComposer}
+ */
+const createProfileSection = (profileData, commonData) => {
     const titleContent = DOMComposer.new({ tag: 'h1' })
         .setInnerText({ text: i18n.t(profileData.title) }); // Assuming title is a key or already translated
 
@@ -147,11 +151,11 @@ const createProfileSection = (/** @type {ResumeProfile} */ profileData) => {
         .setAttribute({ name: 'level', value: '1' })
         .appendChild({
             child: DOMComposer.new({ tag: 'div' })
-                .setInnerHTML({ html: `<b>Name:</b> ${escapeHtml(i18n.t(profileData.name))}` }) // Use escapeHtml for safety if name isn't trusted HTML
+                .setInnerHTML({ html: `<b>${i18n.t(commonData.name)}:</b> ${escapeHtml(i18n.t(profileData.name))}` }) // Use escapeHtml for safety if name isn't trusted HTML
         })
         .appendChild({
             child: DOMComposer.new({ tag: 'div' })
-                .setInnerHTML({ html: `<b>e-mail:</b><a class="inline-flexbox align-center-v" href="mailto:${profileData.email}"> ${escapeHtml(profileData.email)}</a>` })
+                .setInnerHTML({ html: `<b>${i18n.t(commonData.email)}:</b><a class="inline-flexbox align-center-v" href="mailto:${profileData.email}"> ${escapeHtml(profileData.email)}</a>` })
                 .appendChild({
                     child: DOMComposer.new({ tag: 'span' })
                         .setAttribute({ name: 'class', value: 'ml-1 mt-1' })
@@ -166,8 +170,12 @@ const createProfileSection = (/** @type {ResumeProfile} */ profileData) => {
     return createSectionFrame({ titleContent, bodyContent, requiresFolding: false });
 };
 
-/** Creates Education Section */
-const createEducationSection = (/** @type {ResumeEducation} */ eduData) => {
+/**
+ * @param {ResumeEducation} eduData 
+ * @param {EducationStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createEducationSection = (eduData, commonData) => {
     // Title and Date in the header area
     const title = DOMComposer.new({ tag: 'h1' })
         .setAttribute({ name: 'class', value: 'inline' })
@@ -188,29 +196,36 @@ const createEducationSection = (/** @type {ResumeEducation} */ eduData) => {
         .setAttribute({ name: 'class', value: 'indent flexbox flex-column gap-1' })
         .setAttribute({ name: 'level', value: '1' });
 
-    // Helper to create info lines
+    /**
+     * @param {string} labelKey 
+     * @param {string} value 
+     * @returns {DOMComposer}
+     */
     const createInfoDiv = (labelKey, value) => {
         // Translate label using i18n.t, value directly from data (assuming already translated or language-specific)
-        const label = i18n.t(`education.${labelKey}Label`); // Example key: 'education.universityLabel'
+        const label = i18n.t(labelKey); // Example key: 'education.universityLabel'
         return DOMComposer.new({ tag: 'div' })
             .setInnerHTML({ html: `<b>${escapeHtml(label)}:</b> ${escapeHtml(value)}` });
     };
 
-    bodyContent.appendChild({ child: createInfoDiv('university', eduData.university) });
-    bodyContent.appendChild({ child: createInfoDiv('major', eduData.major) });
-    bodyContent.appendChild({ child: createInfoDiv('graduation', eduData.graduation) });
-    bodyContent.appendChild({ child: createInfoDiv('gpa', eduData.gpa) });
+    bodyContent.appendChild({ child: createInfoDiv(commonData.university, eduData.university) });
+    bodyContent.appendChild({ child: createInfoDiv(commonData.major, eduData.major) });
+    bodyContent.appendChild({ child: createInfoDiv(commonData.graduation, eduData.graduation) });
+    bodyContent.appendChild({ child: createInfoDiv(commonData.gpa, eduData.gpa) });
 
     return createSectionFrame({ titleContent, bodyContent });
 };
 
-/** Creates Work Experience Section */
-const createWorkExperienceSection = (/** @type {ResumeWorkExperience} */ workData) => {
-    console.log(workData);
+/**
+ * @param {ResumeWorkExperience} workData 
+ * @param {ProjectStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createWorkExperienceSection = (workData, commonData) => {
     const title = DOMComposer.new({ tag: 'h1' })
         .setAttribute({ name: 'class', value: 'inline' })
         .setInnerText({ text: i18n.t(workData.title) });
-    // Use duration if available, otherwise calculate or leave empty
+
     const overallDuration = DOMComposer.new({ tag: 'time' })
         .setAttribute({ name: 'class', value: 'indent date' })
         .setAttribute({ name: 'level', value: '0.5' })
@@ -248,7 +263,7 @@ const createWorkExperienceSection = (/** @type {ResumeWorkExperience} */ workDat
         (item.experiences || []).forEach(exp => {
             const stackContainer = DOMComposer.new({ tag: 'div' })
                 .setAttribute({ name: 'class', value: 'stack-container' })
-                .setInnerText({ text: i18n.t('common.stackLabel') + ': ' }); // Use i18n key
+                .setInnerText({ text: i18n.t(commonData.stacks) + ': ' });
             (exp.stacks || []).forEach(stack => {
                 stackContainer.appendChild({ child: createStackItem(stack) });
             });
@@ -317,20 +332,22 @@ const createWorkExperienceSection = (/** @type {ResumeWorkExperience} */ workDat
     return createSectionFrame({ titleContent, bodyContent });
 };
 
-/** Generic function to create Project sections (Current, Maintaining, Previous) */
-const createProjectSection = (/** @type {NonNullable<ResumeData['resume']['currentProjects' | 'maintainingProjects' | 'previousProjects']>} */ projectData) => {
+/**
+ * @param {NonNullable<ResumeData['resume']['currentProjects' | 'maintainingProjects' | 'previousProjects']>} projectData 
+ * @param {ProjectStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createProjectSection = (projectData, commonData) => {
     const title = DOMComposer.new({ tag: 'h1' })
         .setAttribute({ name: 'class', value: 'inline' })
         .setInnerText({ text: i18n.t(projectData.title) });
-    const overallDuration = projectData.duration ? DOMComposer.new({ tag: 'time' })
+    const overallDuration = DOMComposer.new({ tag: 'time' })
         .setAttribute({ name: 'class', value: 'indent date' })
         .setAttribute({ name: 'level', value: '0.5' })
-        .setInnerText({ text: i18n.t(projectData.duration) }) : null;
+        .setInnerText({ text: i18n.t(projectData.duration) });
 
     const titleContent = DOMComposer.fragment().appendChild({ child: title });
-    if (overallDuration) {
-        titleContent.appendChild({ child: overallDuration });
-    }
+    titleContent.appendChild({ child: overallDuration });
 
     const bodyContent = DOMComposer.fragment();
 
@@ -368,7 +385,6 @@ const createProjectSection = (/** @type {NonNullable<ResumeData['resume']['curre
 
         projectItemContainer.appendChild({ child: experienceItemDiv });
 
-
         // Participants
         if (item.participants && item.participants.length > 0) {
             const participantsDiv = DOMComposer.new({ tag: 'div' })
@@ -380,14 +396,14 @@ const createProjectSection = (/** @type {NonNullable<ResumeData['resume']['curre
         // Stacks (Backend)
         if (item.backendStacks && item.backendStacks.length > 0) {
             const backendStackDiv = DOMComposer.new({ tag: 'div' })
-                .setInnerText({ text: i18n.t('projects.backendStackLabel') + ': ' }); // Example key
+                .setInnerText({ text: i18n.t(commonData.backendStack) + ': ' }); // Example key
             item.backendStacks.forEach(s => backendStackDiv.appendChild({ child: createStackItem(s) }));
             projectItemContainer.appendChild({ child: backendStackDiv });
         }
         // Stacks (Frontend)
         if (item.frontendStacks && item.frontendStacks.length > 0) {
             const frontendStackDiv = DOMComposer.new({ tag: 'div' })
-                .setInnerText({ text: i18n.t('projects.frontendStackLabel') + ': ' }); // Example key
+                .setInnerText({ text: i18n.t(commonData.frontendStack) + ': ' }); // Example key
             item.frontendStacks.forEach(s => frontendStackDiv.appendChild({ child: createStackItem(s) }));
             projectItemContainer.appendChild({ child: frontendStackDiv });
         }
@@ -395,7 +411,7 @@ const createProjectSection = (/** @type {NonNullable<ResumeData['resume']['curre
         if (item.stacks && item.stacks.length > 0) {
             const stackDiv = DOMComposer.new({ tag: 'div' })
                 .setAttribute({ name: 'class', value: 'stack-container' }) // Match HTML
-                .setInnerText({ text: i18n.t('common.stackLabel') + ': ' });
+                .setInnerText({ text: i18n.t(commonData.stacks) + ': ' });
             item.stacks.forEach(s => stackDiv.appendChild({ child: createStackItem(s) }));
             projectItemContainer.appendChild({ child: stackDiv });
         }
@@ -404,7 +420,7 @@ const createProjectSection = (/** @type {NonNullable<ResumeData['resume']['curre
         // Platforms
         if (item.platforms && item.platforms.length > 0) {
             const platformsDiv = DOMComposer.new({ tag: 'div' })
-                .setInnerText({ text: i18n.t('projects.platformsLabel') + ': ' }); // Example key
+                .setInnerText({ text: i18n.t(commonData.platforms) + ': ' }); // Example key
             item.platforms.forEach(p => platformsDiv.appendChild({ child: createPlatformItem(p) }));
             projectItemContainer.appendChild({ child: platformsDiv });
         }
@@ -421,11 +437,8 @@ const createProjectSection = (/** @type {NonNullable<ResumeData['resume']['curre
                     if (item.isWip) contentContainer.setAttribute({ name: 'isWip', value: 'true' });
                     if (item.isPending) contentContainer.setAttribute({ name: 'isPending', value: 'true' });
                     if (item.isMaintaining) contentContainer.setAttribute({ name: 'isMaintaining', value: 'true' });
-                    // Only set 'to' if it's a specific date? Check HTML structure again.
-                    // The example HTML puts these attributes on the outer container and the content repo div. Let's stick to that.
                 }
             }
-
 
             const contentsArray = Array.isArray(item.contents) ? item.contents : [item.contents];
             contentsArray.forEach(c => contentContainer.appendChild({ child: createContentParagraph(c) })); // Assumes c is HTML string
@@ -470,15 +483,13 @@ const createCertificationsSection = (/** @type {ResumeCertifications} */ certDat
     const title = DOMComposer.new({ tag: 'h1' })
         .setAttribute({ name: 'class', value: 'inline' })
         .setInnerText({ text: i18n.t(certData.title) });
-    const overallDuration = certData.duration ? DOMComposer.new({ tag: 'time' })
+    const overallDuration = DOMComposer.new({ tag: 'time' })
         .setAttribute({ name: 'class', value: 'indent date' })
         .setAttribute({ name: 'level', value: '0.5' })
-        .setInnerText({ text: i18n.t(certData.duration) }) : null;
+        .setInnerText({ text: i18n.t(certData.duration) });
 
     const titleContent = DOMComposer.fragment().appendChild({ child: title });
-    if (overallDuration) {
-        titleContent.appendChild({ child: overallDuration });
-    }
+    titleContent.appendChild({ child: overallDuration });
 
     const bodyContent = DOMComposer.fragment();
     (certData.items || []).forEach(item => {
@@ -552,8 +563,12 @@ const createSkillsSection = (/** @type {ResumeSkills} */ skillsData) => {
     return createSectionFrame({ titleContent, bodyContent, hasSubtitle });
 };
 
-/** Creates Project Progress Section */
-const createProjectProgressSection = (/** @type {ResumeProjectProgress} */ progressData) => {
+/**
+ * @param {ResumeProjectProgress} progressData 
+ * @param {ProjectStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createProjectProgressSection = (progressData, commonData) => {
     const title = DOMComposer.new({ tag: 'h1' })
         .setAttribute({ name: 'class', value: 'inline' }) // Add inline based on HTML
         .setInnerText({ text: i18n.t(progressData.title) });
@@ -573,9 +588,9 @@ const createProjectProgressSection = (/** @type {ResumeProjectProgress} */ progr
     const tableHead = DOMComposer.new({ tag: 'thead' })
         .appendChild({
             child: DOMComposer.new({ tag: 'tr' })
-                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t('progress.projectHeader') }) })
-                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t('progress.progressHeader') }) })
-                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t('progress.periodHeader') }) })
+                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.projectHeader) }) })
+                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.progressHeader) }) })
+                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.periodHeader) }) })
         });
 
     // Create Table Body
@@ -608,6 +623,60 @@ const createProjectProgressSection = (/** @type {ResumeProjectProgress} */ progr
 
     return createSectionFrame({ titleContent, bodyContent: table, hasSubtitle });
 };
+
+/**
+ * @typedef {object} ProgressStrings Represents strings related to project progress display.
+ * @property {string} projectHeader Label for the project column/section.
+ * @property {string} progressHeader Label for the progress column/section.
+ * @property {string} periodHeader Label for the period column/section.
+ */
+
+/**
+ * @typedef {object} GeneralStrings Represents general information strings.
+ * @property {string} resume Label for "Résumé".
+ * @property {string} name Label for "Name".
+ * @property {string} email Label for "e-mail".
+ * @property {string} lastUpdate Label for "Last Update".
+ */
+
+/**
+ * @typedef {object} EducationStrings Represents education-related strings.
+ * @property {string} university Label for "University".
+ * @property {string} major Label for "Major".
+ * @property {string} graduation Label for "Graduation".
+ * @property {string} gpa Label for "GPA".
+ */
+
+/**
+ * @typedef {object} ProjectStrings Represents project-related strings.
+ * @property {string} developer Label for "Developer" role.
+ * @property {string} mainDeveloper Label for "Main Developer" role.
+ * @property {string} mainArtistAndSubDev Label for "Main Artist & Sub Dev" role.
+ * @property {string} mainArtist Label for "Main Artist" role.
+ * @property {string} gameDesigner Label for "Game Designer" role.
+ * @property {string} backendStack Label for "Backend Stacks".
+ * @property {string} frontendStack Label for "Frontend Stacks".
+ * @property {string} platforms Label for "Platforms".
+ * @property {string} stacks Label for "Stacks".
+ * @property {string} additionalInfo Label for "additional info".
+ * @property {string} stacksProficiency Label for "Stacks I Experienced...".
+ * @property {ProgressStrings} progress Contains strings for the progress display section.
+ */
+
+/**
+ * @typedef {object} FetchedCommonData Contains common string definitions grouped by category.
+ * @property {object} common
+ * @property {GeneralStrings} common.general General information strings.
+ * @property {EducationStrings} common.education Education related strings.
+ * @property {ProjectStrings} common.projects Project related strings.
+ */
+
+/**
+ * @typedef {object} RootJsonStructure Represents the root structure of the provided JSON data.
+ * @property {FetchedCommonData} common Contains all common string definitions.
+ */
+
+//////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @typedef {object} ResumeProfile
@@ -751,14 +820,16 @@ const createProjectProgressSection = (/** @type {ResumeProjectProgress} */ progr
 
 /**
  * @param {FetchedResumeData} resumeData
+ * @param {FetchedCommonData} commonData
  * @returns {Array<DOMComposer>}
  */
-const getResume = (resumeData) => {
+const getResume = (resumeData, commonData) => {
     const actualResumeData = resumeData.resume;
+    const actualCommonData = commonData.common;
     const resumeComposed = [];
 
     resumeComposed.push(DOMComposer.new({ tag: 'header' })
-        .setInnerText({ text: i18n.t(actualResumeData.title) })
+        .setInnerText({ text: i18n.t(actualCommonData.general.resume) })
     );
 
     resumeComposed.push(DOMComposer.new({ tag: 'div' })
@@ -798,18 +869,18 @@ const getResume = (resumeData) => {
     resumeComposed.push(DOMComposer.new({ tag: 'time' })
         .setAttribute({ name: 'id', value: 'last-update' })
         .setAttribute({ name: 'class', value: 'block text-align-right-h' })
-        .setInnerText({ text: i18n.t('footer.lastUpdateLabel') + ': ' + 'lastUpdateText' })
+        .setInnerText({ text: i18n.t(actualCommonData.general.lastUpdate) + ': ' + 'lastUpdateText' })
     );
 
-    resumeComposed.push(createProfileSection(actualResumeData.profile));
-    resumeComposed.push(createEducationSection(actualResumeData.education));
-    resumeComposed.push(createWorkExperienceSection(actualResumeData.workExperience));
-    resumeComposed.push(createProjectSection(actualResumeData.currentProjects));
-    resumeComposed.push(createProjectSection(actualResumeData.maintainingProjects));
-    resumeComposed.push(createProjectSection(actualResumeData.previousProjects));
+    resumeComposed.push(createProfileSection(actualResumeData.profile, actualCommonData.general));
+    resumeComposed.push(createEducationSection(actualResumeData.education, actualCommonData.education));
+    resumeComposed.push(createWorkExperienceSection(actualResumeData.workExperience, actualCommonData.projects));
+    resumeComposed.push(createProjectSection(actualResumeData.currentProjects, actualCommonData.projects));
+    resumeComposed.push(createProjectSection(actualResumeData.maintainingProjects, actualCommonData.projects));
+    resumeComposed.push(createProjectSection(actualResumeData.previousProjects, actualCommonData.projects));
     resumeComposed.push(createCertificationsSection(actualResumeData.certifications));
     resumeComposed.push(createSkillsSection(actualResumeData.skills));
-    resumeComposed.push(createProjectProgressSection(actualResumeData.projectProgress));
+    resumeComposed.push(createProjectProgressSection(actualResumeData.projectProgress, actualCommonData.projects));
 
     return resumeComposed;
 };

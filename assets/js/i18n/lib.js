@@ -1,4 +1,3 @@
 // @ts-check
 
-export { Fetcher } from './fetcher.js';
-
+export { Fetcher, i18n } from "./fetcher.js";

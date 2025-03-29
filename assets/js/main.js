@@ -114,88 +114,156 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
             return;
         }
 
-    const fetchLastCommitDate = async () => {
-        const res = await fetch('https://api.github.com/repos/loldruger/loldruger.github.io/branches/main');
-        const data = await res.json();
+        // Get children to be rendered in parallel
+        // Assumes getChildren() returns DOMComposer[] based on JSDoc
+        const tasks = rootComposer.getChildren();
+        const totalTasks = tasks.length;
+        /** @type {Array<string>} */
+        const results = new Array(totalTasks).fill(''); // Initialize results array
+        let completedTasks = 0;
+        let hasCriticalError = false;
 
-        const lastCommitDate = new Date(data.commit.commit.committer.date);
-        const koreanDate = new Date(lastCommitDate);
-        koreanDate.setHours(koreanDate.getHours() + 9);
-        
-        const lastUpdateText = koreanDate.toISOString().replace("T", " ").slice(0, 19);
-        
-        return lastUpdateText;
-    }
-    
-    let lastCommitDate = localStorage.getItem('last-update');
+        console.log(`Distributing ${totalTasks} tasks to ${workerCount} workers.`);
 
-    if (!lastCommitDate) {
-        lastCommitDate = await fetchLastCommitDate();
-        if (lastCommitDate) {
-            localStorage.setItem('last-update', lastCommitDate);
+        // --- Pool Event Handlers ---
+
+        pool.onTaskComplete((data) => {
+            if (hasCriticalError) return; // Stop processing if a critical error occurred
+
+            // --- Runtime checks for data integrity crossing the worker boundary (Keep Recommended) ---
+            if (!data || typeof data.index !== 'number' || data.index < 0 || data.index >= totalTasks) {
+                console.error('MainThread: Received task completion with invalid index:', data);
+                // Decide how to handle this - potentially treat as error for that slot?
+                // For now, just log and ignore this specific result.
+                return;
+            }
+            const { index, result, error } = data;
+            // --- End of runtime checks ---
+
+            if (error) {
+                // Handle task-specific error reported by the worker
+                console.error(`MainThread: Worker task ${index} failed:`, error);
+                results[index] = `<div style="color:orange;">Section ${index + 1} failed to load: ${escapeHtml(error)}</div>`;
+            } else if (typeof result === 'string') { // Check expected result type
+                results[index] = result;
+            } else {
+                // Handle unexpected result format from worker
+                console.error(`MainThread: Worker task ${index} returned invalid result format:`, result);
+                results[index] = `<div style="color:red;">Section ${index + 1} failed: Invalid data received.</div>`;
+            }
+
+            completedTasks++;
+            console.log(`Task ${index} completed (${completedTasks}/${totalTasks})`);
+
+            // Check if all tasks are done
+            if (completedTasks === totalTasks) {
+                console.log('All tasks completed. Assembling final HTML...');
+                // Keep try-catch around final DOM manipulation and listener attachment
+                try {
+                    const finalHTML = results.join('');
+                    targetElement.innerHTML = finalHTML; // Render the combined HTML
+                    console.log('Rendering complete.');
+
+                    attachEventListeners(targetElement, eventRegistry); // Attach listeners after rendering
+
+                    targetElement.classList.remove('rendering-in-progress');
+                    console.log('Parallel rendering finished successfully.');
+                    resolve(); // Resolve the main promise
+                } catch (assemblyError) {
+                    console.error('Error during final HTML assembly or listener attachment:', assemblyError);
+                    targetElement.innerHTML = `<div style="color: red;">Critical Error: Failed to display final content. ${escapeHtml(/** @type {Error}*/(assemblyError).message)}</div>`;
+                    targetElement.classList.remove('rendering-in-progress');
+                    reject(assemblyError); // Reject the main promise
+                } finally {
+                    // Ensure pool is terminated regardless of success or failure in assembly
+                    if (pool) pool.terminate();
+                }
+            }
+        });
+
+        pool.onError((error) => {
+            if (hasCriticalError) return;
+            // Handle critical worker errors (e.g., worker script not found, init failure)
+            console.error('MainThread: Critical WorkerPool error:', error);
+            targetElement.innerHTML = `<div style="color: red;">Critical Error: Worker pool encountered an issue. ${escapeHtml(error instanceof ErrorEvent ? error.message : String(error))}</div>`;
+            targetElement.classList.remove('rendering-in-progress');
+            hasCriticalError = true; // Prevent further processing
+            if (pool) pool.terminate(); // Terminate the pool on critical error
+            reject(error instanceof ErrorEvent ? new Error(error.message) : error); // Reject the main promise
+        });
+
+        // --- Task Submission ---
+        if (totalTasks === 0) {
+            console.log('No tasks to process.');
+            targetElement.innerHTML = '<div>No content sections defined.</div>';
+            targetElement.classList.remove('rendering-in-progress');
+            if (pool) pool.terminate();
+            resolve(); // Resolve immediately if there are no tasks
+            return;
         }
-    }
 
-    if (lastCommitDate) {
-        lastUpdateElement.textContent += lastCommitDate;
-    } else {
-        lastUpdateElement.textContent += '0000-00-00 00:00:00';
-    }
+        tasks.forEach((childComposer, index) => {
+            if (hasCriticalError) return; // Don't submit more tasks if error occurred
+            // Keep try-catch around stringify as complex objects could potentially fail
+            try {
+                // Assumes childComposer.toJSON() returns DOMComposerJSONObject compatible structure
+                const composerJson = JSON.stringify(childComposer.toJSON());
+                /** @type {WorkerTask} */
+                const taskData = { index: index, composerJson: composerJson };
+                pool.submitTask(taskData);
+            } catch (stringifyError) {
+                console.error(`MainThread: Failed to stringify task ${index}. Skipping.`, stringifyError);
+                // Record error for this specific task
+                results[index] = `<div style="color:red;">Section ${index + 1} could not be prepared: ${escapeHtml(/** @type {Error}*/(stringifyError).message)}</div>`;
+                completedTasks++; // Mark as "completed" (with an error)
+                // If this was the last task, trigger completion check
+                if (completedTasks === totalTasks && pool) {
+                    // Need to manually trigger the completion logic if all tasks failed serialization
+                    // This edge case might need refinement, but for now, let's log it.
+                    console.warn("All tasks potentially failed serialization before submission.");
+                    // Force termination and reject or resolve with errors?
+                    hasCriticalError = true; // Treat as critical if serialization fails substantially
+                    targetElement.innerHTML = `<div style="color: red;">Critical Error: Could not prepare tasks for workers.</div>`;
+                    targetElement.classList.remove('rendering-in-progress');
+                    pool.terminate();
+                    reject(new Error("Failed to serialize tasks for workers."));
+                }
+            }
+        });
+    });
 }
 
+
+// --- Helper Function (already in dom-composer.js, but useful here too if needed standalone) ---
+/**
+ * Escapes HTML special characters.
+ * @param {unknown} unsafe - Value to escape.
+ * @returns {string} Escaped string.
+ */
+function escapeHtml(unsafe) {
+    if (unsafe === null || typeof unsafe === 'undefined') return '';
+    return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+// --- ========================================= ---
+// --- Example Usage Section                     ---
+// --- ========================================= ---
+
+// Wait for the DOM to be ready before running the example
+events();
+
 const main = async () => {
-    const fetcher = new Fetcher();
+    const appRootElement = document.getElementById('app');
 
-    const foldingCircles = document.querySelectorAll('.folding-circle');
-    const userThemeSetting = localStorage.getItem(THEME_STORAGE_KEY);
-    const userLangSetting = localStorage.getItem(LANG_STORAGE_KEY);
-    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-
-    if (userThemeSetting !== null) {
-        setTheme(userThemeSetting === 'true', false);
-    } else {
-        setTheme(prefersDarkMode, false);
-    }
-    
-    if (userLangSetting !== null) {
-        setLanguage(userLangSetting ? 'en' : 'ko' , false);
-    }else {
-        setLanguage(document.documentElement.lang === 'en' ? 'en' : 'ko', false);
-    }
-
-    const darkModeButton = document.getElementById('dark-mode-button');
-    const langChangeButton = document.getElementById('lang-change-button');
-
-    darkModeButton?.addEventListener('click', () => {
-        const isDarkMode = !document.documentElement.classList.contains(DARK_MODE_CLASS);
-
-        setTheme(isDarkMode, true);
-    });
-
-    langChangeButton?.addEventListener('click', () => {
-        const langStored = (document.documentElement.lang.match(/en/i)) ? 'ko' : 'en';
-
-        setLanguage(langStored, true);
-    });
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (localStorage.getItem(THEME_STORAGE_KEY) === null) {
-            setTheme(e.matches, false);
-        }
-    });
-
-    for (const circle of foldingCircles) {
-        const contentList = circle.parentElement?.parentElement?.querySelector('.content-list');
-
-        circle.addEventListener('click', () => {
-            circle.classList.toggle('folded');
-
-            for (const sibling of contentList?.children ?? []) {
-                sibling.classList.toggle('rolled-up');
-            }
-  
-        });
+    if (!appRootElement) {
+        console.error('Error: Target element with id="app" not found.');
+        return;
     }
 
     /** @type {DOMComposer} This acts as the container for parallel tasks */
@@ -206,7 +274,7 @@ const main = async () => {
         const a = await fetcher.fetchDataByLocale('en');
         console.log('Fetched data:', a); // Log the fetched data for debugging
 
-        getResume(a.resume).forEach(section => {
+        getResume(a.resume, a.common).forEach(section => {
             rootContainer.appendChild({ child: section });
         });
     } catch (error) {

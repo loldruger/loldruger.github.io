@@ -4,23 +4,8 @@
             "type": "firefox",
             "name": "http://127.0.0.1:3000",
             "request": "launch",
-<<<<<<< HEAD
-            "reAttach": true,
-            "name": "Launch localhost",
-            "url": "http://localhost:3000/index.html",
-            "webRoot": "${workspaceFolder}",
-            "port": 3000,
-            "firefoxArgs": ["--headless"],
-            "pathMappings": [
-                {
-                    "url": "http://localhost:3000",
-                    "path": "${workspaceFolder}"
-                }
-            ]
-=======
             "url": "http://127.0.0.1:3000",
             "firefoxArgs": ["-headless"]
->>>>>>> 4640421 (GOOD)
         }
     ]
 }

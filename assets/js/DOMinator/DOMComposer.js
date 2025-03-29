@@ -5,18 +5,19 @@
  * @typedef {'svg'|'path'|'rect'|'circle'|'line'|'polyline'|'polygon'|'g'|'text'} SVGElementKind
  * @typedef {keyof HTMLElementEventMap} HtmlEventName
  */
+
 /**
  * Defines the structure of the plain object returned by DOMComposer#toJSON
  * and expected by DOMComposer.fromJSON.
  * @typedef {{
-* tag: HTMLElementKind | SVGElementKind | null;
-* isSvgRelated: boolean;
-* children: DOMComposerJSONObject[]; // Array of plain objects, not DOMComposer instances
-* attribute: Record<string, { namespace?: string | null, value: string }>;
-* content: { innerText: string, innerHTML: string };
-* eventsMap: Array<{ event: HtmlEventName, alias: string }>;
-* }} DOMComposerJSONObject
-*/
+ * tag: HTMLElementKind | SVGElementKind | null;
+ * isSvgRelated: boolean;
+ * children: DOMComposerJSONObject[]; // Array of plain objects, not DOMComposer instances
+ * attribute: Record<string, { namespace?: string | null, value: string }>;
+ * content: { innerText: string, innerHTML: string };
+ * eventsMap: Array<{ event: HtmlEventName, alias: string }>;
+ * }} DOMComposerJSONObject
+ */
 
 
 // --- Helper Functions ---
@@ -145,10 +146,12 @@ export default class DOMComposer {
     /**
      * @returns {DOMComposer}
      */
-    static glue() {
+    static fragment() {
         const composer = new DOMComposer();
-        composer.#tag = 'div'; // Default tag for glue
-        composer.#isSvgRelated = false; // Not SVG related
+        // Explicitly set tag to null to indicate a fragment
+        composer.#tag = null;
+        composer.#isSvgRelated = false; // Fragments are not SVG-related
+        // Attributes, content, and events are not applicable to the fragment itself
         return composer;
     }
     /**
@@ -157,6 +160,11 @@ export default class DOMComposer {
      * @returns {DOMComposer} The instance for chaining.
      */
     setAttribute({ name, value }) {
+        if (this.#tag === null) {
+            console.warn(`DOMComposer Warning: setAttribute called on a fragment. Attributes are ignored on fragments.`);
+            return this; // Fragments cannot have attributes
+        }
+
         // No runtime String() coercion, assumes value is string via JSDoc/usage context
         const attributeName = this.#isSvgRelated ? name : name.toLowerCase();
         let namespace = null;
@@ -173,6 +181,10 @@ export default class DOMComposer {
      * @returns {DOMComposer} The instance for chaining.
      */
     setEvent({ event, callback, alias }) {
+        if (this.#tag === null) {
+            console.warn(`DOMComposer Warning: setEvent called on a fragment. Events are ignored on fragments.`);
+            return this; // Fragments cannot have events
+        }
         // No runtime checks for alias/callback type; rely on JSDoc & context.
         // Check for duplicates before adding to map.
         if (!this.#eventsMap.some(map => map.event === event && map.alias === alias)) {
@@ -194,6 +206,10 @@ export default class DOMComposer {
      * @returns {DOMComposer} The instance for chaining.
      */
     setInnerText({ text }) {
+        if (this.#tag === null) {
+            console.warn(`DOMComposer Warning: setInnerText called on a fragment. Content is ignored on fragments.`);
+            return this; // Fragments cannot have direct content
+        }
         // No runtime String() coercion
         this.#content.innerText = text;
         this.#content.innerHTML = ''; // innerText overrides innerHTML
@@ -207,6 +223,10 @@ export default class DOMComposer {
      * @returns {DOMComposer} The instance for chaining.
      */
     setInnerHTML({ html }) {
+        if (this.#tag === null) {
+            console.warn(`DOMComposer Warning: setInnerHTML called on a fragment. Content is ignored on fragments.`);
+            return this; // Fragments cannot have direct content
+        }
         // No runtime String() coercion
         this.#content.innerHTML = html;
         this.#content.innerText = ''; // innerHTML overrides innerText
@@ -219,11 +239,31 @@ export default class DOMComposer {
      * @returns {DOMComposer} The instance for chaining.
      */
     appendChild({ child }) {
+        if (this.#tag === null && (this.#content.innerText || this.#content.innerHTML)) {
+            console.warn(`DOMComposer Warning: Appending children to a fragment that also had content set. Fragment content is ignored.`);
+            this.#content.innerText = '';
+            this.#content.innerHTML = '';
+        }
         // No runtime instanceof check; rely on JSDoc and usage context.
         this.#children.push(child);
         return this;
     }
 
+    /**
+     * Appends multiple child DOMComposer instances.
+     * @param {{ children: Array<DOMComposer> }} params
+     * @returns {DOMComposer} The instance for chaining.
+     */
+    appendChildren({ children }) {
+        if (this.#tag === null && (this.#content.innerText || this.#content.innerHTML)) {
+            console.warn(`DOMComposer Warning: Appending children to a fragment that also had content set. Fragment content is ignored.`);
+            this.#content.innerText = '';
+            this.#content.innerHTML = '';
+        }
+        // No runtime instanceof check; rely on JSDoc and usage context.
+        this.#children.push(...children);
+        return this;
+    }
     /**
      * Returns the array of child DOMComposer instances.
      * Needed for the main thread to iterate and distribute tasks.
@@ -237,13 +277,27 @@ export default class DOMComposer {
     /**
      * Creates and returns a real HTMLElement or SVGElement (Main thread only).
      * Requires `document` access. Attaches listeners directly using `#events`.
-     * @returns {HTMLElement | SVGElement} The created DOM element.
+     * @returns {HTMLElement | SVGElement | DocumentFragment} The created DOM element.
      * @throws {Error} If called outside a browser environment or if the tag is missing.
      */
     toHTMLElement() {
         // No runtime check for `document`; assumes correct environment if called.
-        if (!this.#tag) {
-            throw new Error('Cannot create element: Tag is not defined.');
+        // Handle Fragment Case
+        if (this.#tag === null) {
+            const fragment = document.createDocumentFragment();
+            // Recursively create and append children to the fragment
+            for (const childComposer of this.#children) {
+                try {
+                    fragment.appendChild(childComposer.toHTMLElement());
+                } catch (error) {
+                    console.error("Error creating child HTMLElement for fragment:", error);
+                    const errorSpan = document.createElement('span');
+                    errorSpan.textContent = `[Error rendering child: ${/** @type {Error} */ (error).message}]`;
+                    errorSpan.style.color = 'red';
+                    fragment.appendChild(errorSpan);
+                }
+            }
+            return fragment;
         }
 
         const element = this.#isSvgRelated
@@ -296,16 +350,19 @@ export default class DOMComposer {
      * @returns {string} The generated HTML string.
      */
     toHTMLString() {
-        if (!this.#tag) {
-            return ''; // Return empty string for a tagless composer
-        }
+
+        // 4. Generate children HTML string recursively
+        const childrenHTML = this.#children.map(child => child.toHTMLString()).join('');
 
         // 1. Generate attribute string
         let attributesString = '';
         for (const [name, attr] of Object.entries(this.#attribute)) {
             attributesString += ` ${name}="${escapeHtml(attr.value)}"`;
         }
-
+        // Handle Fragment Case: Return only children's HTML
+        if (this.#tag === null) {
+            return childrenHTML;
+        }
         // 2. Generate data-* attributes for event mapping from #eventsMap
         for (const { event, alias } of this.#eventsMap) {
             // Keep check for valid alias before adding attribute
@@ -319,8 +376,7 @@ export default class DOMComposer {
             return `<${this.#tag}${attributesString} />`;
         }
 
-        // 4. Generate children HTML string recursively
-        const childrenHTML = this.#children.map(child => child.toHTMLString()).join('');
+
 
         // 5. Determine content (prioritize innerHTML)
         // No runtime String() coercions; relies on content being strings.

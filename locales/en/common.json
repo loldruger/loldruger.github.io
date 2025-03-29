@@ -25,9 +25,9 @@
             "additionalInfo": "additional info",
             "stacksProficiency": "Stacks I Experienced Colored by Proficiency Level",
             "progress": {
-                "projectHeader": "projectHeader",
-                "progressHeader": "progressHeader",
-                "periodHeader": "periodHeader"
+                "projectHeader": "project",
+                "progressHeader": "progress",
+                "periodHeader": "period"
             }
         }
     }

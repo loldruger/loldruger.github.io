@@ -11,10 +11,9 @@
     <title>résumé</title>
 </head>
 
-<body>
+<body id="app">
     <a href="https://github.com/loldruger" class="github-corner" aria-label="View source on GitHub">
-        <svg width="80"
-            height="80" viewBox="0 0 250 250"
+        <svg width="80" height="80" viewBox="0 0 250 250"
             style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
             <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" />
             <path
@@ -58,7 +57,6 @@
             }
         }
     </style>
-    <header>Résumé</header>
 
     <!-- <toggle-button class="flexbox align-right-v toggle-button mb-1">
         <svg width="3em" height="1.4em" viewBox="0 0 23 16">
@@ -75,42 +73,27 @@
         </svg>
     </toggle-button> -->
 
-    <div class="flexbox align-right-h mb-2">
-        <button id="dark-mode-button" class="flexbox circle align-center-h align-center-v mr-2" type="image">
-            <svg id="moon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="17" height="17" viewBox="0 0 17 17">
-                <path d="M8.41667,16.6667C7.25,16.6667,6.15625,16.4444,5.13542,16C4.11458,15.5556,3.22569,14.9549,2.46875,14.1979C1.71181,13.441,1.11111,12.5521,0.666667,11.5312C0.222222,10.5104,0,9.41667,0,8.25C0,6.22222,0.645833,4.43403,1.9375,2.88542C3.22917,1.33681,4.875,0.375,6.875,0C6.625,1.375,6.70139,2.71875,7.10417,4.03125C7.50694,5.34375,8.20139,6.49306,9.1875,7.47917C10.1736,8.46528,11.3229,9.15972,12.6354,9.5625C13.9479,9.96528,15.2917,10.0417,16.6667,9.79167C16.3056,11.7917,15.3472,13.4375,13.7917,14.7292C12.2361,16.0208,10.4444,16.6667,8.41667,16.6667Z" fill="#566273" fill-opacity="1" />
-            </svg>
-            <svg id="sun" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="22" height="22" viewBox="0 0 22 22">
-                <path d="M10,3C10,3,10,0,10,0C10,0,12,0,12,0C12,0,12,3,12,3C12,3,10,3,10,3ZM10,22C10,22,10,19,10,19C10,19,12,19,12,19C12,19,12,22,12,22C12,22,10,22,10,22ZM19,12C19,12,19,10,19,10C19,10,22,10,22,10C22,10,22,12,22,12C22,12,19,12,19,12ZM0,12C0,12,0,10,0,10C0,10,3,10,3,10C3,10,3,12,3,12C3,12,0,12,0,12ZM17.7,5.7C17.7,5.7,16.3,4.3,16.3,4.3C16.3,4.3,18.05,2.5,18.05,2.5C18.05,2.5,19.5,3.95,19.5,3.95C19.5,3.95,17.7,5.7,17.7,5.7ZM3.95,19.5C3.95,19.5,2.5,18.05,2.5,18.05C2.5,18.05,4.3,16.3,4.3,16.3C4.3,16.3,5.7,17.7,5.7,17.7C5.7,17.7,3.95,19.5,3.95,19.5ZM18.05,19.5C18.05,19.5,16.3,17.7,16.3,17.7C16.3,17.7,17.7,16.3,17.7,16.3C17.7,16.3,19.5,18.05,19.5,18.05C19.5,18.05,18.05,19.5,18.05,19.5ZM4.3,5.7C4.3,5.7,2.5,3.95,2.5,3.95C2.5,3.95,3.95,2.5,3.95,2.5C3.95,2.5,5.7,4.3,5.7,4.3C5.7,4.3,4.3,5.7,4.3,5.7ZM11,17C9.33333,17,7.91667,16.4167,6.75,15.25C5.58333,14.0833,5,12.6667,5,11C5,9.33333,5.58333,7.91667,6.75,6.75C7.91667,5.58333,9.33333,5,11,5C12.6667,5,14.0833,5.58333,15.25,6.75C16.4167,7.91667,17,9.33333,17,11C17,12.6667,16.4167,14.0833,15.25,15.25C14.0833,16.4167,12.6667,17,11,17Z" fill="#566273" fill-opacity="1" />
-            </svg>
-        </button>
-
-        <button id="lang-change-button" class="flexbox circle align-center-h align-center-v mr-1" type="image">
-            <svg id="lang-ko" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.825 11.4" width="1em" height="0.9em">
-                <path d="M 3.525 6.275 C 3.958 6.275 4.329 6.179 4.637 5.988 C 4.946 5.796 5.1 5.508 5.1 5.125 C 5.1 4.742 4.946 4.45 4.637 4.25 C 4.329 4.05 3.958 3.95 3.525 3.95 C 3.092 3.95 2.721 4.05 2.412 4.25 C 2.104 4.45 1.95 4.742 1.95 5.125 C 1.95 5.508 2.104 5.796 2.412 5.988 C 2.721 6.179 3.092 6.275 3.525 6.275 Z M 0 2.5 C 0 2.5 0 1.4 0 1.4 C 0 1.4 2.85 1.4 2.85 1.4 C 2.85 1.4 2.85 0 2.85 0 C 2.85 0 4.15 0 4.15 0 C 4.15 0 4.15 1.4 4.15 1.4 C 4.15 1.4 7.025 1.4 7.025 1.4 C 7.025 1.4 7.025 2.5 7.025 2.5 C 7.025 2.5 0 2.5 0 2.5 Z M 3.525 7.375 C 2.742 7.375 2.071 7.179 1.513 6.787 C 0.954 6.396 0.675 5.842 0.675 5.125 C 0.675 4.392 0.954 3.833 1.513 3.45 C 2.071 3.067 2.742 2.875 3.525 2.875 C 4.325 2.875 5.004 3.067 5.563 3.45 C 6.121 3.833 6.4 4.392 6.4 5.125 C 6.4 5.858 6.121 6.417 5.563 6.8 C 5.004 7.183 4.325 7.375 3.525 7.375 Z M 1.7 11.4 C 1.7 11.4 1.7 7.9 1.7 7.9 C 1.7 7.9 3.025 7.9 3.025 7.9 C 3.025 7.9 3.025 10.3 3.025 10.3 C 3.025 10.3 9.625 10.3 9.625 10.3 C 9.625 10.3 9.625 11.4 9.625 11.4 C 9.625 11.4 1.7 11.4 1.7 11.4 Z M 7.825 8.775 C 7.825 8.775 7.825 0 7.825 0 C 7.825 0 9.1 0 9.1 0 C 9.1 0 9.1 3.75 9.1 3.75 C 9.1 3.75 10.825 3.75 10.825 3.75 C 10.825 3.75 10.825 4.85 10.825 4.85 C 10.825 4.85 9.125 4.85 9.125 4.85 C 9.125 4.85 9.125 8.775 9.125 8.775 C 9.125 8.775 7.825 8.775 7.825 8.775 Z" fill="#566273" fill-opacity="1"/>
-            </svg>
-
-            <svg id="lang-en" xmlns="http://www.w3.org/2000/svg" viewBox="12.025 0.1 8.225 10.95" width="8.225px" height="10.95px">
-                <path d="M 15.675 9.35 C 16.142 9.35 16.596 9.242 17.038 9.025 C 17.479 8.808 17.883 8.5 18.25 8.1 C 18.25 8.1 18.25 5.45 18.25 5.45 C 17.867 5.5 17.513 5.558 17.188 5.625 C 16.862 5.692 16.558 5.767 16.275 5.85 C 15.525 6.083 14.962 6.375 14.587 6.725 C 14.212 7.075 14.025 7.483 14.025 7.95 C 14.025 8.383 14.175 8.725 14.475 8.975 C 14.775 9.225 15.175 9.35 15.675 9.35 Z M 15.1 11.05 C 14.15 11.05 13.4 10.779 12.85 10.238 C 12.3 9.696 12.025 8.958 12.025 8.025 C 12.025 7.158 12.3 6.45 12.85 5.9 C 13.4 5.35 14.283 4.908 15.5 4.575 C 15.883 4.475 16.304 4.383 16.763 4.3 C 17.221 4.217 17.717 4.142 18.25 4.075 C 18.217 3.292 18.033 2.721 17.7 2.362 C 17.367 2.004 16.85 1.825 16.15 1.825 C 15.717 1.825 15.288 1.904 14.863 2.063 C 14.438 2.221 13.892 2.5 13.225 2.9 C 13.225 2.9 12.425 1.5 12.425 1.5 C 12.975 1.083 13.621 0.746 14.363 0.488 C 15.104 0.229 15.858 0.1 16.625 0.1 C 17.808 0.1 18.708 0.467 19.325 1.2 C 19.942 1.933 20.25 3 20.25 4.4 C 20.25 4.4 20.25 10.825 20.25 10.825 C 20.25 10.825 18.575 10.825 18.575 10.825 C 18.575 10.825 18.425 9.7 18.425 9.7 C 17.958 10.117 17.446 10.446 16.888 10.688 C 16.329 10.929 15.733 11.05 15.1 11.05 Z" fill="#566273" fill-opacity="1"/>
-            </svg>
-        </button>
-    </div>
-    
-    <time id="last-update" class="block text-align-right-h">last update: </time>
-
-    <section>
-        <div class="content-meta">
-            <h1>Profile & Contact</h1>
+    <!-- <section>
+        <div>
+            <h1>${resume.profile.title}</h1>
         </div>
         <div class="content-list">
             <div class="content-body">
-                <div class="flexbox flex-column indent" level="1">
-                    <div><b>Name:</b> Siyoung Jang</div>
-                    <div><b>e-mail:</b> 
-                        <a class="inline-flexbox align-center-v" href="mailto:ykvcwp2kq@mozmail.com">
-                            ykvcwp2kq@mozmail.com
+                <div class="indent flexbox flex-column gap-1" level="1">
+                    <div><b>Name:</b> ${resume.profile.name}</div>
+                    <div><b>e-mail:</b>
+                        <a class="inline-flexbox align-center-v" href="mailto:${resume.profile.email}">
+                            ${resume.profile.email}
                             <span class="ml-1 mt-1">
-                                <svg id="contact-email" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="20" height="17" viewBox="0 0 20 17"><g><path d="M16,17C16,17,14.6,15.6,14.6,15.6C14.6,15.6,16.175,14,16.175,14C16.175,14,12,14,12,14C12,14,12,12,12,12C12,12,16.175,12,16.175,12C16.175,12,14.6,10.4,14.6,10.4C14.6,10.4,16,9,16,9C16,9,20,13,20,13C20,13,16,17,16,17ZM8.4,8C8.4,8,15,4.15,15,4.15C15,4.15,15,2,15,2C15,2,14.75,2,14.75,2C14.75,2,8.4,5.675,8.4,5.675C8.4,5.675,2.225,2,2.225,2C2.225,2,2,2,2,2C2,2,2,4.2,2,4.2C2,4.2,8.4,8,8.4,8ZM1.875,14C1.35833,14,0.916667,13.8167,0.55,13.45C0.183333,13.0833,0,12.6417,0,12.125C0,12.125,0,1.875,0,1.875C0,1.35833,0.183333,0.916667,0.55,0.55C0.916667,0.183333,1.35833,0,1.875,0C1.875,0,15.125,0,15.125,0C15.6417,0,16.0833,0.183333,16.45,0.55C16.8167,0.916667,17,1.35833,17,1.875C17,1.875,17,7.1,17,7.1C16.8333,7.06667,16.6667,7.04167,16.5,7.025C16.3333,7.00833,16.1667,7,16,7C14.3667,7,12.9583,7.5875,11.775,8.7625C10.5917,9.9375,10,11.35,10,13C10,13.1667,10.0083,13.3333,10.025,13.5C10.0417,13.6667,10.0667,13.8333,10.1,14C10.1,14,1.875,14,1.875,14Z" fill-opacity="1" /></g></svg>
+                                <svg id="contact-email" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="20"
+                                    height="17" viewBox="0 0 20 17">
+                                    <g>
+                                        <path
+                                            d="M16,17C16,17,14.6,15.6,14.6,15.6C14.6,15.6,16.175,14,16.175,14C16.175,14,12,14,12,14C12,14,12,12,12,12C12,12,16.175,12,16.175,12C16.175,12,14.6,10.4,14.6,10.4C14.6,10.4,16,9,16,9C16,9,20,13,20,13C20,13,16,17,16,17ZM8.4,8C8.4,8,15,4.15,15,4.15C15,4.15,15,2,15,2C15,2,14.75,2,14.75,2C14.75,2,8.4,5.675,8.4,5.675C8.4,5.675,2.225,2,2.225,2C2.225,2,2,2,2,2C2,2,2,4.2,2,4.2C2,4.2,8.4,8,8.4,8ZM1.875,14C1.35833,14,0.916667,13.8167,0.55,13.45C0.183333,13.0833,0,12.6417,0,12.125C0,12.125,0,1.875,0,1.875C0,1.35833,0.183333,0.916667,0.55,0.55C0.916667,0.183333,1.35833,0,1.875,0C1.875,0,15.125,0,15.125,0C15.6417,0,16.0833,0.183333,16.45,0.55C16.8167,0.916667,17,1.35833,17,1.875C17,1.875,17,7.1,17,7.1C16.8333,7.06667,16.6667,7.04167,16.5,7.025C16.3333,7.00833,16.1667,7,16,7C14.3667,7,12.9583,7.5875,11.775,8.7625C10.5917,9.9375,10,11.35,10,13C10,13.1667,10.0083,13.3333,10.025,13.5C10.0417,13.6667,10.0667,13.8333,10.1,14C10.1,14,1.875,14,1.875,14Z"
+                                            fill-opacity="1" />
+                                    </g>
+                                </svg>
                             </span>
                         </a>
                     </div>
@@ -120,13 +103,14 @@
     </section>
 
     <section>
-        <div class="content-meta flexbox align-center-v inline">
+        <div class="flexbox align-center-v inline">
             <div class="title-area">
-                <h1 class="inline">Education</h1>
-                <time class="indent date" level="0.5">2016-03 ~ 2027-03 (Expected)</time>
+                <h1 class="inline">${resume.education.title}</h1>
+                <time class="indent date" level="0.5">${resume.education.date}</time>
             </div>
             <span class="folding-circle">
-                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z" />
                 </svg>
             </span>
@@ -134,23 +118,24 @@
         <div class="content-list">
             <div class="content-body">
                 <div class="indent flexbox flex-column gap-1" level="1">
-                    <div><b>University:</b> Korea University (Sejong Campus)</div>
-                    <div><b>Major:</b> Electronics and Information Engineering</div>
-                    <div><b>Expected Graduation:</b> 2027</div>
-                    <div><b>GPA:</b> 2.83/4.5</div>
+                    <div><b>University:</b> ${resume.education.university}</div>
+                    <div><b>Major:</b> ${resume.education.major}</div>
+                    <div><b>Expected Graduation:</b> ${resume.education.graduation}</div>
+                    <div><b>GPA:</b> ${resume.education.gpa}</div>
                 </div>
             </div>
         </div>
     </section>
 
     <section>
-        <div class="content-meta flexbox align-center-v inline">
+        <div class="flexbox align-center-v inline">
             <div class="title-area">
                 <h1 class="inline">Work Experience</h1>
                 <time class="indent date" level="0.5">2020-12 ~ 2021-09, 2018-07 ~ 2019-06</time>
             </div>
             <span class="folding-circle">
-                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z" />
                 </svg>
             </span>
@@ -167,11 +152,21 @@
                         <div class="title">3. Developed Web Rest API</div>
                         <time class="date">2021-06 ~ 2021-08</time>
                         <div class="stack-container">Stack:
-                            <span class="inline-flexbox"><strength level="3">Java</strength></span>
-                            <span class="inline-flexbox"><strength level="3">Spring</strength></span>
-                            <span class="inline-flexbox"><strength level="1">Hibernate</strength></span>
-                            <span class="inline-flexbox"><strength level="1">QueryDSL</strength></span>
-                            <span class="inline-flexbox"><strength level="1">Oracle 19c</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="3">Java</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="3">Spring</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="1">Hibernate</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="1">QueryDSL</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="1">Oracle 19c</strength>
+                            </span>
                         </div>
                         <div class="content" from="2021-06" to="2021-08">
                             <p>
@@ -181,13 +176,13 @@
                                 prior knowledge of OS and network. Based on this understanding, I enhanced the quality
                                 of the code.
                                 I worked on many core features of the project such as <highlight>leveraging the DB
-                                connection pool</highlight>, <highlight>managing the multithreaded Spring scheduler
+                                    connection pool</highlight>, <highlight>managing the multithreaded Spring scheduler
                                 </highlight>, and <highlight>implementing an FTPS server</highlight>. Additionally, I
                                 wrote <highlight>a batch query to migrate the database to another</highlight>.
                             </p>
                             <p>
                                 I also helped the front-end team <highlight>optimize the performance of the web
-                                application</highlight> by analyzing the app's memory leakage and performance
+                                    application</highlight> by analyzing the app's memory leakage and performance
                                 bottleneck using Browser DevTools.
                                 I integrated this project's development environment with Windows WSL2, connecting the
                                 Java backend and React frontend efficiently.
@@ -198,8 +193,12 @@
                         <div class="title">2. Developed an iOS Financial and Community Service App</div>
                         <time class="date">2021-02 ~ 2021-04</time>
                         <div class="stack-container">Stack:
-                            <span class="inline-flexbox"><strength level="3">Swift</strength></span>
-                            <span class="inline-flexbox"><strength level="1">SwiftUI</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="3">Swift</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="1">SwiftUI</strength>
+                            </span>
                         </div>
                         <div class="content" from="2021-02" to="2021-04">
                             <p>
@@ -222,15 +221,33 @@
                         <div class="title">1. Developed a Web Based Writing Service integrated with SNS</div>
                         <time class="date">2021-01 ~ 2021-08</time>
                         <div class="stack-container">Stack:
-                            <span class="inline-flexbox"><strength level="5">Vue.js</strength></span>
-                            <span class="inline-flexbox"><strength level="4">Vuex</strength></span>
-                            <span class="inline-flexbox"><strength level="4">Vuetify</strength></span>
-                            <span class="inline-flexbox"><strength level="4">PostgreSQL</strength></span>
-                            <span class="inline-flexbox"><strength level="3">GraphQL</strength></span>
-                            <span class="inline-flexbox"><strength level="3">Objection.js</strength></span>
-                            <span class="inline-flexbox"><strength level="3">Knex.js</strength></span>
-                            <span class="inline-flexbox"><strength level="1">Apollo Server</strength></span>
-                            <span class="inline-flexbox"><strength level="1">Apollo Client</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="5">Vue.js</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="4">Vuex</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="4">Vuetify</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="4">PostgreSQL</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="3">GraphQL</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="3">Objection.js</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="3">Knex.js</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="1">Apollo Server</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="1">Apollo Client</strength>
+                            </span>
                         </div>
                         <div class="content" from="2021-01" to="2021-08">
                             <p>
@@ -271,8 +288,12 @@
                         <div class="title">4. Automated Documentation Job</div>
                         <time class="date">2019-05 ~ 2019-06</time>
                         <div class="stack-container">Stack:
-                            <span class="inline-flexbox"><strength level="5">Google Spreadsheet</strength></span>
-                            <span class="inline-flexbox"><strength level="4">Google Apps Script</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="5">Google Spreadsheet</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="4">Google Apps Script</strength>
+                            </span>
                         </div>
                         <div class="content" from="2019-05" to="2019-06">
                             <p>
@@ -286,11 +307,16 @@
                     </div>
 
                     <div class="experience-item">
-                        <div class="title">3. Modeled Mathematically and Developed Many Kinds Abstracted Modules of Sensors</div>
+                        <div class="title">3. Modeled Mathematically and Developed Many Kinds Abstracted Modules of
+                            Sensors</div>
                         <time class="date">2018-07 ~ 2019-05</time>
                         <div class="stack-container">Stack:
-                            <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
-                            <span class="inline-flexbox"><strength level="2">HAL</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="5">ANSI C</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="2">HAL</strength>
+                            </span>
                         </div>
                         <div class="content" from="2018-07" to="2019-05">
                             <p>
@@ -312,8 +338,12 @@
                         <div class="title">2. Developed a Driver which interfaces with Lora Transmission Module</div>
                         <time class="date">2018-10 ~ 2018-12</time>
                         <div class="stack-container">Stack:
-                            <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
-                            <span class="inline-flexbox"><strength level="2">HAL</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="5">ANSI C</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="2">HAL</strength>
+                            </span>
                         </div>
                         <div class="content" from="2018-10" to="2018-12">
                             <p>
@@ -337,8 +367,12 @@
                         <div class="title">1. Developed an Automated Control Firmware for Industrial Refrigeration</div>
                         <time class="date">2018-07 ~ 2019-03</time>
                         <div class="stack-container">Stack:
-                            <span class="inline-flexbox"><strength level="5">ANSI C</strength></span>
-                            <span class="inline-flexbox"><strength level="2">HAL</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="5">ANSI C</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="2">HAL</strength>
+                            </span>
                         </div>
                         <div class="content" from="2018-07" to="2019-03">
                             <p>
@@ -363,7 +397,7 @@
     </section>
 
     <section>
-        <div class="content-meta flexbox align-center-v inline">
+        <div class="flexbox align-center-v inline">
             <div class="title-area">
                 <h1>My Current Major Projects</h1>
                 <time class="indent date" level="0.5">2024-10 ~ WIP</time>
@@ -387,16 +421,28 @@
                             <div>Main Artist: <a href="https://github.com/person6737">persona6737</a> (Pending)</div>
                         </div>
                         <div>Backend Stack:
-                            <span class="inline-flexbox"><strength level="3">Rust 2024 edition</strength></span>
-                            <span class="inline-flexbox"><strength level="3">Tokio Axum</strength></span>
-                            <span class="inline-flexbox"><strength level="4">PostgreSQL</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="3">Rust 2024 edition</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="3">Tokio Axum</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="4">PostgreSQL</strength>
+                            </span>
                         </div>
                         <div>Frontend Stack:
-                            <span class="inline-flexbox"><strength level="4">Godot 4.4 Mono C# 11.0</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="4">Godot 4.4 Mono C# 11.0</strength>
+                            </span>
                         </div>
                         <div>Will be Available on:
-                            <span class="inline-flexbox"><strength level="0">Android</strength></span>
-                            <span class="inline-flexbox"><strength level="0">iOS</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="0">Android</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="0">iOS</strength>
+                            </span>
                         </div>
                         <div class="content" from="2025.02" isWip="true">
                             <p>
@@ -417,14 +463,19 @@
                         <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
                     </div>
                     <div class="stack-container">Stack:
-                        <span class="inline-flexbox"><strength level="3">Python 3</strength></span>
+                        <span class="inline-flexbox">
+                            <strength level="3">Python 3</strength>
+                        </span>
                     </div>
                     <div>Will Be Available on:
-                        <span class="inline-flexbox"><strength level="0">Every OS which can execute Python 3</strength></span>
+                        <span class="inline-flexbox">
+                            <strength level="0">Every OS which can execute Python 3</strength>
+                        </span>
                     </div>
                     <div class="content repo" from="2025.01" isPending="true">
                         <a href="https://github.com/loldruger/proschedio">
-                            <img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=proschedio" alt="">
+                            <img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=proschedio"
+                                alt="">
                         </a>
                     </div>
                 </div>
@@ -438,15 +489,22 @@
                             <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
                         </div>
                         <div class="stack-container">Stack:
-                            <span class="inline-flexbox"><strength level="5">TypeScript 5.8</strength></span>
-                            <span class="inline-flexbox"><strength level="4">JavaScript ES2024</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="5">TypeScript 5.8</strength>
+                            </span>
+                            <span class="inline-flexbox">
+                                <strength level="4">JavaScript ES2024</strength>
+                            </span>
                         </div>
                         <div>Available on:
-                            <span class="inline-flexbox"><strength level="5">Web</strength></span>
+                            <span class="inline-flexbox">
+                                <strength level="5">Web</strength>
+                            </span>
                         </div>
                         <div class="content repo" from="2024.10" isPending="true">
                             <a href="https://github.com/loldruger/semantic.js">
-                                <img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=semantic.js" alt="">
+                                <img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=semantic.js"
+                                    alt="">
                             </a>
                         </div>
                     </div>
@@ -456,13 +514,14 @@
     </section>
 
     <section>
-        <div class="content-meta flexbox align-center-v inline">
+        <div class="flexbox align-center-v inline">
             <div class="title-area">
                 <h1>Maintaining Projects</h1>
                 <time class="indent date" level="0.5">2023-03 ~ Maintaining</time>
             </div>
             <span class="folding-circle">
-                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z" />
                 </svg>
             </span>
@@ -473,14 +532,20 @@
                     <div class="title">1. upbit-rs</div>
                     <time class="date">2023-03 ~ Maintaining</time>
                     <div class="stack-container">Stack:
-                        <span class="inline-flexbox"><strength level="3">Rust 2021 edition</strength></span>
-                        <span class="inline-flexbox"><strength level="1">Reqwest</strength></span>
+                        <span class="inline-flexbox">
+                            <strength level="3">Rust 2021 edition</strength>
+                        </span>
+                        <span class="inline-flexbox">
+                            <strength level="1">Reqwest</strength>
+                        </span>
                     </div>
                     <div class="participants flexbox flex-column gap-1">
                         <div>Developer: <a href="https://github.com/loldruger">loldruger</a> (Me)</div>
                     </div>
                     <div class="content repo" from="2023-03" isMaintaining="true">
-                        <a href="https://github.com/loldruger/upbit-rs"><img src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=upbit-rs" alt=""></a>
+                        <a href="https://github.com/loldruger/upbit-rs"><img
+                                src="https://github-readme-stats.vercel.app/api/pin/?username=loldruger&repo=upbit-rs"
+                                alt=""></a>
                     </div>
                 </div>
             </div>
@@ -488,7 +553,7 @@
     </section>
 
     <section>
-        <div class="content-meta flexbox align-center-v inline">
+        <div class="flexbox align-center-v inline">
             <div class="title-area">
                 <h1>Previous Projects I Participated</h1>
                 <time class="indent date" level="0.5">2017-11 ~ 2017-12, 2019-09 ~ 2020-06</time>
@@ -511,11 +576,17 @@
                         <div>Game Designer: <strong>Both of Us</strong></div>
                     </div>
                     <div class="stack-container">Stack:
-                        <span class="inline-flexbox"><strength level="0">Godot 3.x</strength></span>
+                        <span class="inline-flexbox">
+                            <strength level="0">Godot 3.x</strength>
+                        </span>
                     </div>
                     <div>Available on:
-                        <span class="inline-flexbox"><strength level="0">Android</strength></span>
-                        <span class="inline-flexbox"><strength level="0">iOS</strength></span>
+                        <span class="inline-flexbox">
+                            <strength level="0">Android</strength>
+                        </span>
+                        <span class="inline-flexbox">
+                            <strength level="0">iOS</strength>
+                        </span>
                     </div>
                     <div class="content" from="2019-09" to="2020-06">
                         <p>It is not just a common fixed-path defense game; every five stages, the monsters' path
@@ -534,16 +605,23 @@
                     <div class="title">1. 빤스런</div>
                     <time class="date">2017-11 ~ 2017-12</time>
                     <div class="participants flexbox flex-column gap-1">
-                        <div>Main Developer: <a href="https://play.google.com/store/apps/dev?id=7302400084345857961">MPMaker</a></div>
+                        <div>Main Developer: <a
+                                href="https://play.google.com/store/apps/dev?id=7302400084345857961">MPMaker</a></div>
                         <div>Main Artist: <a href="https://github.com/loldruger">loldruger</a> (Me Again)</div>
                         <div>Game Designer: <strong>Both of Us</strong></div>
                     </div>
                     <div class="stack-container">Stack:
-                        <span class="inline-flexbox"><strength level="0">Game Maker Studio</strength></span>
+                        <span class="inline-flexbox">
+                            <strength level="0">Game Maker Studio</strength>
+                        </span>
                     </div>
                     <div>Available on:
-                        <span class="inline-flexbox"><strength level="0">Android</strength></span>
-                        <span class="inline-flexbox"><strength level="0">iOS</strength></span>
+                        <span class="inline-flexbox">
+                            <strength level="0">Android</strength>
+                        </span>
+                        <span class="inline-flexbox">
+                            <strength level="0">iOS</strength>
+                        </span>
                     </div>
                     <div class="content" from="2017-11" to="2017-12">
                         <p>
@@ -561,13 +639,14 @@
     </section>
 
     <section>
-        <div class="content-meta flexbox align-center-v inline">
+        <div class="flexbox align-center-v inline">
             <div class="title-area">
                 <h1>Certifications</h1>
                 <time class="indent date" level="0.5">2015-10 ~ 2017-10</time>
             </div>
             <span class="folding-circle">
-                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z" />
                 </svg>
             </span>
@@ -599,25 +678,26 @@
     </section>
 
     <section>
-        <div class="content-meta flexbox align-center-v inline">
+        <div class="flexbox align-center-v inline">
             <div class="title-area with-subtitle">
                 <h1>Skills</h1>
                 <h2 class="sub-title">Stacks I Experienced Colored by Proficiency Level</h2>
             </div>
             <span class="folding-circle">
-                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z" />
                 </svg>
             </span>
-        </div>
-        <!-- <span id="level-container">
+        </div> -->
+    <!-- <span id="level-container">
                 <level level="5">5</level>
                 <level level="4">4</level>
                 <level level="3">3</level>
                 <level level="2">2</level>
                 <level level="1">1</level>
             </span> -->
-        <div class="content-list">
+    <!-- <div class="content-list">
             <div class="content-body">
                 <div class="skills-container">
                     <div class="skills-container">
@@ -625,50 +705,98 @@
                             <tr>
                                 <td class="label-cell">Languages</td>
                                 <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=5>C</strength></span>
-                                    <span class="inline-flexbox"><strength level=5>TypeScript</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>JavaScript</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Rust</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>C++</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Python3</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Java</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>C#</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Swift</strength></span>
+                                    <span class="inline-flexbox">
+                                        <strength level=5>C</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=5>TypeScript</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=4>JavaScript</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>Rust</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>C++</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>Python3</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>Java</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>C#</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>Swift</strength>
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-cell">Frameworks</td>
                                 <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=5>Vue.js</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>Node.js</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>Deno</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>Spring</strength></span>
+                                    <span class="inline-flexbox">
+                                        <strength level=5>Vue.js</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=4>Node.js</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=4>Deno</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>Spring</strength>
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-cell">Databases</td>
                                 <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=5>JSON DB with Exploiting Postman</strength></span>
-                                    <span class="inline-flexbox"><strength level=5>IndexedDB</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>PostgreSQL</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>MariaDB</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>SQLite</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>Redis</strength></span>
+                                    <span class="inline-flexbox">
+                                        <strength level=5>JSON DB with Exploiting Postman</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=5>IndexedDB</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=4>PostgreSQL</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=4>MariaDB</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=4>SQLite</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=4>Redis</strength>
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-cell">Tools & Engines</td>
                                 <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=5>Godot 4</strength></span>
-                                    <span class="inline-flexbox"><strength level=5>Postman</strength></span>
-                                    <span class="inline-flexbox"><strength level=4>Docker</strength></span>
+                                    <span class="inline-flexbox">
+                                        <strength level=5>Godot 4</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=5>Postman</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=4>Docker</strength>
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-cell">Etc.</td>
                                 <td class="skills-cell">
-                                    <span class="inline-flexbox"><strength level=3>BashShell</strength></span>
-                                    <span class="inline-flexbox"><strength level=3>PowerShell</strength></span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>BashShell</strength>
+                                    </span>
+                                    <span class="inline-flexbox">
+                                        <strength level=3>PowerShell</strength>
+                                    </span>
                                 </td>
                             </tr>
                         </table>
@@ -679,13 +807,14 @@
     </section>
 
     <section>
-        <div class="content-meta flexbox align-center-v inline">
+        <div class="flexbox align-center-v inline">
             <div class="title-area with-subtitle">
                 <h1 class="inline">Progress of Projects</h1>
                 <h2 class="sub-title">additional info</h2>
             </div>
             <span class="folding-circle">
-                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z" />
                 </svg>
             </span>
@@ -709,7 +838,7 @@
                         </tr>
                         <tr>
                             <td>DFA Frontend</td>
-                            <td><img src="https://progress-bar.xyz/25/" alt="progress 25%"></td> 
+                            <td><img src="https://progress-bar.xyz/25/" alt="progress 25%"></td>
                             <td>2025.02 ~ WIP</td>
                         </tr>
                         <tr>
@@ -741,7 +870,7 @@
                 </table>
             </div>
         </div>
-    </section>
+    </section> -->
 </body>
 <script type="module" src="/assets/js/main.js"></script>
 

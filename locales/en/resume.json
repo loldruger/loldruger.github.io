@@ -9,18 +9,12 @@
         },
         "education": {
             "title": "Education",
+            "date": "2016-03 ~ 2027-03 (Expected)",
             "university": "Korea University (Sejong Campus)",
             "major": "Electronics and Information Engineering",
             "graduation": "2027 Expected",
             "gpa": "2.83/4.5"
         },
-        "experience": {
-            "title": "Experience",
-            "jobTitle": "Software Engineer",
-            "team": "Development Department Team 1",
-            "resignedFor": "Resigned for conscription",
-            "company": "Aiara",
-            "years": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06"
         "workExperience": {
             "title": "Work Experience",
             "duration": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06",
@@ -592,7 +586,6 @@
                     "period": "2017.11 ~ 2017.12"
                 }
             ]
->>>>>>> 9d45b33 (WIP)
         }
     }
 }

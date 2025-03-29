@@ -85,7 +85,7 @@ const getResume = (resume) => {
     }
 
     resumeComposed.push(DOMComposer.new({ tag: 'header' })
-        .setInnerText({ text: i18n.t('${resume.title}') })
+        .setInnerText({ text: i18n.t(`${resume.title}`) })
     );
 
     resumeComposed.push(DOMComposer.new({ tag: 'div' })
@@ -129,13 +129,13 @@ const getResume = (resume) => {
     resumeComposed.push(DOMComposer.new({ tag: 'time' })
         .setAttribute({ name: 'id', value: 'last-update' })
         .setAttribute({ name: 'class', value: 'block text-align-right-h' })
-        .setInnerText({ text: i18n.t('${resume.lastUpdate}') + ': ' })
+        .setInnerText({ text: i18n.t(`${resume.lastUpdate}`) + ': ' })
     );
 
     const profileBlock = () => {
-        const header = DOMComposer.glue()
+        const header = DOMComposer.fragment()
             .appendChild({
-                child: DOMComposer.new({ tag: 'h1' }).setInnerText({ text: i18n.t('${resume.profile.title}') })
+                child: DOMComposer.new({ tag: 'h1' }).setInnerText({ text: i18n.t(`${resume.profile.title}`) })
             })
 
         const body = DOMComposer.new({ tag: 'div' })
@@ -143,11 +143,11 @@ const getResume = (resume) => {
             .setAttribute({ name: 'level', value: '1' })
             .appendChild({
                 child: DOMComposer.new({ tag: 'div' })
-                    .setInnerHTML({ html: '<b>Name:</b>' + ' ' + i18n.t('${resume.profile.name}') })
+                    .setInnerHTML({ html: '<b>Name:</b> ' + i18n.t(`${resume.profile.name}`) })
             })
             .appendChild({
                 child: DOMComposer.new({ tag: 'div' })
-                    .setInnerHTML({ html: `<b>e-mail:</b><a class="inline-flexbox align-center-v" href="mailto:${i18n.t('${resume.profile.email}')}"> ${i18n.t('${resume.profile.email}')}</a>` })
+                    .setInnerHTML({ html: `<b>e-mail:</b><a class="inline-flexbox align-center-v" href="mailto:${i18n.t(`${resume.profile.email}`)}"> ${i18n.t(`${resume.profile.email}`)}</a>` })
                     .appendChild({
                         child: DOMComposer.new({ tag: 'span' })
                             .setAttribute({ name: 'class', value: 'ml-1 mt-1' })
@@ -165,20 +165,20 @@ const getResume = (resume) => {
     }
 
     const eduBlock = () => {
-        const header = DOMComposer.glue()
+        const header = DOMComposer.fragment()
             .appendChild({
                 child: DOMComposer.new({ tag: 'div' })
                     .setAttribute({ name: 'class', value: 'title-area' })
                     .appendChild({
                         child: DOMComposer.new({ tag: 'h1' })
                             .setAttribute({ name: 'class', value: 'inline' })
-                            .setInnerText({ text: i18n.t('${resume.education.title}') })
+                            .setInnerText({ text: i18n.t(`${resume.education.title}`) })
                     })
                     .appendChild({
                         child: DOMComposer.new({ tag: 'time' })
                             .setAttribute({ name: 'class', value: 'indent date' })
                             .setAttribute({ name: 'level', value: '0.5' })
-                            .setInnerText({ text: i18n.t('${resume.education.date}') })
+                            .setInnerText({ text: i18n.t(`${resume.education.date}`) })
                     })
             });
 
@@ -187,34 +187,34 @@ const getResume = (resume) => {
             .setAttribute({ name: 'level', value: '1' })
             .appendChild({
                 child: DOMComposer.new({ tag: 'div' })
-                    .appendChild({ child: DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: '<b>University:</b> ' + i18n.t('${resume.education.university}') }) })
-                    .appendChild({ child: DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: '<b>Major:</b> ' + i18n.t('${resume.education.major}') }) })
-                    .appendChild({ child: DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: '<b>Expected Graduation:</b> ' + i18n.t('${resume.education.graduation}') }) })
-                    .appendChild({ child: DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: '<b>GPA:</b> ' + i18n.t('${resume.education.gpa}') }) })
+                    .appendChild({ child: DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: '<b>University:</b> ' + i18n.t(`${resume.education.university}`) }) })
+                    .appendChild({ child: DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: '<b>Major:</b> ' + i18n.t(`${resume.education.major}`) }) })
+                    .appendChild({ child: DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: '<b>Expected Graduation:</b> ' + i18n.t(`${resume.education.graduation}`) }) })
+                    .appendChild({ child: DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: '<b>GPA:</b> ' + i18n.t(`${resume.education.gpa}`) }) })
             });
 
         return [header, body];
     }
 
     const workExp = () => {
-        const header = DOMComposer.glue()
+        const header = DOMComposer.fragment()
             .appendChild({
                 child: DOMComposer.new({ tag: 'h1' })
                     .setAttribute({ name: 'class', value: 'inline' })
-                    .setInnerText({ text: i18n.t('${resume.workExperience.title}') })
+                    .setInnerText({ text: i18n.t(`${resume.workExperience.title}`) })
             })
             .appendChild({
                 child: DOMComposer.new({ tag: 'time' })
                     .setAttribute({ name: 'class', value: 'inline date' })
                     .setAttribute({ name: 'level', value: '0.5' })
-                    .setInnerText({ text: i18n.t('${resume.workExperience.duration}') })
+                    .setInnerText({ text: i18n.t(`${resume.workExperience.duration}`) })
             });
 
-        const body = DOMComposer.glue()
+        const body = DOMComposer.fragment()
             .appendChild({
                 child: DOMComposer.new({ tag: 'h1' })
                     .setAttribute({ name: 'class', value: 'company-name inline' })
-                    .setInnerText({ text: i18n.t('${resume.workExperience.items.0.company}') })
+                    .setInnerText({ text: i18n.t(`${resume.workExperience.items[0].company}`) })
             })
             .appendChild({
                 child: DOMComposer.new({ tag: 'div' })
@@ -223,7 +223,7 @@ const getResume = (resume) => {
                     .appendChild({
                         child: DOMComposer.new({ tag: 'div' })
                             .setAttribute({ name: 'class', value: 'division-name' })
-                            .setInnerText({ text: i18n.t('${resume.work.division}') })
+                            .setInnerText({ text: i18n.t(`${resume.workExperience.items[0].division}`) })
                     })
             });
 

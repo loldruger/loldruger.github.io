@@ -1,9 +1,10 @@
 // @ts-check
 
 const BASE_URL = 'https://api.github.com/repos/loldruger/loldruger.github.io/contents';
-const BRANCH = 'main';
+const BRANCH = 'locales';
 export class i18n {
     static t(n) {
+        //unimplemented
         return n;
     }
 }

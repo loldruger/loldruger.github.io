@@ -275,7 +275,7 @@ const main = async () => {
     // --- 2. Create DOM Structure using DOMComposer ---
     console.log('Creating virtual DOM structure...');
 
-    getResume(a).forEach(section => {
+    getResume(a.resume).forEach(section => {
         rootContainer.appendChild({ child: section });
     });
 

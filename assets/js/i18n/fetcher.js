@@ -15,7 +15,7 @@ export class Fetcher {
     /**
      * Fetches data for a given locale, using localStorage as a cache.
      * @param {'en'|'ko'} locale - The locale to fetch data for.
-     * @returns {Promise<{resume: object, common: object, components: object}>} - The fetched or cached data.
+     * @returns {Promise<{resume: object, common: object}>} - The fetched or cached data.
      * @throws {Error} - Throws an error if fetching fails and data is not in cache, or if localStorage operations fail.
      */
     async fetchDataByLocale(locale) {
@@ -26,10 +26,10 @@ export class Fetcher {
             const cachedDataString = localStorage.getItem(cacheKey);
             if (cachedDataString) {
                 console.log(`Cache hit for locale: ${locale}`);
-                /** @type {{resume: object, common: object, components: object}} */
+                /** @type {{resume: object, common: object}} */
                 const cachedData = JSON.parse(cachedDataString);
                 // Basic validation to ensure the structure is somewhat correct
-                if (cachedData && cachedData.resume && cachedData.common && cachedData.components) {
+                if (cachedData && cachedData.resume) {
                     return cachedData;
                 } else {
                     console.warn(`Invalid cached data structure for locale: ${locale}. Fetching fresh data.`);
@@ -47,7 +47,7 @@ export class Fetcher {
         // 2. If not in cache or cache was invalid, fetch from API
         /**
          * Fetches a specific data pack from the GitHub API.
-         * @param {'resume'|'common'|'components'} pack - The data pack to fetch.
+         * @param {'resume'|'common'} pack - The data pack to fetch.
          * @returns {Promise<object>} - The decoded JSON object.
          * @throws {Error} - Throws if the fetch request fails.
          */
@@ -69,21 +69,19 @@ export class Fetcher {
         try {
             // Fetch all parts concurrently
             const fetchDataResume = fetchData('resume');
-            // const fetchDataCommon = fetchData('common');
-            // const fetchDataComponents = fetchData('components');
+            const fetchDataCommon = fetchData('common');
 
-            const [dataResume, /** dataCommon, dataComponents */] = await Promise.all([
+            const [dataResume, dataCommon] = await Promise.all([
                 fetchDataResume,
-                // fetchDataCommon,
+                fetchDataCommon,
                 // fetchDataComponents
             ]);
 
             ///** @type {{resume: object, common: object, components: object}} */
-            /** @type {{resume: object}} */
+            /** @type {{resume: object, common: object}} */
             const fetchedData = {
                 resume: dataResume,
-                // common: dataCommon,
-                // components: dataComponents
+                common: dataCommon,
             };
 
             // 3. Store fetched data in localStorage

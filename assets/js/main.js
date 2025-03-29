@@ -274,7 +274,7 @@ const main = async () => {
         const a = await fetcher.fetchDataByLocale('en');
         console.log('Fetched data:', a); // Log the fetched data for debugging
 
-        getResume(a.resume).forEach(section => {
+        getResume(a.resume, a.common).forEach(section => {
             rootContainer.appendChild({ child: section });
         });
     } catch (error) {

@@ -1,82 +1,118 @@
 //@ts-check
 
-import { Fetcher } from './i18n/lib.js';
+// --- Main Application Logic (main.js) ---
 
-const LANG_STORAGE_KEY = 'user-lang-setting';
-const THEME_STORAGE_KEY = 'user-dark-mode-setting';
-const DARK_MODE_CLASS = 'dark-mode';
+import DOMComposer from './DOMinator/DOMComposer.js';
+import WorkerPool from './DOMinator/WorkerPool.js';
+import { eventRegistry } from './DOMinator/EventRegistry.js';
+import { Fetcher, i18n } from './i18n/lib.js'; // Import i18n for localization
+import { getResume, events } from './const.js';
+/**
+ * @typedef {import('./DOMinator/DOMComposer.js').HtmlEventName} HtmlEventName
+ * @typedef {import('./DOMinator/EventRegistry.js').EventHandler} EventHandler
+ * @typedef {import('./DOMinator/WorkerPool.js').WorkerResult} WorkerResult
+ * @typedef {import('./DOMinator/WorkerPool.js').WorkerTask} WorkerTask
+ */
+
+
+// --- Core Functions ---
 
 /**
- * @param {boolean} isDarkMode 
+ * Attaches delegated event listeners to a container element based on data-event-* attributes.
+ * @param {HTMLElement} container - The container element to attach listeners to.
+ * @param {import('./DOMinator/EventRegistry.js').eventRegistry} registry - The registry containing event handlers.
+ * @returns {void}
  */
-const updateThemeUI = (isDarkMode) => {
-    const sunIcon = document.getElementById('sun');
-    const moonIcon = document.getElementById('moon');
-    
-    if (isDarkMode) {
-        moonIcon?.classList.add('hidden');
-        sunIcon?.classList.remove('hidden');
-    } else {
-        moonIcon?.classList.remove('hidden');
-        sunIcon?.classList.add('hidden');
-    }
-};
+function attachEventListeners(container, registry) {
+    console.log('Attaching event listeners...');
+    /** @type {Set<HtmlEventName>} */
+    const potentialEvents = new Set();
+    // We cannot use '[data-event-*]'. Instead, we find all elements and check their attributes.
 
-/**
- * @param {boolean} isEnglishMode 
- */
-const updateLanguageUI = (isEnglishMode) => {
-    const langEn = document.getElementById('lang-en');
-    const langKo = document.getElementById('lang-ko');
-    
-    if (isEnglishMode) {
-        langKo?.classList.remove('hidden');
-        langEn?.classList.add('hidden');
-    } else {
-        langKo?.classList.add('hidden');
-        langEn?.classList.remove('hidden');
-    }
+    // Select ALL elements within the container first.
+    const allElements = container.querySelectorAll('*');
+
+    // Iterate through all elements and check their attributes to find relevant event types.
+    allElements.forEach(el => {
+        // Check if the element is an HTMLElement (it should be from querySelectorAll)
+        if (!(el instanceof HTMLElement)) return;
+
+        // Iterate through the element's attributes
+        for (const attr of el.attributes) {
+            if (attr.name.startsWith('data-event-')) {
+                // Extract the event type (e.g., 'click', 'mouseover')
+                const eventType = /** @type {HtmlEventName} */ (attr.name.substring('data-event-'.length));
+                // Add the event type to our set if it's valid
+                if (eventType) {
+                    potentialEvents.add(eventType);
+                }
+            }
+        }
+    });
+
+    // Now we have the set of actual event types used (potentialEvents).
+    // Add one listener per discovered event type to the container for delegation.
+    potentialEvents.forEach(eventType => {
+        console.log(` - Adding delegate listener for: ${eventType}`);
+        container.addEventListener(eventType, (event) => {
+            const attributeName = `data-event-${eventType}`;
+            // Find the closest ancestor (or self) that triggered this specific event type
+            const targetElement = /** @type {HTMLElement | null} */ (event.target)?.closest(`[${attributeName}]`);
+
+            // Runtime check: Ensure an element with the specific attribute was found
+            if (targetElement) {
+                const alias = targetElement.getAttribute(attributeName);
+                // Runtime check: Ensure the alias exists
+                if (alias) {
+                    const handler = registry.getEventCallback(alias);
+                    // Runtime check: Ensure a handler was found
+                    if (handler) {
+                        try {
+                            handler(event); // Execute the handler
+                        } catch (handlerError) {
+                            console.error(`Error executing event handler for alias '<span class="math-inline">\{alias\}' on event '</span>{eventType}':`, handlerError);
+                        }
+                    }
+                    // No 'else' needed here, getEventCallback logs a warning if not found
+                } else {
+                    console.warn(`Empty alias found for event '${eventType}' on element:`, targetElement);
+                }
+            }
+            // If targetElement is null, the event occurred on an element without the data-event attribute,
+            // or bubbled up from outside; the delegate listener correctly ignores it.
+        });
+    });
+    console.log('Event listener attachment setup complete.');
 }
 
 /**
- * @param {boolean} isDarkMode 
- * @param {boolean} savePreference 
+ * Renders a DOMComposer structure into a target HTML element using a worker pool for parallel processing.
+ * @param {DOMComposer} rootComposer - The root DOMComposer instance (its children will be rendered in parallel).
+ * @param {HTMLElement} targetElement - The HTML element where the result will be rendered.
+ * @param {string} workerScriptPath - The path to the worker script ('worker.js').
+ * @returns {Promise<void>} A promise that resolves when rendering and event listener attachment are complete, or rejects on critical error.
  */
-const setTheme = (isDarkMode, savePreference) => {
-    if (isDarkMode) {
-        document.documentElement.classList.add(DARK_MODE_CLASS);
-    } else {
-        document.documentElement.classList.remove(DARK_MODE_CLASS);
-    }
-    
-    updateThemeUI(isDarkMode);
-    
-    if (savePreference) {
-        localStorage.setItem(THEME_STORAGE_KEY, isDarkMode ? 'true' : 'false');
-    }
-};
+function renderParallel(rootComposer, targetElement, workerScriptPath) {
+    return new Promise((resolve, reject) => {
+        console.log('Starting parallel rendering...');
+        // Provide immediate feedback
+        targetElement.classList.add('rendering-in-progress');
+        targetElement.innerHTML = '';
 
-/**
- * @param {'en' | 'ko'} lang 
- * @param {boolean} savePreference
- */
-const setLanguage = (lang, savePreference) => {
-    document.documentElement.lang = lang;
+        /** @type {WorkerPool | null} */
+        let pool = null;
+        const workerCount = navigator.hardwareConcurrency > 4 ? 4 : 2; // Use available cores or default to 2
 
-    updateLanguageUI(lang === 'en');
-    
-    if (savePreference) {
-        localStorage.setItem(LANG_STORAGE_KEY, lang);
-    }
-};
-
-const getLastUpdateDate = async () => {
-    const lastUpdateElement = document.getElementById('last-update');
-
-    if (!lastUpdateElement) {
-        console.error('last-update element not found');
-        return;
-    }
+        // Keep try-catch for WorkerPool creation as it involves external resources (workers)
+        try {
+            pool = new WorkerPool(workerCount, workerScriptPath);
+        } catch (error) {
+            console.error('Failed to create WorkerPool:', error);
+            targetElement.innerHTML = `<div style="color: red;">Error: Could not initialize worker pool. ${escapeHtml(/** @type {Error}*/(error).message)}</div>`;
+            targetElement.classList.remove('rendering-in-progress');
+            reject(error); // Reject the promise
+            return;
+        }
 
     const fetchLastCommitDate = async () => {
         const res = await fetch('https://api.github.com/repos/loldruger/loldruger.github.io/branches/main');
@@ -162,14 +198,33 @@ const main = async () => {
         });
     }
 
-    // for (const button of toggleButtons) {
-    //     button.addEventListener('click', () => {
-    //         const circle = button.querySelector('svg > circle');
-    //         circle.classList.toggle('active');
-    //     });
-    // }
+    /** @type {DOMComposer} This acts as the container for parallel tasks */
+    const rootContainer = DOMComposer.fragment(); // Use a placeholder container, its tag doesn't usually render
+    const fetcher = new Fetcher(); // Create a fetcher instance for i18n
 
-    await getLastUpdateDate(); 
-}
+    try {
+        const a = await fetcher.fetchDataByLocale('en');
+        console.log('Fetched data:', a); // Log the fetched data for debugging
+
+        getResume(a.resume).forEach(section => {
+            rootContainer.appendChild({ child: section });
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return;
+    }
+
+    // --- 2. Create DOM Structure using DOMComposer ---
+    console.log('Creating virtual DOM structure...');
+
+
+
+    // --- 3. Start Parallel Rendering ---
+    console.log('Starting parallel rendering process...');
+    const workerScript = './assets/js/worker.js'; // Path to the worker script
+
+    await renderParallel(rootContainer, appRootElement, workerScript);
+
+}; // End DOMContentLoaded listener
 
 await main();

@@ -1,7 +1,5 @@
 {
     "resume": {
-        "title": "Résumé",
-        "lastUpdate": "....",
         "profile": {
             "title": "Profile & Contact",
             "name": "Siyoung Jang",
@@ -206,7 +204,7 @@
         },
         "currentProjects": {
             "title": "My Current Major Projects",
-            "durationSummary": "2024-10 ~ WIP",
+            "duration": "2024-10 ~ WIP",
             "items": [
                 {
                     "title": "3. Dreamscape Forest Anipals",
@@ -305,7 +303,7 @@
         },
         "maintainingProjects": {
             "title": "Maintaining Projects",
-            "durationSummary": "2023-03 ~ Maintaining",
+            "duration": "2023-03 ~ Maintaining",
             "items": [
                 {
                     "title": "1. upbit-rs",
@@ -332,7 +330,7 @@
         },
         "previousProjects": {
             "title": "Previous Projects I Participated",
-            "durationSummary": "2017-11 ~ 2017-12, 2019-09 ~ 2020-06",
+            "duration": "2017-11 ~ 2017-12, 2019-09 ~ 2020-06",
             "items": [
                 {
                     "title": "2. Random Moai Defense",
@@ -394,7 +392,7 @@
         },
         "certifications": {
             "title": "Certifications",
-            "durationSummary": "2015-10 ~ 2017-10",
+            "duration": "2015-10 ~ 2017-10",
             "items": [
                 {
                     "name": "TEPS 710 (outdated)",

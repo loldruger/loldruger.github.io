@@ -101,7 +101,7 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
 
         /** @type {WorkerPool | null} */
         let pool = null;
-        const workerCount = navigator.hardwareConcurrency || 2; // Use available cores or default to 2
+        const workerCount = navigator.hardwareConcurrency > 4 ? 4 : 2; // Use available cores or default to 2
 
         // Keep try-catch for WorkerPool creation as it involves external resources (workers)
         try {
@@ -267,17 +267,25 @@ const main = async () => {
     }
 
     /** @type {DOMComposer} This acts as the container for parallel tasks */
-    const rootContainer = DOMComposer.new({ tag: 'div' }); // Use a placeholder container, its tag doesn't usually render
+    const rootContainer = DOMComposer.fragment(); // Use a placeholder container, its tag doesn't usually render
     const fetcher = new Fetcher(); // Create a fetcher instance for i18n
 
-    const a = await fetcher.fetchDataByLocale('en');
-    console.log('Fetched data:', a); // Log the fetched data for debugging
+    try {
+        const a = await fetcher.fetchDataByLocale('en');
+        console.log('Fetched data:', a); // Log the fetched data for debugging
+
+        getResume(a.resume).forEach(section => {
+            rootContainer.appendChild({ child: section });
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return;
+    }
+
     // --- 2. Create DOM Structure using DOMComposer ---
     console.log('Creating virtual DOM structure...');
 
-    getResume(a.resume).forEach(section => {
-        rootContainer.appendChild({ child: section });
-    });
+
 
     // --- 3. Start Parallel Rendering ---
     console.log('Starting parallel rendering process...');

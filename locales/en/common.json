@@ -1,0 +1,34 @@
+{
+    "common": {
+        "general": {
+            "resume": "Résumé",
+            "name": "Name",
+            "email": "e-mail",
+            "lastUpdate": "Last Update"
+        },
+        "education": {
+            "university": "University",
+            "major": "Major",
+            "graduation": "Graduation",
+            "gpa": "GPA"
+        },
+        "projects": {
+            "developer": "Developer",
+            "mainDeveloper": "Main Developer",
+            "mainArtistAndSubDev": "Main Artist & Sub Dev",
+            "mainArtist": "Main Artist",
+            "gameDesigner": "Game Designer",
+            "backendStack": "Backend Stacks",
+            "frontendStack": "Frontend Stacks",
+            "platforms": "Platforms",
+            "stacks": "Stacks",
+            "additionalInfo": "additional info",
+            "stacksProficiency": "Stacks I Experienced Colored by Proficiency Level",
+            "progress": {
+                "projectHeader": "projectHeader",
+                "progressHeader": "progressHeader",
+                "periodHeader": "periodHeader"
+            }
+        }
+    }
+}

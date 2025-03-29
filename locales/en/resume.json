@@ -1,11 +1,7 @@
 {
     "resume": {
         "title": "Résumé",
-<<<<<<< HEAD
         "lastUpdate": "....",
-=======
-        "lastUpdate": "...",
->>>>>>> 9d45b33 (WIP)
         "profile": {
             "title": "Profile & Contact",
             "name": "Siyoung Jang",
@@ -18,7 +14,6 @@
             "graduation": "2027 Expected",
             "gpa": "2.83/4.5"
         },
-<<<<<<< HEAD
         "experience": {
             "title": "Experience",
             "jobTitle": "Software Engineer",
@@ -26,7 +21,6 @@
             "resignedFor": "Resigned for conscription",
             "company": "Aiara",
             "years": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06"
-=======
         "workExperience": {
             "title": "Work Experience",
             "duration": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06",

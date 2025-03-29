@@ -33,7 +33,7 @@ export default class OptionButtons {
     }
 
     isDarkMode() {
-        return !document.documentElement.classList.contains(DARK_MODE_CLASS);
+        return document.documentElement.classList.contains(DARK_MODE_CLASS);
     }
 
     /**

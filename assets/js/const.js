@@ -672,8 +672,8 @@ const createProjectProgressSection = (progressData, commonData) => {
  */
 
 /**
- * @typedef {object} RootJsonStructure Represents the root structure of the provided JSON data.
- * @property {FetchedCommonData} common Contains all common string definitions.
+ * @typedef {object} RootJsonStructure
+ * @property {FetchedCommonData} common
  */
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -731,10 +731,10 @@ const createProjectProgressSection = (progressData, commonData) => {
  * @property {string} title
  * @property {string} duration
  * @property {Array<string>} [participants]
- * @property {Array<ResumeStack>} [stacks] // Use if only one stack list
+ * @property {Array<ResumeStack>} [stacks]
  * @property {Array<ResumeStack>} [backendStacks]
  * @property {Array<ResumeStack>} [frontendStacks]
- * @property {Array<{lang: string, level: number}>} [platforms] // Assuming structure from createPlatformItem
+ * @property {Array<{lang: string, level: number}>} [platforms]
  * @property {string | Array<string>} [contents]
  * @property {string} [repoLink]
  * @property {string} [repoImageSrc]

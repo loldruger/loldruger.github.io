@@ -1,7 +1,5 @@
 //@ts-check
 
-// --- Main Application Logic (main.js) ---
-
 import DOMComposer from './DOMinator/DOMComposer.js';
 import WorkerPool from './DOMinator/WorkerPool.js';
 import { eventRegistry } from './DOMinator/EventRegistry.js';
@@ -53,7 +51,6 @@ function attachEventListeners(container, registry) {
     // Now we have the set of actual event types used (potentialEvents).
     // Add one listener per discovered event type to the container for delegation.
     potentialEvents.forEach(eventType => {
-        console.log(` - Adding delegate listener for: ${eventType}`);
         container.addEventListener(eventType, (event) => {
             const attributeName = `data-event-${eventType}`;
             // Find the closest ancestor (or self) that triggered this specific event type
@@ -82,7 +79,6 @@ function attachEventListeners(container, registry) {
             // or bubbled up from outside; the delegate listener correctly ignores it.
         });
     });
-    console.log('Event listener attachment setup complete.');
 }
 
 /**
@@ -251,28 +247,24 @@ function escapeHtml(unsafe) {
 }
 
 
-// --- ========================================= ---
-// --- Example Usage Section                     ---
-// --- ========================================= ---
-
-// Wait for the DOM to be ready before running the example
-events();
 
 const main = async () => {
     const appRootElement = document.getElementById('app');
+    const workerScript = './assets/js/worker.js';
+
+    events();
 
     if (!appRootElement) {
         console.error('Error: Target element with id="app" not found.');
         return;
     }
 
-    /** @type {DOMComposer} This acts as the container for parallel tasks */
-    const rootContainer = DOMComposer.fragment(); // Use a placeholder container, its tag doesn't usually render
-    const fetcher = new Fetcher(); // Create a fetcher instance for i18n
+    /** @type {DOMComposer} */
+    const rootContainer = DOMComposer.fragment();
+    const fetcher = new Fetcher();
 
     try {
-        const a = await fetcher.fetchDataByLocale('en');
-        console.log('Fetched data:', a); // Log the fetched data for debugging
+        const a = await fetcher.fetchDataByLocale('ko');
 
         getResume(a.resume, a.common).forEach(section => {
             rootContainer.appendChild({ child: section });
@@ -282,17 +274,7 @@ const main = async () => {
         return;
     }
 
-    // --- 2. Create DOM Structure using DOMComposer ---
-    console.log('Creating virtual DOM structure...');
-
-
-
-    // --- 3. Start Parallel Rendering ---
-    console.log('Starting parallel rendering process...');
-    const workerScript = './assets/js/worker.js'; // Path to the worker script
-
     await renderParallel(rootContainer, appRootElement, workerScript);
-
-}; // End DOMContentLoaded listener
+};
 
 await main();

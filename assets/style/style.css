@@ -147,7 +147,7 @@ time {
     /* bottom: 1px; */
 }
 
-#contact-email > g {
+#contact-email > * {
     font-weight: 400;
     fill: var(--link-color);
 }

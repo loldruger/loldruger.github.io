@@ -256,7 +256,6 @@ const main = async () => {
         return;
     }
 
-    /** @type {DOMComposer} */
     const rootContainer = DOMComposer.fragment();
     const fetcher = new Fetcher();
 

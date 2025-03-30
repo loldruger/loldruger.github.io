@@ -4,637 +4,6 @@ import OptionButtons from './OptionButtons.js';
 import { eventRegistry } from './DOMinator/EventRegistry.js';
 import { i18n } from './i18n/lib.js';
 
-const events = () => {
-    const optionButtons = new OptionButtons();
-
-    eventRegistry.register('change-theme', (event) => {
-        event.preventDefault();
-
-        const currentlyDark = optionButtons.isDarkMode();
-        optionButtons.setTheme(!currentlyDark, true); // Toggle the theme
-    });
-
-    eventRegistry.register('change-lang', (event) => {
-        event.preventDefault();
-
-        const currentLang = document.documentElement.lang || 'en';
-        const nextLang = currentLang.toLowerCase().startsWith('en') ? 'ko' : 'en';
-        optionButtons.setLanguage(nextLang, true);
-    });
-
-    eventRegistry.register('fold-section', (event) => {
-        if (!(event instanceof Event) || !(event.target instanceof Element)) return;
-        event.preventDefault();
-        // Find the closest section and toggle a class, for example
-        const section = event.target.closest('section');
-        if (section) {
-            section.classList.toggle('folded'); // Example folding mechanism
-            console.log(`Toggled fold state for section containing:`, event.target);
-        } else {
-            console.warn('Could not find parent section for fold toggle:', event.target);
-        }
-    });
-};
-
-// Retrieve callbacks for use in DOMComposer.setEvent
-const setThemeCallback = eventRegistry.getEventCallback('change-theme');
-const changeLangCallback = eventRegistry.getEventCallback('change-lang');
-const foldSectionCallback = eventRegistry.getEventCallback('fold-section');
-
-// --- Helper Functions ---
-
-/**
-* Escapes HTML special characters in a string.
-* @param {string | null | undefined} unsafe - The string to escape.
-* @returns {string} The escaped string.
-*/
-const escapeHtml = (unsafe) => {
-    if (unsafe === null || typeof unsafe === 'undefined') return '';
-    // Ensure input is treated as a string before replacing
-    return String(unsafe)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-};
-
-/** Creates Folding Circle SVG Composer */
-const createFoldingCircle = () => {
-    // Use newRaw as per user's latest code example for consistency
-    const svgIcon = DOMComposer.newRaw({ tag: 'svg', rawAttributes: `class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"` })
-        .appendChild({ child: DOMComposer.newRaw({ tag: 'path', rawAttributes: `d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z"` }) });
-
-    return DOMComposer.new({ tag: 'span' })
-        .setAttribute({ name: 'class', value: 'folding-circle' })
-        .appendChild({ child: svgIcon })
-        .setEvent({ event: 'click', callback: foldSectionCallback, alias: 'fold-section' }); // Use retrieved callback variable
-};
-
-/** Creates a stack item using setInnerHTML for <strength> tag */
-const createStackItem = (/** @type {{lang: string, level: number}} */ stack) => {
-    const strengthHtml = `<strength level="${stack.level}">${escapeHtml(stack.lang)}</strength>`;
-    return DOMComposer.new({ tag: 'span' })
-        .setAttribute({ name: 'class', value: 'inline-flexbox' })
-        .setInnerHTML({ html: strengthHtml });
-};
-
-/** Creates a participant list item using setInnerHTML for <a> and <strong> tags */
-const createParticipantItem = (/** @type {string} */ participantHtml) => {
-    // Assuming participantHtml contains raw HTML like "Backend Developer: <a...>..."
-    return DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: participantHtml });
-};
-
-/** Creates platform list item using setInnerHTML for <strength> tag */
-const createPlatformItem = (/** @type {{lang: string, level: number}} */ platform) => {
-    const strengthHtml = `<strength level="${platform.level}">${escapeHtml(platform.lang)}</strength>`;
-    return DOMComposer.new({ tag: 'span' })
-        .setAttribute({ name: 'class', value: 'inline-flexbox' })
-        .setInnerHTML({ html: strengthHtml });
-};
-
-/** Creates a content paragraph using setInnerHTML for <highlight> tag */
-const createContentParagraph = (/** @type {string} */ contentString) => {
-    // Assuming contentString already contains HTML like <highlight>
-    return DOMComposer.new({ tag: 'p' }).setInnerHTML({ html: contentString });
-};
-
-/**
- * Creates a section structure with optional folding
- * @param {object} params
- * @param {DOMComposer} params.titleContent - Composer for the title area (can be a fragment).
- * @param {DOMComposer} params.bodyContent - Composer for the body content (can be a fragment).
- * @param {boolean} [params.requiresFolding=true] - Whether to add the folding circle.
- * @param {boolean} [params.hasSubtitle=false] - Whether the title area contains an h2 subtitle.
- * @returns {DOMComposer}
- */
-const createSectionFrame = ({ titleContent, bodyContent, requiresFolding = true, hasSubtitle = false }) => {
-    const titleAreaDiv = DOMComposer.new({ tag: 'div' })
-        .setAttribute({ name: 'class', value: hasSubtitle ? 'title-area with-subtitle' : 'title-area' })
-        .appendChild({ child: titleContent });
-
-    const headerDiv = DOMComposer.new({ tag: 'div' })
-        .setAttribute({ name: 'class', value: 'flexbox align-center-v inline' })
-        .appendChild({ child: titleAreaDiv });
-
-    if (requiresFolding) {
-        headerDiv.appendChild({ child: createFoldingCircle() });
-    }
-
-    const bodyArea = DOMComposer.new({ tag: 'div' })
-        .setAttribute({ name: 'class', value: 'content-body' })
-        .appendChild({ child: bodyContent }); // Append the body fragment/composer here
-
-    const contentList = DOMComposer.new({ tag: 'div' })
-        .setAttribute({ name: 'class', value: 'content-list' })
-        .appendChild({ child: bodyArea });
-
-    return DOMComposer.new({ tag: 'section' })
-        .appendChild({ child: headerDiv })
-        .appendChild({ child: contentList });
-};
-
-
-// --- Section Creation Functions ---
-
-/**
- * @param {ResumeProfile} profileData
- * @param {GeneralStrings} commonData 
- * @returns {DOMComposer}
- */
-const createProfileSection = (profileData, commonData) => {
-    const titleContent = DOMComposer.new({ tag: 'h1' })
-        .setInnerText({ text: i18n.t(profileData.title) }); // Assuming title is a key or already translated
-
-    const bodyContent = DOMComposer.new({ tag: 'div' })
-        .setAttribute({ name: 'class', value: 'indent flexbox flex-column gap-1' })
-        .setAttribute({ name: 'level', value: '1' })
-        .appendChild({
-            child: DOMComposer.new({ tag: 'div' })
-                .setInnerHTML({ html: `<b>${i18n.t(commonData.name)}:</b> ${escapeHtml(i18n.t(profileData.name))}` }) // Use escapeHtml for safety if name isn't trusted HTML
-        })
-        .appendChild({
-            child: DOMComposer.new({ tag: 'div' })
-                .setInnerHTML({ html: `<b>${i18n.t(commonData.email)}:</b><a class="inline-flexbox align-center-v" href="mailto:${profileData.email}"> ${escapeHtml(profileData.email)}</a>` })
-                .appendChild({
-                    child: DOMComposer.new({ tag: 'span' })
-                        .setAttribute({ name: 'class', value: 'ml-1 mt-1' })
-                        .appendChild({
-                            child: DOMComposer.newRaw({ tag: 'svg', rawAttributes: `id="contact-email" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="20" height="17" viewBox="0 0 20 17"` })
-                                .appendChild({ child: DOMComposer.newRaw({ tag: 'path', rawAttributes: `d="M16,17C16,17,14.6,15.6,14.6,15.6C14.6,15.6,16.175,14,16.175,14C16.175,14,12,14,12,14C12,14,12,12,12,12C12,12,16.175,12,16.175,12C16.175,12,14.6,10.4,14.6,10.4C14.6,10.4,16,9,16,9C16,9,20,13,20,13C20,13,16,17,16,17ZM8.4,8C8.4,8,15,4.15,15,4.15C15,4.15,15,2,15,2C15,2,14.75,2,14.75,2C14.75,2,8.4,5.675,8.4,5.675C8.4,5.675,2.225,2,2.225,2C2.225,2,2,2,2,2C2,2,2,4.2,2,4.2C2,4.2,8.4,8,8.4,8ZM1.875,14C1.35833,14,0.916667,13.8167,0.55,13.45C0.183333,13.0833,0,12.6417,0,12.125C0,12.125,0,1.875,0,1.875C0,1.35833,0.183333,0.916667,0.55,0.55C0.916667,0.183333,1.35833,0,1.875,0C1.875,0,15.125,0,15.125,0C15.6417,0,16.0833,0.183333,16.45,0.55C16.8167,0.916667,17,1.35833,17,1.875C17,1.875,17,7.1,17,7.1C16.8333,7.06667,16.6667,7.04167,16.5,7.025C16.3333,7.00833,16.1667,7,16,7C14.3667,7,12.9583,7.5875,11.775,8.7625C10.5917,9.9375,10,11.35,10,13C10,13.1667,10.0083,13.3333,10.025,13.5C10.0417,13.6667,10.0667,13.8333,10.1,14C10.1,14,1.875,14,1.875,14Z" fill="#566273" fill-opacity="1"` }) }) // Assuming fill is static
-                        })
-                })
-        });
-
-    // Profile section typically doesn't fold
-    return createSectionFrame({ titleContent, bodyContent, requiresFolding: false });
-};
-
-/**
- * @param {ResumeEducation} eduData 
- * @param {EducationStrings} commonData
- * @returns {DOMComposer}
- */
-const createEducationSection = (eduData, commonData) => {
-    // Title and Date in the header area
-    const title = DOMComposer.new({ tag: 'h1' })
-        .setAttribute({ name: 'class', value: 'inline' })
-        .setInnerText({ text: i18n.t(eduData.title) });
-    // Check if 'date' property exists before creating the time element
-    const date = eduData.date ? DOMComposer.new({ tag: 'time' })
-        .setAttribute({ name: 'class', value: 'indent date' })
-        .setAttribute({ name: 'level', value: '0.5' })
-        .setInnerText({ text: i18n.t(eduData.date) }) : null;
-
-    const titleContent = DOMComposer.fragment().appendChild({ child: title });
-    if (date) {
-        titleContent.appendChild({ child: date });
-    }
-
-    // Body content with details
-    const bodyContent = DOMComposer.new({ tag: 'div' })
-        .setAttribute({ name: 'class', value: 'indent flexbox flex-column gap-1' })
-        .setAttribute({ name: 'level', value: '1' });
-
-    /**
-     * @param {string} labelKey 
-     * @param {string} value 
-     * @returns {DOMComposer}
-     */
-    const createInfoDiv = (labelKey, value) => {
-        // Translate label using i18n.t, value directly from data (assuming already translated or language-specific)
-        const label = i18n.t(labelKey); // Example key: 'education.universityLabel'
-        return DOMComposer.new({ tag: 'div' })
-            .setInnerHTML({ html: `<b>${escapeHtml(label)}:</b> ${escapeHtml(value)}` });
-    };
-
-    bodyContent.appendChild({ child: createInfoDiv(commonData.university, eduData.university) });
-    bodyContent.appendChild({ child: createInfoDiv(commonData.major, eduData.major) });
-    bodyContent.appendChild({ child: createInfoDiv(commonData.graduation, eduData.graduation) });
-    bodyContent.appendChild({ child: createInfoDiv(commonData.gpa, eduData.gpa) });
-
-    return createSectionFrame({ titleContent, bodyContent });
-};
-
-/**
- * @param {ResumeWorkExperience} workData 
- * @param {ProjectStrings} commonData
- * @returns {DOMComposer}
- */
-const createWorkExperienceSection = (workData, commonData) => {
-    const title = DOMComposer.new({ tag: 'h1' })
-        .setAttribute({ name: 'class', value: 'inline' })
-        .setInnerText({ text: i18n.t(workData.title) });
-
-    const overallDuration = DOMComposer.new({ tag: 'time' })
-        .setAttribute({ name: 'class', value: 'indent date' })
-        .setAttribute({ name: 'level', value: '0.5' })
-        .setInnerText({ text: i18n.t(workData.duration) });
-
-    const titleContent = DOMComposer.fragment().appendChild({ child: title });
-    titleContent.appendChild({ child: overallDuration });
-
-    const bodyContent = DOMComposer.fragment(); // Use fragment to append multiple company blocks
-
-    (workData.items || []).forEach(item => {
-        const companyHeader = DOMComposer.new({ tag: 'h1' })
-            .setAttribute({ name: 'class', value: 'company-name inline' })
-            .setInnerText({ text: i18n.t(item.company) });
-
-        const companyDuration = DOMComposer.new({ tag: 'time' })
-            .setAttribute({ name: 'class', value: 'date inline' })
-            .setInnerText({ text: i18n.t(item.duration) });
-
-        const divisionInfo = DOMComposer.new({ tag: 'div' })
-            .setAttribute({ name: 'class', value: 'indent' })
-            .setAttribute({ name: 'level', value: '1' });
-        divisionInfo.appendChild({
-            child: DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'division-name' })
-                // Combine job title and division
-                .setInnerText({ text: `${i18n.t(item.jobTitle)} | ${i18n.t(item.division)}` })
-        });
-        // Conditionally add reason for resigning
-        if (item.resignedFor) {
-            divisionInfo.appendChild({
-                child: DOMComposer.new({ tag: 'div' })
-                    .setAttribute({ name: 'class', value: 'reason-for-resigning' })
-                    .setInnerText({ text: i18n.t(item.resignedFor) })
-            });
-        }
-
-        const experiencesContainer = DOMComposer.fragment();
-        (item.experiences || []).forEach(exp => {
-            const stackContainer = DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'stack-container' })
-                .setInnerText({ text: i18n.t(commonData.stacks) + ': ' });
-            (exp.stacks || []).forEach(stack => {
-                stackContainer.appendChild({ child: createStackItem(stack) });
-            });
-
-            const contentContainer = DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'content' });
-            // Set 'from' and 'to' attributes if duration exists
-            if (exp.duration) {
-                const dates = exp.duration.split(' ~ ');
-                contentContainer.setAttribute({ name: 'from', value: dates[0] });
-                if (dates[1]) {
-                    contentContainer.setAttribute({ name: 'to', value: dates[1] });
-                }
-            }
-            // Ensure contents is treated as an array
-            const contentsArray = Array.isArray(exp.contents) ? exp.contents : (exp.contents ? [exp.contents] : []);
-            contentsArray.forEach(contentHtml => {
-                contentContainer.appendChild({ child: createContentParagraph(contentHtml) }); // Assumes contentHtml is pre-formatted HTML
-            });
-
-
-            const experienceItem = DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'experience-item' })
-                .appendChild({
-                    child: DOMComposer.new({ tag: 'div' })
-                        .setAttribute({ name: 'class', value: 'title' })
-                        .setInnerText({ text: i18n.t(exp.title) })
-                })
-                .appendChild({
-                    child: DOMComposer.new({ tag: 'time' })
-                        .setAttribute({ name: 'class', value: 'indent  date' })
-                        .setAttribute({ name: 'level ', value: '0.5' })
-                        .setInnerText({ text: i18n.t(exp.duration) })
-                });
-
-            // Only append stackContainer if there are stacks
-            if (exp.stacks && exp.stacks.length > 0) {
-                experienceItem.appendChild({ child: stackContainer });
-            }
-            // Only append contentContainer if there is content
-            if (contentsArray.length > 0) {
-                experienceItem.appendChild({ child: contentContainer });
-            }
-
-            experiencesContainer.appendChild({ child: experienceItem });
-        });
-
-        const companyContainer = DOMComposer.new({ tag: 'div' })
-            .setAttribute({ name: 'class', value: 'indent' })
-            .setAttribute({ name: 'level', value: '1' });
-        // Set 'from' and 'to' attributes for the company block based on item.duration
-        if (item.duration) {
-            const dates = item.duration.split(' ~ ');
-            companyContainer.setAttribute({ name: 'from', value: dates[0] });
-            if (dates[1]) {
-                companyContainer.setAttribute({ name: 'to', value: dates[1] });
-            }
-        }
-
-        companyContainer
-            .appendChild({
-                child: DOMComposer.new({ tag: 'div' })
-                    .setAttribute({ name: 'class', value: 'title-area' })
-                    .appendChild({ child: companyHeader })
-                    .appendChild({ child: companyDuration })
-            })
-            .appendChild({ child: divisionInfo })
-            .appendChild({ child: experiencesContainer });
-
-        bodyContent.appendChild({ child: companyContainer });
-    });
-
-    return createSectionFrame({ titleContent, bodyContent });
-};
-
-/**
- * @param {NonNullable<ResumeData['resume']['currentProjects' | 'maintainingProjects' | 'previousProjects']>} projectData 
- * @param {ProjectStrings} commonData
- * @returns {DOMComposer}
- */
-const createProjectSection = (projectData, commonData) => {
-    const title = DOMComposer.new({ tag: 'h1' })
-        .setAttribute({ name: 'class', value: 'inline' })
-        .setInnerText({ text: i18n.t(projectData.title) });
-    const overallDuration = DOMComposer.new({ tag: 'time' })
-        .setAttribute({ name: 'class', value: 'indent date' })
-        .setAttribute({ name: 'level', value: '0.5' })
-        .setInnerText({ text: i18n.t(projectData.duration) });
-
-    const titleContent = DOMComposer.fragment().appendChild({ child: title });
-    titleContent.appendChild({ child: overallDuration });
-
-    const bodyContent = DOMComposer.fragment();
-
-    (projectData.items || []).forEach(item => {
-        const projectItemContainer = DOMComposer.new({ tag: 'div' })
-            .setAttribute({ name: 'class', value: 'indent' })
-            .setAttribute({ name: 'level', value: '1' });
-
-        // Set attributes like from, to, isWip, etc.
-        if (item.duration) {
-            const dates = item.duration.split(' ~ ');
-            projectItemContainer.setAttribute({ name: 'from', value: dates[0] });
-            if (dates[1] && !['WIP', 'Pending', 'Maintaining'].includes(dates[1])) {
-                projectItemContainer.setAttribute({ name: 'to', value: dates[1] });
-            }
-        }
-        if (item.isWip) projectItemContainer.setAttribute({ name: 'isWip', value: 'true' });
-        if (item.isPending) projectItemContainer.setAttribute({ name: 'isPending', value: 'true' });
-        if (item.isMaintaining) projectItemContainer.setAttribute({ name: 'isMaintaining', value: 'true' });
-
-
-        // Basic Info
-        const experienceItemDiv = DOMComposer.new({ tag: 'div' })
-            .setAttribute({ name: 'class', value: 'experience-item' }) // Use same class for consistency?
-            .appendChild({
-                child: DOMComposer.new({ tag: 'div' })
-                    .setAttribute({ name: 'class', value: 'title' })
-                    .setInnerText({ text: i18n.t(item.title) })
-            })
-            .appendChild({
-                child: DOMComposer.new({ tag: 'time' })
-                    .setAttribute({ name: 'class', value: 'date' })
-                    .setInnerText({ text: i18n.t(item.duration) })
-            });
-
-        projectItemContainer.appendChild({ child: experienceItemDiv });
-
-        // Participants
-        if (item.participants && item.participants.length > 0) {
-            const participantsDiv = DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'participants flexbox flex-column gap-1' });
-            item.participants.forEach(p => participantsDiv.appendChild({ child: createParticipantItem(p) })); // Assumes p is HTML string
-            projectItemContainer.appendChild({ child: participantsDiv });
-        }
-
-        // Stacks (Backend)
-        if (item.backendStacks && item.backendStacks.length > 0) {
-            const backendStackDiv = DOMComposer.new({ tag: 'div' })
-                .setInnerText({ text: i18n.t(commonData.backendStack) + ': ' }); // Example key
-            item.backendStacks.forEach(s => backendStackDiv.appendChild({ child: createStackItem(s) }));
-            projectItemContainer.appendChild({ child: backendStackDiv });
-        }
-        // Stacks (Frontend)
-        if (item.frontendStacks && item.frontendStacks.length > 0) {
-            const frontendStackDiv = DOMComposer.new({ tag: 'div' })
-                .setInnerText({ text: i18n.t(commonData.frontendStack) + ': ' }); // Example key
-            item.frontendStacks.forEach(s => frontendStackDiv.appendChild({ child: createStackItem(s) }));
-            projectItemContainer.appendChild({ child: frontendStackDiv });
-        }
-        // Stacks (General, if only one stack list exists in data)
-        if (item.stacks && item.stacks.length > 0) {
-            const stackDiv = DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'stack-container' }) // Match HTML
-                .setInnerText({ text: i18n.t(commonData.stacks) + ': ' });
-            item.stacks.forEach(s => stackDiv.appendChild({ child: createStackItem(s) }));
-            projectItemContainer.appendChild({ child: stackDiv });
-        }
-
-
-        // Platforms
-        if (item.platforms && item.platforms.length > 0) {
-            const platformsDiv = DOMComposer.new({ tag: 'div' })
-                .setInnerText({ text: i18n.t(commonData.platforms) + ': ' }); // Example key
-            item.platforms.forEach(p => platformsDiv.appendChild({ child: createPlatformItem(p) }));
-            projectItemContainer.appendChild({ child: platformsDiv });
-        }
-
-        // Content
-        if (item.contents && item.contents.length > 0) {
-            const contentContainer = DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'content' });
-            // Set 'from', 'to', 'isWip', etc. attributes if needed on content div specifically
-            if (item.duration) {
-                const dates = item.duration.split(' ~ ');
-                contentContainer.setAttribute({ name: 'from', value: dates[0] });
-                if (dates[1]) { // Check how these attributes were used in HTML
-                    if (item.isWip) contentContainer.setAttribute({ name: 'isWip', value: 'true' });
-                    if (item.isPending) contentContainer.setAttribute({ name: 'isPending', value: 'true' });
-                    if (item.isMaintaining) contentContainer.setAttribute({ name: 'isMaintaining', value: 'true' });
-                }
-            }
-
-            const contentsArray = Array.isArray(item.contents) ? item.contents : [item.contents];
-            contentsArray.forEach(c => contentContainer.appendChild({ child: createContentParagraph(c) })); // Assumes c is HTML string
-            projectItemContainer.appendChild({ child: contentContainer });
-        }
-
-        // Repo Link/Image
-        if (item.repoLink && item.repoImageSrc) {
-            const repoImg = DOMComposer.new({ tag: 'img' })
-                .setAttribute({ name: 'src', value: item.repoImageSrc })
-                .setAttribute({ name: 'alt', value: `${item.title} repo stats` }); // Use translated title?
-            const repoLink = DOMComposer.new({ tag: 'a' })
-                .setAttribute({ name: 'href', value: item.repoLink })
-                .appendChild({ child: repoImg });
-            const repoDiv = DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'content repo' }); // Match HTML class
-
-            // Set attributes on repoDiv as well? Check HTML example
-            if (item.duration) {
-                const dates = item.duration.split(' ~ ');
-                repoDiv.setAttribute({ name: 'from', value: dates[0] });
-                if (dates[1]) {
-                    if (item.isWip) repoDiv.setAttribute({ name: 'isWip', value: 'true' });
-                    if (item.isPending) repoDiv.setAttribute({ name: 'isPending', value: 'true' });
-                    if (item.isMaintaining) repoDiv.setAttribute({ name: 'isMaintaining', value: 'true' });
-                }
-            }
-
-            repoDiv.appendChild({ child: repoLink });
-            projectItemContainer.appendChild({ child: repoDiv });
-        }
-
-        bodyContent.appendChild({ child: projectItemContainer });
-    });
-
-    return createSectionFrame({ titleContent, bodyContent });
-};
-
-
-/** Creates Certifications Section */
-const createCertificationsSection = (/** @type {ResumeCertifications} */ certData) => {
-    const title = DOMComposer.new({ tag: 'h1' })
-        .setAttribute({ name: 'class', value: 'inline' })
-        .setInnerText({ text: i18n.t(certData.title) });
-    const overallDuration = DOMComposer.new({ tag: 'time' })
-        .setAttribute({ name: 'class', value: 'indent date' })
-        .setAttribute({ name: 'level', value: '0.5' })
-        .setInnerText({ text: i18n.t(certData.duration) });
-
-    const titleContent = DOMComposer.fragment().appendChild({ child: title });
-    titleContent.appendChild({ child: overallDuration });
-
-    const bodyContent = DOMComposer.fragment();
-    (certData.items || []).forEach(item => {
-        const certItem = DOMComposer.new({ tag: 'div' })
-            .setAttribute({ name: 'class', value: 'indent' })
-            .setAttribute({ name: 'level', value: '1' })
-            .setAttribute({ name: 'from', value: item.date }) // Assuming 'from' attribute holds the date
-            .appendChild({
-                child: DOMComposer.new({ tag: 'div' })
-                    .setAttribute({ name: 'class', value: 'title' })
-                    .setInnerText({ text: i18n.t(item.name) })
-            })
-            .appendChild({
-                child: DOMComposer.new({ tag: 'time' })
-                    .setAttribute({ name: 'class', value: 'date' })
-                    .setInnerText({ text: i18n.t(item.date) })
-            });
-        bodyContent.appendChild({ child: certItem });
-    });
-
-    return createSectionFrame({ titleContent, bodyContent });
-};
-
-/** Creates Skills Section */
-const createSkillsSection = (/** @type {ResumeSkills} */ skillsData) => {
-    const title = DOMComposer.new({ tag: 'h1' })
-        .setInnerText({ text: i18n.t(skillsData.title) });
-    const subTitle = skillsData.subTitle ? DOMComposer.new({ tag: 'h2' })
-        .setAttribute({ name: 'class', value: 'sub-title' })
-        .setInnerText({ text: i18n.t(skillsData.subTitle) }) : null;
-
-    const titleContent = DOMComposer.fragment().appendChild({ child: title });
-    let hasSubtitle = false;
-    if (subTitle) {
-        titleContent.appendChild({ child: subTitle });
-        hasSubtitle = true;
-    }
-
-
-    const tableBody = DOMComposer.new({ tag: 'tbody' });
-    (skillsData.categories || []).forEach(category => {
-        const skillCells = DOMComposer.new({ tag: 'td' })
-            .setAttribute({ name: 'class', value: 'skills-cell' });
-        (category.items || []).forEach(item => {
-            skillCells.appendChild({ child: createStackItem({ lang: i18n.t(item.skill), level: item.level }) });
-        });
-
-        const tableRow = DOMComposer.new({ tag: 'tr' })
-            .appendChild({
-                child: DOMComposer.new({ tag: 'td' })
-                    .setAttribute({ name: 'class', value: 'label-cell' })
-                    .setInnerText({ text: i18n.t(category.name) }) // Category name
-            })
-            .appendChild({ child: skillCells });
-        tableBody.appendChild({ child: tableRow });
-    });
-
-    const table = DOMComposer.new({ tag: 'table' })
-        .setAttribute({ name: 'class', value: 'skills-table' })
-        .appendChild({ child: tableBody });
-
-    // Wrap table in the container divs as per HTML structure
-    const bodyContent = DOMComposer.new({ tag: 'div' })
-        .setAttribute({ name: 'class', value: 'skills-container' }) // Outer container
-        .appendChild({
-            child: DOMComposer.new({ tag: 'div' })
-                .setAttribute({ name: 'class', value: 'skills-container' }) // Inner container
-                .appendChild({ child: table })
-        });
-
-    return createSectionFrame({ titleContent, bodyContent, hasSubtitle });
-};
-
-/**
- * @param {ResumeProjectProgress} progressData 
- * @param {ProjectStrings} commonData
- * @returns {DOMComposer}
- */
-const createProjectProgressSection = (progressData, commonData) => {
-    const title = DOMComposer.new({ tag: 'h1' })
-        .setAttribute({ name: 'class', value: 'inline' }) // Add inline based on HTML
-        .setInnerText({ text: i18n.t(progressData.title) });
-    const subTitle = progressData.subTitle ? DOMComposer.new({ tag: 'h2' })
-        .setAttribute({ name: 'class', value: 'sub-title' })
-        .setInnerText({ text: i18n.t(progressData.subTitle) }) : null;
-
-    const titleContent = DOMComposer.fragment().appendChild({ child: title });
-    let hasSubtitle = false;
-    if (subTitle) {
-        titleContent.appendChild({ child: subTitle });
-        hasSubtitle = true;
-    }
-
-
-    // Create Table Header
-    const tableHead = DOMComposer.new({ tag: 'thead' })
-        .appendChild({
-            child: DOMComposer.new({ tag: 'tr' })
-                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.projectHeader) }) })
-                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.progressHeader) }) })
-                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.periodHeader) }) })
-        });
-
-    // Create Table Body
-    const tableBody = DOMComposer.new({ tag: 'tbody' });
-    (progressData.items || []).forEach(item => {
-        const progressImg = DOMComposer.new({ tag: 'img' })
-            .setAttribute({ name: 'src', value: `https://progress-bar.xyz/${item.progress}${item.color ? '?progress_color=' + item.color : ''}` })
-            .setAttribute({ name: 'alt', value: `progress ${item.progress}%` });
-
-        const tableRow = DOMComposer.new({ tag: 'tr' })
-            .appendChild({
-                child: DOMComposer.new({ tag: 'td' })
-                    .setInnerText({ text: i18n.t(item.name) })
-            })
-            .appendChild({
-                child: DOMComposer.new({ tag: 'td' })
-                    .appendChild({ child: progressImg })
-            })
-            .appendChild({
-                child: DOMComposer.new({ tag: 'td' })
-                    .setInnerText({ text: i18n.t(item.period) })
-            });
-        tableBody.appendChild({ child: tableRow });
-    });
-
-    const table = DOMComposer.new({ tag: 'table' })
-        .setAttribute({ name: 'class', value: 'projects-table' })
-        .appendChild({ child: tableHead })
-        .appendChild({ child: tableBody });
-
-    return createSectionFrame({ titleContent, bodyContent: table, hasSubtitle });
-};
-
 /**
  * @typedef {object} ProgressStrings Represents strings related to project progress display.
  * @property {string} projectHeader Label for the project column/section.
@@ -828,6 +197,637 @@ const createProjectProgressSection = (progressData, commonData) => {
  * @typedef {object} FetchedResumeData
  * @property {ResumeStructure} resume
  */
+
+const events = () => {
+    const optionButtons = new OptionButtons();
+
+    eventRegistry.register('change-theme', (event) => {
+        event.preventDefault();
+
+        const currentlyDark = optionButtons.isDarkMode();
+        optionButtons.setTheme(!currentlyDark, true); // Toggle the theme
+    });
+
+    eventRegistry.register('change-lang', (event) => {
+        event.preventDefault();
+
+        const currentLang = document.documentElement.lang || 'en';
+        const nextLang = currentLang.toLowerCase().startsWith('en') ? 'ko' : 'en';
+        optionButtons.setLanguage(nextLang, true);
+    });
+
+    eventRegistry.register('fold-section', (event) => {
+        if (!(event instanceof Event) || !(event.target instanceof Element)) return;
+        event.preventDefault();
+        // Find the closest section and toggle a class, for example
+        const section = event.target.closest('section');
+        if (section) {
+            section.classList.toggle('folded'); // Example folding mechanism
+            console.log(`Toggled fold state for section containing:`, event.target);
+        } else {
+            console.warn('Could not find parent section for fold toggle:', event.target);
+        }
+    });
+};
+
+// Retrieve callbacks for use in DOMComposer.setEvent
+const setThemeCallback = eventRegistry.getEventCallback('change-theme');
+const changeLangCallback = eventRegistry.getEventCallback('change-lang');
+const foldSectionCallback = eventRegistry.getEventCallback('fold-section');
+
+// --- Helper Functions ---
+
+/**
+* Escapes HTML special characters in a string.
+* @param {string | null | undefined} unsafe - The string to escape.
+* @returns {string} The escaped string.
+*/
+const escapeHtml = (unsafe) => {
+    if (unsafe === null || typeof unsafe === 'undefined') return '';
+    // Ensure input is treated as a string before replacing
+    return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+};
+
+/** Creates Folding Circle SVG Composer */
+const createFoldingCircle = () => {
+    // Use newRaw as per user's latest code example for consistency
+    const svgIcon = DOMComposer.newRaw({ tag: 'svg', rawAttributes: `class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"` })
+        .appendChild({ child: DOMComposer.newRaw({ tag: 'path', rawAttributes: `d="M12 15.5L18 9.5L16.6 8L12 12.7L7.4 8L6 9.5L12 15.5Z"` }) });
+
+    return DOMComposer.new({ tag: 'span' })
+        .setAttribute({ name: 'class', value: 'folding-circle' })
+        .appendChild({ child: svgIcon })
+        .setEvent({ event: 'click', callback: foldSectionCallback, alias: 'fold-section' }); // Use retrieved callback variable
+};
+
+/**
+ * @param {{lang: string, level: number}} stack 
+ * @returns {DOMComposer}
+ */
+const createStackItem = (stack) => {
+    const strengthHtml = `<strength level="${stack.level}">${escapeHtml(stack.lang)}</strength>`;
+    return DOMComposer.new({ tag: 'span' })
+        .setAttribute({ name: 'class', value: 'inline-flexbox' })
+        .setInnerHTML({ html: strengthHtml });
+};
+
+/** Creates a participant list item using setInnerHTML for <a> and <strong> tags */
+const createParticipantItem = (/** @type {string} */ participantHtml) => {
+    // Assuming participantHtml contains raw HTML like "Backend Developer: <a...>..."
+    return DOMComposer.new({ tag: 'div' }).setInnerHTML({ html: participantHtml });
+};
+
+/** Creates platform list item using setInnerHTML for <strength> tag */
+const createPlatformItem = (/** @type {{lang: string, level: number}} */ platform) => {
+    const strengthHtml = `<strength level="${platform.level}">${escapeHtml(platform.lang)}</strength>`;
+    return DOMComposer.new({ tag: 'span' })
+        .setAttribute({ name: 'class', value: 'inline-flexbox' })
+        .setInnerHTML({ html: strengthHtml });
+};
+
+/** Creates a content paragraph using setInnerHTML for <highlight> tag */
+const createContentParagraph = (/** @type {string} */ contentString) => {
+    // Assuming contentString already contains HTML like <highlight>
+    return DOMComposer.new({ tag: 'p' }).setInnerHTML({ html: contentString });
+};
+
+/**
+ * Creates a section structure with optional folding
+ * @param {object} params
+ * @param {DOMComposer} params.titleContent - Composer for the title area (can be a fragment).
+ * @param {DOMComposer} params.bodyContent - Composer for the body content (can be a fragment).
+ * @param {boolean} [params.requiresFolding=true] - Whether to add the folding circle.
+ * @param {boolean} [params.hasSubtitle=false] - Whether the title area contains an h2 subtitle.
+ * @returns {DOMComposer}
+ */
+const createSectionFrame = ({ titleContent, bodyContent, requiresFolding = true, hasSubtitle = false }) => {
+    const titleAreaDiv = DOMComposer.new({ tag: 'div' })
+        .setAttribute({ name: 'class', value: hasSubtitle ? 'title-area with-subtitle' : 'title-area' })
+        .appendChild({ child: titleContent });
+
+    const headerDiv = DOMComposer.new({ tag: 'div' })
+        .setAttribute({ name: 'class', value: 'flexbox align-center-v inline' })
+        .appendChild({ child: titleAreaDiv });
+
+    if (requiresFolding) {
+        headerDiv.appendChild({ child: createFoldingCircle() });
+    }
+
+    const bodyArea = DOMComposer.new({ tag: 'div' })
+        .setAttribute({ name: 'class', value: 'content-body' })
+        .appendChild({ child: bodyContent }); // Append the body fragment/composer here
+
+    const contentList = DOMComposer.new({ tag: 'div' })
+        .setAttribute({ name: 'class', value: 'content-list' })
+        .appendChild({ child: bodyArea });
+
+    return DOMComposer.new({ tag: 'section' })
+        .appendChild({ child: headerDiv })
+        .appendChild({ child: contentList });
+};
+
+
+// --- Section Creation Functions ---
+
+/**
+ * @param {ResumeProfile} profileData
+ * @param {GeneralStrings} commonData 
+ * @returns {DOMComposer}
+ */
+const createProfileSection = (profileData, commonData) => {
+    const titleContent = DOMComposer.new({ tag: 'h1' })
+        .setInnerText({ text: i18n.t(profileData.title) }); // Assuming title is a key or already translated
+
+    const bodyContent = DOMComposer.new({ tag: 'div' })
+        .setAttribute({ name: 'class', value: 'indent flexbox flex-column gap-1' })
+        .setAttribute({ name: 'level', value: '1' })
+        .appendChild({
+            child: DOMComposer.new({ tag: 'div' })
+                .setInnerHTML({ html: `<b>${i18n.t(commonData.name)}:</b> ${escapeHtml(i18n.t(profileData.name))}` }) // Use escapeHtml for safety if name isn't trusted HTML
+        })
+        .appendChild({
+            child: DOMComposer.new({ tag: 'div' })
+                .setInnerHTML({ html: `<b>${i18n.t(commonData.email)}: </b><a class="inline-flexbox align-center-v" href="mailto:${profileData.email}"> ${escapeHtml(profileData.email)}</a>` })
+                .appendChild({
+                    child: DOMComposer.new({ tag: 'span' })
+                        .setAttribute({ name: 'class', value: 'ml-1 mt-1' })
+                        .appendChild({
+                            child: DOMComposer.newRaw({ tag: 'svg', rawAttributes: `id="contact-email" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="20" height="17" viewBox="0 0 20 17"` })
+                                .appendChild({ child: DOMComposer.newRaw({ tag: 'path', rawAttributes: `d="M16,17C16,17,14.6,15.6,14.6,15.6C14.6,15.6,16.175,14,16.175,14C16.175,14,12,14,12,14C12,14,12,12,12,12C12,12,16.175,12,16.175,12C16.175,12,14.6,10.4,14.6,10.4C14.6,10.4,16,9,16,9C16,9,20,13,20,13C20,13,16,17,16,17ZM8.4,8C8.4,8,15,4.15,15,4.15C15,4.15,15,2,15,2C15,2,14.75,2,14.75,2C14.75,2,8.4,5.675,8.4,5.675C8.4,5.675,2.225,2,2.225,2C2.225,2,2,2,2,2C2,2,2,4.2,2,4.2C2,4.2,8.4,8,8.4,8ZM1.875,14C1.35833,14,0.916667,13.8167,0.55,13.45C0.183333,13.0833,0,12.6417,0,12.125C0,12.125,0,1.875,0,1.875C0,1.35833,0.183333,0.916667,0.55,0.55C0.916667,0.183333,1.35833,0,1.875,0C1.875,0,15.125,0,15.125,0C15.6417,0,16.0833,0.183333,16.45,0.55C16.8167,0.916667,17,1.35833,17,1.875C17,1.875,17,7.1,17,7.1C16.8333,7.06667,16.6667,7.04167,16.5,7.025C16.3333,7.00833,16.1667,7,16,7C14.3667,7,12.9583,7.5875,11.775,8.7625C10.5917,9.9375,10,11.35,10,13C10,13.1667,10.0083,13.3333,10.025,13.5C10.0417,13.6667,10.0667,13.8333,10.1,14C10.1,14,1.875,14,1.875,14Z" fill="#566273" fill-opacity="1"` }) }) // Assuming fill is static
+                        })
+                })
+        });
+
+    // Profile section typically doesn't fold
+    return createSectionFrame({ titleContent, bodyContent, requiresFolding: false });
+};
+
+/**
+ * @param {ResumeEducation} eduData 
+ * @param {EducationStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createEducationSection = (eduData, commonData) => {
+    // Title and Date in the header area
+    const title = DOMComposer.new({ tag: 'h1' })
+        .setAttribute({ name: 'class', value: 'inline' })
+        .setInnerText({ text: i18n.t(eduData.title) });
+    // Check if 'date' property exists before creating the time element
+    const date = eduData.date ? DOMComposer.new({ tag: 'time' })
+        .setAttribute({ name: 'class', value: 'indent date' })
+        .setAttribute({ name: 'level', value: '0.5' })
+        .setInnerText({ text: i18n.t(eduData.date) }) : null;
+
+    const titleContent = DOMComposer.fragment().appendChild({ child: title });
+    if (date) {
+        titleContent.appendChild({ child: date });
+    }
+
+    // Body content with details
+    const bodyContent = DOMComposer.new({ tag: 'div' })
+        .setAttribute({ name: 'class', value: 'indent flexbox flex-column gap-1' })
+        .setAttribute({ name: 'level', value: '1' });
+
+    /**
+     * @param {string} labelKey 
+     * @param {string} value 
+     * @returns {DOMComposer}
+     */
+    const createInfoDiv = (labelKey, value) => {
+        // Translate label using i18n.t, value directly from data (assuming already translated or language-specific)
+        const label = i18n.t(labelKey); // Example key: 'education.universityLabel'
+        return DOMComposer.new({ tag: 'div' })
+            .setInnerHTML({ html: `<b>${escapeHtml(label)}:</b> ${escapeHtml(value)}` });
+    };
+
+    bodyContent.appendChild({ child: createInfoDiv(commonData.university, eduData.university) });
+    bodyContent.appendChild({ child: createInfoDiv(commonData.major, eduData.major) });
+    bodyContent.appendChild({ child: createInfoDiv(commonData.graduation, eduData.graduation) });
+    bodyContent.appendChild({ child: createInfoDiv(commonData.gpa, eduData.gpa) });
+
+    return createSectionFrame({ titleContent, bodyContent });
+};
+
+/**
+ * @param {ResumeWorkExperience} workData 
+ * @param {ProjectStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createWorkExperienceSection = (workData, commonData) => {
+    const title = DOMComposer.new({ tag: 'h1' })
+        .setAttribute({ name: 'class', value: 'inline' })
+        .setInnerText({ text: i18n.t(workData.title) });
+
+    const overallDuration = DOMComposer.new({ tag: 'time' })
+        .setAttribute({ name: 'class', value: 'indent date' })
+        .setAttribute({ name: 'level', value: '0.5' })
+        .setInnerText({ text: i18n.t(workData.duration) });
+
+    const titleContent = DOMComposer.fragment().appendChild({ child: title });
+    titleContent.appendChild({ child: overallDuration });
+
+    const bodyContent = DOMComposer.fragment(); // Use fragment to append multiple company blocks
+
+    (workData.items || []).forEach(item => {
+        const companyHeader = DOMComposer.new({ tag: 'h1' })
+            .setAttribute({ name: 'class', value: 'company-name inline' })
+            .setInnerText({ text: i18n.t(item.company) });
+
+        const companyDuration = DOMComposer.new({ tag: 'time' })
+            .setAttribute({ name: 'class', value: 'indent date' })
+            .setAttribute({ name: 'level', value: '0.5' })
+            .setInnerText({ text: i18n.t(item.duration) });
+
+        const divisionInfo = DOMComposer.new({ tag: 'div' })
+            .setAttribute({ name: 'class', value: 'indent mt-1 mb-1' })
+            .setAttribute({ name: 'level', value: '1' });
+
+        divisionInfo.appendChild({
+            child: DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'division-name' })
+                .setInnerText({ text: `${i18n.t(item.jobTitle)} | ${i18n.t(item.division)}` })
+        });
+
+        divisionInfo.appendChild({
+            child: DOMComposer.new({ tag: 'div' })
+                .setInnerText({ text: i18n.t(item.resignedFor) })
+        });
+
+        const experiencesContainer = DOMComposer.fragment();
+        (item.experiences || []).forEach(exp => {
+            const stackContainer = DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'mt-2 gap-1' })
+                .setInnerHTML({ html: `<span>${i18n.t(commonData.stacks)}: </span>` });
+            (exp.stacks || []).forEach(stack => {
+                stackContainer.appendChild({ child: createStackItem(stack) });
+            });
+
+            const contentContainer = DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'content' });
+            // Set 'from' and 'to' attributes if duration exists
+            if (exp.duration) {
+                const dates = exp.duration.split(' ~ ');
+                contentContainer.setAttribute({ name: 'from', value: dates[0] });
+                if (dates[1]) {
+                    contentContainer.setAttribute({ name: 'to', value: dates[1] });
+                }
+            }
+            // Ensure contents is treated as an array
+            const contentsArray = Array.isArray(exp.contents) ? exp.contents : (exp.contents ? [exp.contents] : []);
+            contentsArray.forEach(contentHtml => {
+                contentContainer.appendChild({ child: createContentParagraph(contentHtml) }); // Assumes contentHtml is pre-formatted HTML
+            });
+
+
+            const experienceItem = DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'experience-item' })
+                .appendChild({
+                    child: DOMComposer.new({ tag: 'div' })
+                        .setAttribute({ name: 'class', value: 'title' })
+                        .setInnerText({ text: i18n.t(exp.title) })
+                })
+                .appendChild({
+                    child: DOMComposer.new({ tag: 'time' })
+                        .setAttribute({ name: 'class', value: 'indent date' })
+                        .setAttribute({ name: 'level', value: '1' })
+                        .setInnerText({ text: i18n.t(exp.duration) })
+                });
+
+            // Only append stackContainer if there are stacks
+            if (exp.stacks && exp.stacks.length > 0) {
+                experienceItem.appendChild({ child: stackContainer });
+            }
+            // Only append contentContainer if there is content
+            if (contentsArray.length > 0) {
+                experienceItem.appendChild({ child: contentContainer });
+            }
+
+            experiencesContainer.appendChild({ child: experienceItem });
+        });
+
+        const companyContainer = DOMComposer.new({ tag: 'div' })
+            .setAttribute({ name: 'class', value: 'indent' })
+            .setAttribute({ name: 'level', value: '1' });
+        // Set 'from' and 'to' attributes for the company block based on item.duration
+        if (item.duration) {
+            const dates = item.duration.split(' ~ ');
+            companyContainer.setAttribute({ name: 'from', value: dates[0] });
+            if (dates[1]) {
+                companyContainer.setAttribute({ name: 'to', value: dates[1] });
+            }
+        }
+
+        companyContainer
+            .appendChild({
+                child: DOMComposer.new({ tag: 'div' })
+                    .setAttribute({ name: 'class', value: 'title-area' })
+                    .appendChild({ child: companyHeader })
+                    .appendChild({ child: companyDuration })
+            })
+            .appendChild({ child: divisionInfo })
+            .appendChild({ child: experiencesContainer });
+
+        bodyContent.appendChild({ child: companyContainer });
+    });
+
+    return createSectionFrame({ titleContent, bodyContent });
+};
+
+/**
+ * @param {NonNullable<ResumeData['resume']['currentProjects' | 'maintainingProjects' | 'previousProjects']>} projectData 
+ * @param {ProjectStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createProjectSection = (projectData, commonData) => {
+    const title = DOMComposer.new({ tag: 'h1' })
+        .setAttribute({ name: 'class', value: 'inline' })
+        .setInnerText({ text: i18n.t(projectData.title) });
+    const overallDuration = DOMComposer.new({ tag: 'time' })
+        .setAttribute({ name: 'class', value: 'indent date' })
+        .setAttribute({ name: 'level', value: '1' })
+        .setInnerText({ text: i18n.t(projectData.duration) });
+
+    const titleContent = DOMComposer.fragment().appendChild({ child: title });
+    titleContent.appendChild({ child: overallDuration });
+
+    const bodyContent = DOMComposer.fragment();
+
+    (projectData.items || []).forEach(item => {
+        const projectItemContainer = DOMComposer.new({ tag: 'div' })
+            .setAttribute({ name: 'class', value: 'indent' })
+            .setAttribute({ name: 'level', value: '1' });
+
+        // Set attributes like from, to, isWip, etc.
+        if (item.duration) {
+            const dates = item.duration.split(' ~ ');
+            projectItemContainer.setAttribute({ name: 'from', value: dates[0] });
+            if (dates[1] && !['WIP', 'Pending', 'Maintaining'].includes(dates[1])) {
+                projectItemContainer.setAttribute({ name: 'to', value: dates[1] });
+            }
+        }
+        if (item.isWip) projectItemContainer.setAttribute({ name: 'isWip', value: 'true' });
+        if (item.isPending) projectItemContainer.setAttribute({ name: 'isPending', value: 'true' });
+        if (item.isMaintaining) projectItemContainer.setAttribute({ name: 'isMaintaining', value: 'true' });
+
+
+        // Basic Info
+        const experienceItemDiv = DOMComposer.new({ tag: 'div' })
+            .setAttribute({ name: 'class', value: 'experience-item' })
+            .appendChild({
+                child: DOMComposer.new({ tag: 'div' })
+                    .setAttribute({ name: 'class', value: 'title' })
+                    .setInnerText({ text: i18n.t(item.title) })
+            })
+            .appendChild({
+                child: DOMComposer.new({ tag: 'time' })
+                    .setAttribute({ name: 'class', value: 'indent date' })
+                    .setAttribute({ name: 'level', value: '1' })
+                    .setInnerText({ text: i18n.t(item.duration) })
+            });
+
+        projectItemContainer.appendChild({ child: experienceItemDiv });
+
+        // Participants
+        if (item.participants && item.participants.length > 0) {
+            const participantsDiv = DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'participants flexbox flex-column gap-1' });
+            item.participants.forEach(p => participantsDiv.appendChild({ child: createParticipantItem(p) })); // Assumes p is HTML string
+            projectItemContainer.appendChild({ child: participantsDiv });
+        }
+
+        // Stacks (Backend)
+        if (item.backendStacks && item.backendStacks.length > 0) {
+            const backendStackDiv = DOMComposer.new({ tag: 'div' })
+                .setInnerText({ text: i18n.t(commonData.backendStack) + ': ' }); // Example key
+            item.backendStacks.forEach(s => backendStackDiv.appendChild({ child: createStackItem(s) }));
+            projectItemContainer.appendChild({ child: backendStackDiv });
+        }
+        // Stacks (Frontend)
+        if (item.frontendStacks && item.frontendStacks.length > 0) {
+            const frontendStackDiv = DOMComposer.new({ tag: 'div' })
+                .setInnerText({ text: i18n.t(commonData.frontendStack) + ': ' }); // Example key
+            item.frontendStacks.forEach(s => frontendStackDiv.appendChild({ child: createStackItem(s) }));
+            projectItemContainer.appendChild({ child: frontendStackDiv });
+        }
+        // Stacks (General, if only one stack list exists in data)
+        if (item.stacks && item.stacks.length > 0) {
+            const stackDiv = DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'stack-container' }) // Match HTML
+                .setInnerText({ text: i18n.t(commonData.stacks) + ': ' });
+            item.stacks.forEach(s => stackDiv.appendChild({ child: createStackItem(s) }));
+            projectItemContainer.appendChild({ child: stackDiv });
+        }
+
+
+        // Platforms
+        if (item.platforms && item.platforms.length > 0) {
+            const platformsDiv = DOMComposer.new({ tag: 'div' })
+                .setInnerText({ text: i18n.t(commonData.platforms) + ': ' }); // Example key
+            item.platforms.forEach(p => platformsDiv.appendChild({ child: createPlatformItem(p) }));
+            projectItemContainer.appendChild({ child: platformsDiv });
+        }
+
+        // Content
+        if (item.contents && item.contents.length > 0) {
+            const contentContainer = DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'content' });
+            // Set 'from', 'to', 'isWip', etc. attributes if needed on content div specifically
+            if (item.duration) {
+                const dates = item.duration.split(' ~ ');
+                contentContainer.setAttribute({ name: 'from', value: dates[0] });
+                if (dates[1]) { // Check how these attributes were used in HTML
+                    if (item.isWip) contentContainer.setAttribute({ name: 'isWip', value: 'true' });
+                    if (item.isPending) contentContainer.setAttribute({ name: 'isPending', value: 'true' });
+                    if (item.isMaintaining) contentContainer.setAttribute({ name: 'isMaintaining', value: 'true' });
+                }
+            }
+
+            const contentsArray = Array.isArray(item.contents) ? item.contents : [item.contents];
+            contentsArray.forEach(c => contentContainer.appendChild({ child: createContentParagraph(c) })); // Assumes c is HTML string
+            projectItemContainer.appendChild({ child: contentContainer });
+        }
+
+        if (item.repoLink && item.repoImageSrc) {
+            const repoImg = DOMComposer.new({ tag: 'img' })
+                .setAttribute({ name: 'src', value: item.repoImageSrc })
+                .setAttribute({ name: 'alt', value: `${item.title} repo stats` });
+            const repoLink = DOMComposer.new({ tag: 'a' })
+                .setAttribute({ name: 'href', value: item.repoLink })
+                .appendChild({ child: repoImg });
+            const repoDiv = DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'content repo' });
+
+            if (item.duration) {
+                const dates = item.duration.split(' ~ ');
+                repoDiv.setAttribute({ name: 'from', value: dates[0] });
+                if (dates[1]) {
+                    if (item.isWip) repoDiv.setAttribute({ name: 'isWip', value: 'true' });
+                    if (item.isPending) repoDiv.setAttribute({ name: 'isPending', value: 'true' });
+                    if (item.isMaintaining) repoDiv.setAttribute({ name: 'isMaintaining', value: 'true' });
+                }
+            }
+
+            repoDiv.appendChild({ child: repoLink });
+            projectItemContainer.appendChild({ child: repoDiv });
+        }
+
+        bodyContent.appendChild({ child: projectItemContainer });
+    });
+
+    return createSectionFrame({ titleContent, bodyContent });
+};
+
+
+/** Creates Certifications Section */
+const createCertificationsSection = (/** @type {ResumeCertifications} */ certData) => {
+    const title = DOMComposer.new({ tag: 'h1' })
+        .setAttribute({ name: 'class', value: 'inline' })
+        .setInnerText({ text: i18n.t(certData.title) });
+    const overallDuration = DOMComposer.new({ tag: 'time' })
+        .setAttribute({ name: 'class', value: 'indent date' })
+        .setAttribute({ name: 'level', value: '0.5' })
+        .setInnerText({ text: i18n.t(certData.duration) });
+
+    const titleContent = DOMComposer.fragment().appendChild({ child: title });
+    titleContent.appendChild({ child: overallDuration });
+
+    const bodyContent = DOMComposer.fragment();
+    (certData.items || []).forEach(item => {
+        const certItem = DOMComposer.new({ tag: 'div' })
+            .setAttribute({ name: 'class', value: 'indent' })
+            .setAttribute({ name: 'level', value: '1' })
+            .setAttribute({ name: 'from', value: item.date }) // Assuming 'from' attribute holds the date
+            .appendChild({
+                child: DOMComposer.new({ tag: 'div' })
+                    .setAttribute({ name: 'class', value: 'title' })
+                    .setInnerText({ text: i18n.t(item.name) })
+            })
+            .appendChild({
+                child: DOMComposer.new({ tag: 'time' })
+                    .setAttribute({ name: 'class', value: 'date' })
+                    .setInnerText({ text: i18n.t(item.date) })
+            });
+        bodyContent.appendChild({ child: certItem });
+    });
+
+    return createSectionFrame({ titleContent, bodyContent });
+};
+
+/** Creates Skills Section */
+const createSkillsSection = (/** @type {ResumeSkills} */ skillsData) => {
+    const title = DOMComposer.new({ tag: 'h1' })
+        .setInnerText({ text: i18n.t(skillsData.title) });
+    const subTitle = skillsData.subTitle ? DOMComposer.new({ tag: 'h2' })
+        .setAttribute({ name: 'class', value: 'sub-title' })
+        .setInnerText({ text: i18n.t(skillsData.subTitle) }) : null;
+
+    const titleContent = DOMComposer.fragment().appendChild({ child: title });
+    let hasSubtitle = false;
+    if (subTitle) {
+        titleContent.appendChild({ child: subTitle });
+        hasSubtitle = true;
+    }
+
+
+    const tableBody = DOMComposer.new({ tag: 'tbody' });
+    (skillsData.categories || []).forEach(category => {
+        const skillCells = DOMComposer.new({ tag: 'td' })
+            .setAttribute({ name: 'class', value: 'skills-cell' });
+        (category.items || []).forEach(item => {
+            skillCells.appendChild({ child: createStackItem({ lang: i18n.t(item.skill), level: item.level }) });
+        });
+
+        const tableRow = DOMComposer.new({ tag: 'tr' })
+            .appendChild({
+                child: DOMComposer.new({ tag: 'td' })
+                    .setAttribute({ name: 'class', value: 'label-cell' })
+                    .setInnerText({ text: i18n.t(category.name) }) // Category name
+            })
+            .appendChild({ child: skillCells });
+        tableBody.appendChild({ child: tableRow });
+    });
+
+    const table = DOMComposer.new({ tag: 'table' })
+        .setAttribute({ name: 'class', value: 'skills-table' })
+        .appendChild({ child: tableBody });
+
+    // Wrap table in the container divs as per HTML structure
+    const bodyContent = DOMComposer.new({ tag: 'div' })
+        .setAttribute({ name: 'class', value: 'skills-container' }) // Outer container
+        .appendChild({
+            child: DOMComposer.new({ tag: 'div' })
+                .setAttribute({ name: 'class', value: 'skills-container' }) // Inner container
+                .appendChild({ child: table })
+        });
+
+    return createSectionFrame({ titleContent, bodyContent, hasSubtitle });
+};
+
+/**
+ * @param {ResumeProjectProgress} progressData 
+ * @param {ProjectStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createProjectProgressSection = (progressData, commonData) => {
+    const title = DOMComposer.new({ tag: 'h1' })
+        .setAttribute({ name: 'class', value: 'inline' }) // Add inline based on HTML
+        .setInnerText({ text: i18n.t(progressData.title) });
+    const subTitle = progressData.subTitle ? DOMComposer.new({ tag: 'h2' })
+        .setAttribute({ name: 'class', value: 'sub-title' })
+        .setInnerText({ text: i18n.t(progressData.subTitle) }) : null;
+
+    const titleContent = DOMComposer.fragment().appendChild({ child: title });
+    let hasSubtitle = false;
+    if (subTitle) {
+        titleContent.appendChild({ child: subTitle });
+        hasSubtitle = true;
+    }
+
+
+    // Create Table Header
+    const tableHead = DOMComposer.new({ tag: 'thead' })
+        .appendChild({
+            child: DOMComposer.new({ tag: 'tr' })
+                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.projectHeader) }) })
+                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.progressHeader) }) })
+                .appendChild({ child: DOMComposer.new({ tag: 'th' }).setInnerText({ text: i18n.t(commonData.progress.periodHeader) }) })
+        });
+
+    // Create Table Body
+    const tableBody = DOMComposer.new({ tag: 'tbody' });
+    (progressData.items || []).forEach(item => {
+        const progressImg = DOMComposer.new({ tag: 'img' })
+            .setAttribute({ name: 'src', value: `https://progress-bar.xyz/${item.progress}${item.color ? '?progress_color=' + item.color : ''}` })
+            .setAttribute({ name: 'alt', value: `progress ${item.progress}%` });
+
+        const tableRow = DOMComposer.new({ tag: 'tr' })
+            .appendChild({
+                child: DOMComposer.new({ tag: 'td' })
+                    .setInnerText({ text: i18n.t(item.name) })
+            })
+            .appendChild({
+                child: DOMComposer.new({ tag: 'td' })
+                    .appendChild({ child: progressImg })
+            })
+            .appendChild({
+                child: DOMComposer.new({ tag: 'td' })
+                    .setInnerText({ text: i18n.t(item.period) })
+            });
+        tableBody.appendChild({ child: tableRow });
+    });
+
+    const table = DOMComposer.new({ tag: 'table' })
+        .setAttribute({ name: 'class', value: 'projects-table' })
+        .appendChild({ child: tableHead })
+        .appendChild({ child: tableBody });
+
+    return createSectionFrame({ titleContent, bodyContent: table, hasSubtitle });
+};
 
 /**
  * @param {FetchedResumeData} resumeData

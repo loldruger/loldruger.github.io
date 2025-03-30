@@ -24,11 +24,11 @@
     padding-left: 1em;
 }
 
-.indent[level="2"] {
+.indent[level="1.5"] {
     padding-left: 1.5em;
 }
 
-.indent[level="3"] {
+.indent[level="2"] {
     padding-left: 2em;
 }
 
@@ -70,6 +70,10 @@
     display: flex;
 }
 
+.flexbox.flex-row {
+    flex-flow: row wrap;
+}
+
 .flexbox.flex-column {
     flex-direction: column;
 }
@@ -93,11 +97,6 @@
     white-space: nowrap;
 
     vertical-align: top;
-}
-
-.division-name {
-    font-weight: 400;
-    font-size: 1.1em;
 }
 
 .title {
@@ -125,10 +124,6 @@
 
 .align-center-h {
     justify-content: center;
-}
-
-.stack-container {
-    margin-top: 8px;
 }
 
 .content > p {
@@ -259,4 +254,8 @@
 
 .mt-1 {
     margin-top: 4px;
+}
+
+.mt-2 {
+    margin-top: 8px;
 }

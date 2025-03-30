@@ -50,8 +50,8 @@
                                 }
                             ],
                             "contents": [
-                                "Using Java Spring, Hibernate, QueryDSL, Oracle 19c, I participated in developing a web backend API for a 3D furniture placement simulator. I thoroughly studied the implementation of the JPA layer in advance, and with abundant prior knowledge of OS and network. Based on this understanding, I enhanced the quality of the code. I worked on many core features of the project such as <highlight>leveraging the DB connection pool</highlight>, <highlight>managing the multithreaded Spring scheduler</highlight>, and <highlight>implementing an FTPS server</highlight>. Additionally, I wrote <highlight>a batch query to migrate the database to another</highlight>.",
-                                "I also helped the front-end team <highlight>optimize the performance of the web application</highlight> by analyzing the app's memory leakage and performance bottleneck using Browser DevTools. I integrated this project's development environment with Windows WSL2, connecting the Java backend and React frontend efficiently."
+                                "저는 Java Spring, Hibernate, QueryDSL, Oracle 19c를 사용하여 3D 가구 배치 시뮬레이터를 위한 웹 백엔드 API 개발에 참여했습니다. 사전에 JPA 계층의 구현을 철저히 공부했고, OS 및 네트워크에 대한 풍부한 사전 지식을 가지고 있었으며 이러한 이해를 바탕으로 코드의 품질을 향상시켰습니다. 저는 <highlight>DB 커넥션 풀 활용</highlight>, <highlight>멀티스레드 Spring 스케줄러 관리</highlight>, <highlight>FTPS 서버 구현</highlight>과 같은 프로젝트의 여러 핵심 기능 개발에 참여했습니다. 또한, <highlight>데이터베이스를 다른 곳으로 마이그레이션하기 위한 배치 쿼리를 작성</highlight>(Reflection이라고 봐도 무방)했습니다.",
+                                "또한 Browser DevTools를 사용하여 앱의 메모리 누수 및 성능 병목 현상을 분석하여 프론트엔드 팀이 <highlight>웹 애플리케이션의 성능을 최적화</highlight>하는 데 도움을 주었습니다. Windows WSL2와 이 프로젝트의 개발 환경을 통합하여 Java 백엔드와 React 프론트엔드를 효율적으로 연결했습니다."
                             ]
                         },
                         {
@@ -68,7 +68,7 @@
                                 }
                             ],
                             "contents": [
-                                "I was assigned urgently to this project because the due date was so tight. But I was quickly able to adapt to the project. And although the seriously unstable and each-time-changing API protocol made this project harder to develop, I wrote UI components flexibly as much as possible so that whenever the API changes, I could just change the API layer only. At that time, SwiftUI/iOS13 didn't support many of the UI components, so I had to implement them by hand. So I made some custom UI components \"Pull to Refresh\", \"Infinite Scroll\", \"Wrap Around Container\", and \"Universal Grid View\". I leveraged Swift with its Protocol-oriented programming and limited extension usage for this project to make the code more readable and maintainable. I needed to finish this project in 2 months; I had to work on the project literally 24/7. I was so exhausted, but I was able to finish the project on time."
+                                "저는 마감 기한이 매우 촉박한 이 프로젝트에 긴급하게 투입되어 다급하게 프로젝트를 진행한 적이 있습니다. 그럼에도 저는 <highlight>빠르게 프로젝트에 적응</highlight>할 수 있었습니다. 그리고 매우 불안정하고 매번 변경되는 API 프로토콜 때문에 프로젝트 개발이 더 어려웠음에도 불구하고, 저는 <highlight>API가 변경될 때마다 API 계층만 수정하면 되도록 UI 컴포넌트를 최대한 유연하게 작성</highlight>했습니다. 당시 SwiftUI/iOS13는 많은 UI 컴포넌트를 지원하지 않았기 때문에 제가 직접 구현해야 했습니다. 그래서 저는 <highlight>\"Pull to Refresh\", \"Infinite Scroll\", \"Wrap Around Container\", \"Universal Grid View\"와 같은 몇 가지 커스텀 UI 컴포넌트를 직접 만들었습니다</highlight>. 저는 이 프로젝트에서 <highlight>코드의 가독성과 유지보수성을 높이기 위해 Swift의 프로토콜 지향 프로그래밍(POP)을 활용하고 extension 사용을 제한</highlight>했습니다. 저는 이 프로젝트를 <highlight>2개월 안에 끝내야</highlight> 했기 때문에 말 그대로 24시간 내내 프로젝트에 매달려야 했습니다. 매우 지쳤지만, <highlight>프로젝트를 제시간에 성공적으로 완료</highlight>할 수 있었습니다."
                             ]
                         },
                         {
@@ -113,9 +113,9 @@
                                 }
                             ],
                             "contents": [
-                                "With a bunch of stacks such as Vue, Vuex, Vuex-pathify, Vuetify, Apollo Client&Server, GraphQL, Objection.js, Knex.js, PostgreSQL, I solely developed a web based writing service integrated with SNS.",
-                                "It took me two months to understand the whole structure of the project and the code base. I had to learn a lot of new stacks I listed above. After understanding, I re-architected the relational database schema for the quite complex tables due to the nature of the SNS service because the original schema was Wiki based.",
-                                "Again, I separated the backend layer into a couple of layers: Business Logic Layer, Bridge Layer, and Endpoint Layer. I was responsible for this project to develop the backend API and the frontend UI. This project really needed to be clarified to configure the development environment. So I documented and wrote instructions for setup and deployment. I ultimately chose to use WSL for the development environment. And VSCode as the IDE for remote browser debugging and remote server debugging. It required some PowerShell scripts for IP table configuration and port forwarding."
+                                "Vue, Vuex, Vuex-pathify, Vuetify, Apollo Client & Server, GraphQL, Objection.js, Knex.js, PostgreSQL과 같은 다양한 스택을 사용하여, 저는 <highlight>SNS와 통합된 웹 기반 글쓰기 서비스를 단독으로 개발</highlight>했습니다.",
+                                "프로젝트의 전체 구조와 코드 베이스를 이해하는 데 두 달이 걸렸으며, 이 과정에서 <highlight>위에 나열된 많은 새로운 스택들을 배워야 했습니다</highlight>. 내용을 파악한 후에는, 기존 스키마가 위키 기반이었기 때문에 SNS 서비스의 특성상 매우 복잡했던 테이블들의 <highlight>관계형 데이터베이스 스키마를 재설계</highlight>했습니다.",
+                                "또한, <highlight>백엔드 계층을 비즈니스 로직 계층, 브릿지 계층, 엔드포인트 계층으로 분리</highlight>했습니다. 저는 이 프로젝트에서 백엔드 API와 프론트엔드 UI 개발을 모두 담당했습니다. 이 프로젝트는 개발 환경 구성에 대한 명확한 설명이 필요했기 때문에, 저는 <highlight>설치 및 배포를 위한 설명서를 문서화하고 작성</highlight>했습니다. 최종적으로 개발 환경으로는 WSL을, 원격 브라우저 및 서버 디버깅을 위한 IDE로는 VSCode를 사용하기로 결정했으며, 이를 위해 <highlight>IP 테이블 구성 및 포트 포워딩을 위한 일부 PowerShell 스크립트</highlight>가 필요했습니다."
                             ]
                         }
                     ]
@@ -141,11 +141,11 @@
                                 }
                             ],
                             "contents": [
-                                "I was responsible for writing the device installation status reporting docs. It was originally a job to be done by hand, but I automated it using Google Spreadsheet and Google Apps Script. It even automatically sent the report to my boss's email. So this greatly improved the workflow and reduced the time to write the report."
+                                "저는 장비 설치 상태 보고 문서 작성을 담당했습니다. 이 작업은 원래 수작업으로 이루어졌지만, 저는 <highlight>Google 스프레드시트와 Google Apps Script를 사용하여 이 과정을 자동화</highlight>했습니다. 심지어 <highlight>상사의 이메일로 보고서가 자동으로 발송</highlight>되도록 만들었습니다. 이를 통해 <highlight>업무 흐름이 크게 개선되었고 보고서 작성 시간이 단축</highlight>되었습니다."
                             ]
                         },
                         {
-                            "title": "3. 많은 실물 센서들을 프로그래밍적으로 수학적이고 추상화된 모듈로 모델링",
+                            "title": "3. 실물 센서들을 개념적이고 추상화된 수학적 모듈로 모델링",
                             "duration": "2018-07 ~ 2019-05",
                             "stacks": [
                                 {
@@ -158,8 +158,8 @@
                                 }
                             ],
                             "contents": [
-                                "I modeled a mathematical model of the sensors which were written in the firmware literally in the form of a table, to just only one line of 2nd order polynomial function which approximates the trend of the real data. This work made a bunch of codes to be removed and the firmware to be more readable and maintainable. I mocked the interface concept to the sensor objects to be more abstracted and flexible.",
-                                "Similarly, I developed a driver for many custom 8-seg displays. It was designed and developed to have a universal API to be able to replace the display module easily."
+                                "저는 펌웨어 내에 테이블 형태로 작성되어 있던 센서 데이터를 실제 데이터의 경향을 근사하는 <highlight>단 한 줄의 2차 다항식 함수로 수학적 모델링</highlight>을 했습니다. 이 작업을 통해 많은 코드를 제거하고 <highlight>펌웨어의 가독성과 유지보수성을 향상</highlight>시킬 수 있었습니다. 또한, 센서 객체를 <highlight>더 추상화되고 유연하게 만들기 위해 인터페이스 개념을 도입</highlight>했습니다.",
+                                "유사하게, 저는 <highlight>다수의 커스텀 8-세그먼트(8-seg) 디스플레이용 드라이버를 개발</highlight>했습니다. 이 드라이버는 <highlight>디스플레이 모듈을 쉽게 교체할 수 있도록 범용 API를 갖도록 설계 및 개발</highlight>되었습니다."
                             ]
                         },
                         {
@@ -176,8 +176,8 @@
                                 }
                             ],
                             "contents": [
-                                "To attach remote control functionality to the firmware I developed, I worked to implement a driver interface for a Lora transmission module using ANSI C. There could be a chance that I could control a device directly or use remote control simultaneously, so I had to adopt a simple mutex concept to prevent data races or corruption.",
-                                "By the limitation of the Lora technology, it could transmit only about 60 bits of serialized data at once. So I had to implement a generic bitwise deserialization parser. It was so well designed that it could be used in other projects as well. Also I needed to satisfy the requirement of the Lora module protocol which is confliction avoidance stratgey."
+                                "제가 개발한 펌웨어에 원격 제어 기능을 추가하기 위해, <highlight>ANSI C를 사용하여 LoRa 전송 모듈용 드라이버 인터페이스를 구현</highlight>하는 작업을 했습니다. 장치를 직접 제어하는 경우와 원격 제어를 동시에 사용하는 상황이 발생할 수 있었기 때문에, 데이터 경쟁(data race)이나 손상을 방지하기 위해 <highlight>간단한 뮤텍스(mutex) 개념을 도입</highlight>해야 했습니다.",
+                                "LoRa 기술의 한계로 인해 한 번에 약 60비트의 직렬화된 데이터만 전송할 수 있었습니다. 그래서 <highlight>범용 비트 단위(bitwise) 역직렬화 파서를 구현</highlight>해야 했습니다. 이 파서는 <highlight>다른 프로젝트에서도 재사용할 수 있을 정도로 잘 설계</highlight>되었습니다. 또한, LoRa 모듈 프로토콜의 요구 사항인 <highlight>충돌 회피 전략(conflict avoidance strategy)을 만족</highlight>시켜야 했습니다."
                             ]
                         },
                         {
@@ -194,8 +194,8 @@
                                 }
                             ],
                             "contents": [
-                                "Using ANSI C, I was solely assigned to the main project to develop a firmware which required to control industrial refrigeration systems and to provide an ergonomic user experience. This project required me a lot of research such as understanding data sheet of the components and the refrigeration system.",
-                                "Because this device would be running 24/7, I was responsible for the stability of the firmware. It must be considered accumulated errors and any memory leak. That's why I architected the firmware more abstractly and modularly. For example, I segregated the firmware into 3 layers: Business Logic Layer(Application Layer), Bridge Layer, and Hardware Abstraction Layer(integrated with HAL)."
+                                "저는 ANSI C를 사용하여 <highlight>산업용 냉동 시스템을 제어하고 인체공학적 사용자 경험(ergonomic user experience)을 제공하는 펌웨어 개발</highlight> 메인 프로젝트에 <highlight>단독으로 배정</highlight>되었습니다. 이 프로젝트를 위해 부품 데이터 시트와 냉동 시스템을 이해하는 등 <highlight>많은 연구가 필요</highlight>했습니다.",
+                                "이 장비는 24시간 연중무휴로 작동해야 했기 때문에, <highlight>펌웨어의 안정성에 대한 책임</highlight>이 저에게 있었습니다. 누적 오류나 메모리 누수 가능성을 반드시 고려해야 했습니다. 그래서 <highlight>펌웨어를 더 추상적이고 모듈식으로 설계</highlight>했습니다. 예를 들어, 펌웨어를 <highlight>비즈니스 로직 계층(애플리케이션 계층), 브릿지 계층, 하드웨어 추상화 계층(HAL 통합)의 3개 계층으로 분리</highlight>했습니다."
                             ]
                         }
                     ]
@@ -253,7 +253,7 @@
                     "title": "2. Proschedio.py",
                     "duration": "2025.01 ~ Pending",
                     "participants": [
-                        "Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)"
+                        "개발자: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)"
                     ],
                     "backendStacks": [
                         {
@@ -263,7 +263,7 @@
                     ],
                     "platforms": [
                         {
-                            "lang": "Every OS which can execute Python 3",
+                            "lang": "Python 3를 실행시킬 수 있는 모든 OS",
                             "level": 0
                         }
                     ],
@@ -309,7 +309,7 @@
                     "title": "1. upbit-rs",
                     "duration": "2023-03 ~ 유지보수중",
                     "participants": [
-                        "Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)"
+                        "개발자: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)"
                     ],
                     "backendStacks": [
                         {
@@ -336,9 +336,9 @@
                     "title": "2. Random Moai Defense",
                     "duration": "2019-09 ~ 2020-06",
                     "participants": [
-                        "Main Developer: <a href=\"https://github.com/MyNameIsDabin\">Dabin</a>",
-                        "Main Artist & Sub Dev: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)",
-                        "Game Designer: <strong>Both of Us</strong>"
+                        "메인 개발자: <a href=\"https://github.com/MyNameIsDabin\">Dabin</a>",
+                        "메인 아티스트 & 부 개발자: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)",
+                        "게임 기획자: <strong>둘 다</strong>"
                     ],
                     "frontendStacks": [
                         {
@@ -364,9 +364,9 @@
                     "title": "1. 빤스런",
                     "duration": "2017-11 ~ 2017-12",
                     "participants": [
-                        "Main Developer: <a href=\"https://play.google.com/store/apps/dev?id=7302400084345857961\">MPMaker</a>",
-                        "Main Artist: <a href=\"https://github.com/loldruger\">loldruger</a> (Me Again)",
-                        "Game Designer: <strong>Both of Us</strong>"
+                        "메인 개발자: <a href=\"https://play.google.com/store/apps/dev?id=7302400084345857961\">MPMaker</a>",
+                        "메인 아티스트: <a href=\"https://github.com/loldruger\">loldruger</a> (Me Again)",
+                        "게임 기획자: <strong>둘 다</strong>"
                     ],
                     "frontendStacks": [
                         {
@@ -395,11 +395,11 @@
             "duration": "2015-10 ~ 2017-10",
             "items": [
                 {
-                    "name": "TEPS 710 (outdated)",
+                    "name": "TEPS 710 (만료됨)",
                     "date": "2017.10"
                 },
                 {
-                    "name": "TOEIC 800 (outdated)",
+                    "name": "TOEIC 800 (만료됨)",
                     "date": "2016.10"
                 },
                 {
@@ -511,7 +511,7 @@
                     ]
                 },
                 {
-                    "name": "도구 및 엔진",
+                    "name": "툴 및 엔진",
                     "items": [
                         {
                             "skill": "Godot 4",

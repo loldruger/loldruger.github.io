@@ -688,6 +688,7 @@ const createCertificationsSection = (/** @type {ResumeCertifications} */ certDat
     const title = DOMComposer.new({ tag: 'h1' })
         .setAttribute({ name: 'class', value: 'inline' })
         .setInnerText({ text: i18n.t(certData.title) });
+
     const overallDuration = DOMComposer.new({ tag: 'time' })
         .setAttribute({ name: 'class', value: 'indent date' })
         .setAttribute({ name: 'level', value: '0.5' })
@@ -722,17 +723,18 @@ const createCertificationsSection = (/** @type {ResumeCertifications} */ certDat
 const createSkillsSection = (/** @type {ResumeSkills} */ skillsData) => {
     const title = DOMComposer.new({ tag: 'h1' })
         .setInnerText({ text: i18n.t(skillsData.title) });
+
     const subTitle = skillsData.subTitle ? DOMComposer.new({ tag: 'h2' })
         .setAttribute({ name: 'class', value: 'sub-title' })
         .setInnerText({ text: i18n.t(skillsData.subTitle) }) : null;
 
     const titleContent = DOMComposer.fragment().appendChild({ child: title });
     let hasSubtitle = false;
+
     if (subTitle) {
         titleContent.appendChild({ child: subTitle });
         hasSubtitle = true;
     }
-
 
     const tableBody = DOMComposer.new({ tag: 'tbody' });
     (skillsData.categories || []).forEach(category => {

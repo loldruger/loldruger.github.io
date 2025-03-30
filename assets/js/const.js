@@ -241,6 +241,10 @@ const createWorkExperienceSection = (workData, commonData) => {
             .setAttribute({ name: 'class', value: 'company-name inline' })
             .setInnerText({ text: i18n.t(item.company) });
 
+        const companyDuration = DOMComposer.new({ tag: 'time' })
+            .setAttribute({ name: 'class', value: 'date inline' })
+            .setInnerText({ text: i18n.t(item.duration) });
+
         const divisionInfo = DOMComposer.new({ tag: 'div' })
             .setAttribute({ name: 'class', value: 'indent' })
             .setAttribute({ name: 'level', value: '1' });
@@ -294,7 +298,8 @@ const createWorkExperienceSection = (workData, commonData) => {
                 })
                 .appendChild({
                     child: DOMComposer.new({ tag: 'time' })
-                        .setAttribute({ name: 'class', value: 'date' })
+                        .setAttribute({ name: 'class', value: 'indent  date' })
+                        .setAttribute({ name: 'level ', value: '0.5' })
                         .setInnerText({ text: i18n.t(exp.duration) })
                 });
 
@@ -322,7 +327,13 @@ const createWorkExperienceSection = (workData, commonData) => {
             }
         }
 
-        companyContainer.appendChild({ child: companyHeader })
+        companyContainer
+            .appendChild({
+                child: DOMComposer.new({ tag: 'div' })
+                    .setAttribute({ name: 'class', value: 'title-area' })
+                    .appendChild({ child: companyHeader })
+                    .appendChild({ child: companyDuration })
+            })
             .appendChild({ child: divisionInfo })
             .appendChild({ child: experiencesContainer });
 

@@ -12,9 +12,6 @@ import { getResume, events } from './const.js';
  * @typedef {import('./DOMinator/WorkerPool.js').WorkerTask} WorkerTask
  */
 
-
-// --- Core Functions ---
-
 /**
  * Attaches delegated event listeners to a container element based on data-event-* attributes.
  * @param {HTMLElement} container - The container element to attach listeners to.
@@ -97,7 +94,7 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
 
         /** @type {WorkerPool | null} */
         let pool = null;
-        const workerCount = navigator.hardwareConcurrency > 4 ? 4 : 2; // Use available cores or default to 2
+        const workerCount = navigator.hardwareConcurrency || 2; // Use available cores or default to 2
 
         // Keep try-catch for WorkerPool creation as it involves external resources (workers)
         try {

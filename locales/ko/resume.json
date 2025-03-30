@@ -15,7 +15,7 @@
         },
         "workExperience": {
             "title": "경력",
-            "duration": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06",
+            "duration": "2018-07 ~ 2021-09",
             "items": [
                 {
                     "company": "아이아라",
@@ -124,8 +124,8 @@
                     "company": "대단",
                     "duration": "2018-07 ~ 2019-12",
                     "jobTitle": "연구원",
-                    "team": "연구부서",
-                    "resignedFor": "학업을 위한 퇴직",
+                    "division": "연구부서",
+                    "resignedFor": "학업을 위해 퇴직",
                     "experiences": [
                         {
                             "title": "4. 문서 자동화 작업",
@@ -210,9 +210,9 @@
                     "title": "3. Dreamscape Forest Anipals",
                     "duration": "2025.02 ~ WIP",
                     "participants": [
-                        "Backend Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)",
-                        "Frontend Developer: <a href=\"https://github.com/rovks134\">rovks134</a>",
-                        "Main Artist: <a href=\"https://github.com/person6737\">persona6737</a> (Pending)"
+                        "백엔드 개발자: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)",
+                        "프론트엔드 개발자: <a href=\"https://github.com/rovks134\">rovks134</a>",
+                        "아트 컨셉: <a href=\"https://github.com/person6737\">persona6737</a>"
                     ],
                     "backendStacks": [
                         {

@@ -15,7 +15,7 @@
         },
         "workExperience": {
             "title": "Work Experience",
-            "duration": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06",
+            "duration": "2018-07 ~ 2021-09",
             "items": [
                 {
                     "company": "Aiara",
@@ -124,7 +124,7 @@
                     "company": "Daedan",
                     "duration": "2018-07 ~ 2019-12",
                     "jobTitle": "Research Engineer",
-                    "team": "Research Department",
+                    "division": "Research Department",
                     "resignedFor": "Resigned for study",
                     "experiences": [
                         {
@@ -212,7 +212,7 @@
                     "participants": [
                         "Backend Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)",
                         "Frontend Developer: <a href=\"https://github.com/rovks134\">rovks134</a>",
-                        "Main Artist: <a href=\"https://github.com/person6737\">persona6737</a> (Pending)"
+                        "Art Concept: <a href=\"https://github.com/person6737\">persona6737</a> (Pending)"
                     ],
                     "backendStacks": [
                         {

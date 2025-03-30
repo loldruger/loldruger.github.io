@@ -1,31 +1,31 @@
 {
     "resume": {
         "profile": {
-            "title": "Profile & Contact",
-            "name": "Siyoung Jang",
+            "title": "프로필 & 연락처",
+            "name": "장시영",
             "email": "ykvcwp2kq@mozmail.com"
         },
         "education": {
-            "title": "Education",
-            "date": "2016-03 ~ 2027-03 (Expected)",
-            "university": "Korea University (Sejong Campus)",
-            "major": "Electronics and Information Engineering",
-            "graduation": "2027 Expected",
+            "title": "최종학력",
+            "date": "2016-03 ~ 2027-03 (예상)",
+            "university": "고려대학교 (세종캠퍼스)",
+            "major": "전자정보공학",
+            "graduation": "2027 졸업 예상",
             "gpa": "2.83/4.5"
         },
         "workExperience": {
-            "title": "Work Experience",
+            "title": "경력",
             "duration": "2020-12 ~ 2021-09, 2018-07 ~ 2019-06",
             "items": [
                 {
-                    "company": "Aiara",
+                    "company": "아이아라",
                     "duration": "2020-12 ~ 2021-09",
-                    "jobTitle": "Software Engineer",
-                    "division": "Development Department Team 1",
-                    "resignedFor": "Resigned for conscription",
+                    "jobTitle": "소프트웨어 엔지니어",
+                    "division": "개발 1팀",
+                    "resignedFor": "군 입대로 인한 퇴직",
                     "experiences": [
                         {
-                            "title": "3. Developed Web Rest API",
+                            "title": "3. 웹 서비스 REST API 개발",
                             "duration": "2021-06 ~ 2021-08",
                             "stacks": [
                                 {
@@ -55,7 +55,7 @@
                             ]
                         },
                         {
-                            "title": "2. Developed an iOS Financial and Community Service App",
+                            "title": "2. iOS 금융 및 커뮤니티 통합 서비스 앱 개발",
                             "duration": "2021-02 ~ 2021-04",
                             "stacks": [
                                 {
@@ -72,7 +72,7 @@
                             ]
                         },
                         {
-                            "title": "1. Developed a Web Based Writing Service integrated with SNS",
+                            "title": "1. 웹 베이스의 글쓰기와 SNS 통합 서비스 개발",
                             "duration": "2021-01 ~ 2021-08",
                             "stacks": [
                                 {
@@ -121,14 +121,14 @@
                     ]
                 },
                 {
-                    "company": "Daedan",
+                    "company": "대단",
                     "duration": "2018-07 ~ 2019-12",
-                    "jobTitle": "Research Engineer",
-                    "team": "Research Department",
-                    "resignedFor": "Resigned for study",
+                    "jobTitle": "연구원",
+                    "team": "연구부서",
+                    "resignedFor": "학업을 위한 퇴직",
                     "experiences": [
                         {
-                            "title": "4. Automated Documentation Job",
+                            "title": "4. 문서 자동화 작업",
                             "duration": "2019-05 ~ 2019-06",
                             "stacks": [
                                 {
@@ -145,7 +145,7 @@
                             ]
                         },
                         {
-                            "title": "3. Modeled Mathematically and Developed Many Kinds Abstracted Modules of Sensors",
+                            "title": "3. 많은 실물 센서들을 프로그래밍적으로 수학적이고 추상화된 모듈로 모델링",
                             "duration": "2018-07 ~ 2019-05",
                             "stacks": [
                                 {
@@ -163,7 +163,7 @@
                             ]
                         },
                         {
-                            "title": "2. Developed a Driver which interfaces with Lora Transmission Module",
+                            "title": "2. Lora 통신 모듈과 인터페이스하는 드라이버 개발",
                             "duration": "2018-10 ~ 2018-12",
                             "stacks": [
                                 {
@@ -181,7 +181,7 @@
                             ]
                         },
                         {
-                            "title": "1. Developed an Automated Control Firmware for Industrial Refrigeration",
+                            "title": "1. 산업용 냉동 시스템을 위한 자동화 제어 펌웨어 개발",
                             "duration": "2018-07 ~ 2019-03",
                             "stacks": [
                                 {
@@ -203,7 +203,7 @@
             ]
         },
         "currentProjects": {
-            "title": "My Current Major Projects",
+            "title": "현재 진행 중인 프로젝트",
             "duration": "2024-10 ~ WIP",
             "items": [
                 {
@@ -302,12 +302,12 @@
             ]
         },
         "maintainingProjects": {
-            "title": "Maintaining Projects",
-            "duration": "2023-03 ~ Maintaining",
+            "title": "유지보수중인 프로젝트",
+            "duration": "2023-03 ~ 유지보수중",
             "items": [
                 {
                     "title": "1. upbit-rs",
-                    "duration": "2023-03 ~ Maintaining",
+                    "duration": "2023-03 ~ 유지보수중",
                     "participants": [
                         "Developer: <a href=\"https://github.com/loldruger\">loldruger</a> (Me)"
                     ],
@@ -329,7 +329,7 @@
             ]
         },
         "previousProjects": {
-            "title": "Previous Projects I Participated",
+            "title": "이전에 참여했던 프로젝트",
             "duration": "2017-11 ~ 2017-12, 2019-09 ~ 2020-06",
             "items": [
                 {
@@ -391,7 +391,7 @@
             ]
         },
         "certifications": {
-            "title": "Certifications",
+            "title": "자격증",
             "duration": "2015-10 ~ 2017-10",
             "items": [
                 {
@@ -417,11 +417,10 @@
             ]
         },
         "skills": {
-            "title": "Skills",
-            "subTitle": "Stacks I Experienced Colored by Proficiency Level",
+            "title": "기술 스택",
             "categories": [
                 {
-                    "name": "Languages",
+                    "name": "언어",
                     "items": [
                         {
                             "skill": "C",
@@ -462,7 +461,7 @@
                     ]
                 },
                 {
-                    "name": "Frameworks",
+                    "name": "프레임워크",
                     "items": [
                         {
                             "skill": "Vue.js",
@@ -483,7 +482,7 @@
                     ]
                 },
                 {
-                    "name": "Databases",
+                    "name": "데이터베이스",
                     "items": [
                         {
                             "skill": "JSON DB with Exploiting Postman",
@@ -512,7 +511,7 @@
                     ]
                 },
                 {
-                    "name": "Tools & Engines",
+                    "name": "도구 및 엔진",
                     "items": [
                         {
                             "skill": "Godot 4",
@@ -529,7 +528,7 @@
                     ]
                 },
                 {
-                    "name": "Etc.",
+                    "name": "기타",
                     "items": [
                         {
                             "skill": "BashShell",
@@ -544,8 +543,7 @@
             ]
         },
         "projectProgress": {
-            "title": "Progress of Projects",
-            "subTitle": "additional info",
+            "title": "프로젝트 진행 상황",
             "items": [
                 {
                     "name": "DFA Backend",

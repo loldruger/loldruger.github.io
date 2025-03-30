@@ -3,7 +3,7 @@
 import DOMComposer from './DOMinator/DOMComposer.js';
 import WorkerPool from './DOMinator/WorkerPool.js';
 import { eventRegistry } from './DOMinator/EventRegistry.js';
-import { Fetcher, i18n } from './i18n/lib.js'; // Import i18n for localization
+import { Fetcher } from './i18n/lib.js';
 import { getResume, events } from './const.js';
 /**
  * @typedef {import('./DOMinator/DOMComposer.js').HtmlEventName} HtmlEventName
@@ -111,7 +111,6 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
         // Assumes getChildren() returns DOMComposer[] based on JSDoc
         const tasks = rootComposer.getChildren();
         const totalTasks = tasks.length;
-        /** @type {Array<string>} */
         const results = new Array(totalTasks).fill(''); // Initialize results array
         let completedTasks = 0;
         let hasCriticalError = false;

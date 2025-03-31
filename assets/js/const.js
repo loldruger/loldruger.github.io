@@ -219,13 +219,11 @@ const events = () => {
     eventRegistry.register('fold-section', (event) => {
         if (!(event instanceof Event) || !(event.target instanceof Element)) return;
         event.preventDefault();
-        // Find the closest section and toggle a class, for example
-        const section = event.target.closest('section');
+        event.target.parentElement?.classList.toggle('folded');
+
+        const section = event.target.closest('section')?.getElementsByClassName('content-body')[0];
         if (section) {
-            section.classList.toggle('folded'); // Example folding mechanism
-            console.log(`Toggled fold state for section containing:`, event.target);
-        } else {
-            console.warn('Could not find parent section for fold toggle:', event.target);
+            section.classList.toggle('rolled-up');
         }
     });
 };

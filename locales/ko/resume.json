@@ -162,7 +162,7 @@
                                 }
                             ],
                             "contents": [
-                                "저는 펌웨어 내에 테이블 형태로 작성되어 있던 센서 데이터들을 바탕으로 실제 데이터의 경향을 근사하는 <highlight>단 한 줄의 2차 다항식 함수로 curve fitting</highlight>했습니다. 이 작업을 통해 많은 코드를 제거했고<highlight> 펌웨어의 가독성과 유지보수성을 크게 향상</highlight>시킬 수 있었습니다. 또한, 센서 객체를 <highlight>더 추상화되고 유연하게 만들기 위해 인터페이스 개념을 도입</highlight>했습니다.",
+                                "저는 펌웨어 내에 테이블 형태로 작성되어 있던 센서 데이터들을 바탕으로 실제 데이터의 경향을 근사하는 <highlight>단 한 줄의 2차 다항식 함수로 curve fitting</highlight>했습니다. 이 작업을 통해 많은 코드를 제거했고 <highlight>펌웨어의 가독성과 유지보수성을 크게 향상</highlight>시킬 수 있었습니다. 또한, 센서 객체를 <highlight>더 추상화되고 유연하게 만들기 위해 인터페이스 개념을 도입</highlight>했습니다.",
                                 "유사하게, 저는 <highlight>다수의 커스텀 8-세그먼트(8-seg) 디스플레이용 드라이버를 개발</highlight>했습니다. 이 드라이버는 <highlight>디스플레이 모듈을 쉽게 교체할 수 있도록 범용 API를 갖도록 설계 및 개발</highlight>되었습니다."
                             ]
                         },
@@ -361,7 +361,7 @@
                         }
                     ],
                     "contents": [
-                        "It is not just a common fixed-path defense game; every five stages, the monsters' path changes! Additionally, the user places Moai towers. This action may block the path, but the path will make a detour around the Moai tower the user placed. This simple mechanism and the unique Moai concept spread rapidly through many personal media channels. This resulted in our achieving the top spot in Strategy Game Popularity Rankings for a long time. Then we briefly reached the top spot in Comprehensive Game Popularity Rankings but remained in the top 5 for a long time. And it has been downloaded a total of over 50,000 times."
+                        "이 게임은 디펜스 게임류 특유의 고정 경로 방식에서 탈피해서 매 5스테이지마다 몬스터 경로가 동적으로 변경되는 시스템을 구현한 타워 디펜스 게임입니다. 플레이어가 배치하는 '모아이' 타워는 경로를 차단할 수 있고, 몬스터는 이를 우회합니다. 이 독특한 컨셉과 메커니즘이 호응을 얻어 개인 미디어를 통해 확산되었고, 그 결과 전략 게임 인기 1위(장기간), 전체 게임 인기 1위(단기간) 및 TOP 5(장기간)를 달성했으며, 누적 다운로드 5만 회 이상을 기록했습니다."
                     ]
                 },
                 {
@@ -389,7 +389,7 @@
                         }
                     ],
                     "contents": [
-                        "With minimal interaction, such as tapping or long tapping, players can make the character run faster or perform parkour moves to escape the inferno. 빤스런 was incredibly popular in Korea during that time. We quickly achieved the top spot in the Comprehensive Popularity Rankings for games on the Google Play Store and maintained it for a significant period. As a result, the game has been downloaded over 500,000 times and is loved by players."
+                        "탭(Tap) 또는 롱탭(Long Tap) 등 최소한의 조작만으로 캐릭터를 빨리 달리게 하거나 파쿠르 액션을 하게끔 만들어 다가오는 불길로부터 탈출하는 캐주얼 러닝 게임입니다. 당시 국내 유행 트렌드('빤스런')를 컨셉으로 차용하여 개발하였으며, 출시 직후 구글 플레이 스토어 전체 게임 인기 순위 1위를 빠르게 달성하고 상당 기간 유지하는 성과를 거두었습니다. 누적 다운로드 50만 회 이상을 기록하며 유저들로부터 좋은 반응을 얻었습니다."
                     ]
                 }
             ]

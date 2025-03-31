@@ -12,6 +12,16 @@
     transition: all 0.2s ease-in-out;
 }
 
+.content-body .content {
+    margin-left: 0;
+    transition: margin-left 0.2s ease-in-out;
+}
+
+.content-body:hover .content {
+    margin-left: calc(var(--standard-padding) - 20px); 
+    transition: margin-left 0.2s ease-in-out;
+}
+
 .content-body.rolled-up {
     display: none;
 }

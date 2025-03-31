@@ -201,6 +201,7 @@ import { i18n } from './i18n/lib.js';
 const events = () => {
     const optionButtons = new OptionButtons();
 
+
     eventRegistry.register('change-theme', (event) => {
         event.preventDefault();
 
@@ -226,12 +227,21 @@ const events = () => {
             section.classList.toggle('rolled-up');
         }
     });
+
+    eventRegistry.register('scroll-to-top', (event) => {
+        event.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 };
 
 // Retrieve callbacks for use in DOMComposer.setEvent
 const setThemeCallback = eventRegistry.getEventCallback('change-theme');
 const changeLangCallback = eventRegistry.getEventCallback('change-lang');
 const foldSectionCallback = eventRegistry.getEventCallback('fold-section');
+const scrollToTopCallback = eventRegistry.getEventCallback('scroll-to-top');
 
 // --- Helper Functions ---
 
@@ -251,7 +261,20 @@ const escapeHtml = (unsafe) => {
         .replace(/'/g, "&#039;");
 };
 
-/** Creates Folding Circle SVG Composer */
+
+const createScrollToTopButton = () => {
+    return DOMComposer.new({ tag: 'button' })
+        .setAttribute({ name: 'id', value: 'scroll-to-top-btn' })
+        .setAttribute({ name: 'class', value: 'scroll-to-top-btn' })
+        .setAttribute({ name: 'title', value: 'Scroll to top' })
+        .setAttribute({ name: 'type', value: 'button' })
+        .appendChild({
+            child: DOMComposer.newRaw({ tag: 'svg', rawAttributes: `xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 20" fill="#fff"` })
+                .appendChild({ child: DOMComposer.newRaw({ tag: 'path', rawAttributes: `d="M12 4l-8 8 2 2 6-6 6 6 2-2-8-8z"` }) })
+        })
+        .setEvent({ event: 'click', callback: scrollToTopCallback, alias: 'scroll-to-top' });
+};
+
 const createFoldingCircle = () => {
     // Use newRaw as per user's latest code example for consistency
     const svgIcon = DOMComposer.newRaw({ tag: 'svg', rawAttributes: `class="toggle-icon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"` })
@@ -260,7 +283,7 @@ const createFoldingCircle = () => {
     return DOMComposer.new({ tag: 'span' })
         .setAttribute({ name: 'class', value: 'folding-circle' })
         .appendChild({ child: svgIcon })
-        .setEvent({ event: 'click', callback: foldSectionCallback, alias: 'fold-section' }); // Use retrieved callback variable
+        .setEvent({ event: 'click', callback: foldSectionCallback, alias: 'fold-section' });
 };
 
 /**
@@ -537,7 +560,7 @@ const createWorkExperienceSection = (workData, commonData) => {
 };
 
 /**
- * @param {NonNullable<ResumeData['resume']['currentProjects' | 'maintainingProjects' | 'previousProjects']>} projectData 
+ * @param {NonNullable<ResumeProjects>} projectData 
  * @param {ProjectStrings} commonData
  * @returns {DOMComposer}
  */
@@ -892,7 +915,7 @@ const getResume = (resumeData, commonData) => {
     resumeComposed.push(createCertificationsSection(actualResumeData.certifications));
     resumeComposed.push(createSkillsSection(actualResumeData.skills, actualCommonData.projects));
     resumeComposed.push(createProjectProgressSection(actualResumeData.projectProgress, actualCommonData.projects));
-
+    resumeComposed.push(createScrollToTopButton());
     return resumeComposed;
 };
 

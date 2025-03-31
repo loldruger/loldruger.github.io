@@ -169,7 +169,26 @@
     opacity: 1;
 }
 
+.scroll-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: var(--button-scroll-to-top-color);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.3s, transform 0.2s;
+}
 
+.scroll-to-top-btn:hover {
+    opacity: 1;
+}
 
 .experience-item {
     margin-bottom: 20px;

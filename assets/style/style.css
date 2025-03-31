@@ -37,6 +37,8 @@
     --button-theme-color-hover: #939df9;
     --button-theme-color-hover-drop-shadow: #939df9;
 
+    --button-scroll-to-top-color: #000;
+
     --normal-color: #393939;
     --abnormal-color: #525252;
     --section-line-color: #515151;
@@ -55,7 +57,7 @@
 }
 
 :root.dark-mode {
-    --background-color: #1e1e1e;
+    --background-color: #272727;
 
     --button-theme-background-color: #fff1c5;
     --button-theme-color-hover: #ffba4b;

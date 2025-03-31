@@ -135,7 +135,6 @@
 .participants {
     margin-top: var(--standard-padding);
     margin-bottom: var(--standard-padding);
-    font-size: 1.1em;
 }
 .participants a[href^="http"], 
 .participants a[href^="https"], 

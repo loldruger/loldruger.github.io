@@ -242,8 +242,6 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-
-
 const main = async () => {
     const appRootElement = document.getElementById('app');
     const workerScript = './assets/js/worker.js';
@@ -270,6 +268,7 @@ const main = async () => {
     }
 
     await renderParallel(rootContainer, appRootElement, workerScript);
+    eventRegistry.emit('dataLoaded', "done");
 };
 
 await main();

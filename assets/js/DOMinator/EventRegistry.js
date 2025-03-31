@@ -17,6 +17,12 @@ class EventRegistry {
     #handlers = new Map();
 
     /**
+    * Stores custom event subscribers
+    * @type {Map<string, Array<Function>>}
+    */
+    #customEvents = new Map();
+
+    /**
      * Registers an event handler function with a unique alias.
      * Relies on JSDoc/ts-check for type validation of alias and callback.
      * @param {string} alias - The unique alias for the handler.
@@ -73,6 +79,66 @@ class EventRegistry {
     clear() {
         this.#handlers.clear();
         console.log('EventRegistry: All handlers cleared.'); // Optional logging
+    }
+
+    /**
+     * Subscribe to a custom application event
+     * @param {string} eventName - Name of the event to subscribe to
+     * @param {Function} callback - Function to call when event is triggered
+     * @returns {Function} Unsubscribe function
+     */
+    on(eventName, callback) {
+        if (!this.#customEvents.get(eventName)) {
+            this.#customEvents.set(eventName, []);
+        }
+        this.#customEvents.get(eventName)?.push(callback);
+
+        return () => this.off(eventName, callback);
+    }
+
+    /**
+     * Unsubscribe from a custom application event
+     * @param {string} eventName - Name of the event
+     * @param {Function} callback - Function to remove
+     */
+    off(eventName, callback) {
+        if (this.#customEvents.get(eventName)) {
+            this.#customEvents.set(eventName, this.#customEvents.get(eventName)?.filter(cb => cb !== callback) || []);
+        }
+    }
+
+    /**
+     * Trigger a custom application event
+     * @param {string} eventName - Name of the event to trigger
+     * @param {any} data - Data to pass to subscribers
+     */
+    emit(eventName, data) {
+        if (this.#customEvents.get(eventName)) {
+            this.#customEvents.get(eventName)?.forEach(callback => {
+                try {
+                    callback(data);
+                } catch (error) {
+                    console.error(`Error in event listener for ${eventName}:`, error);
+                }
+            });
+        }
+    }
+
+    /**
+     * Subscribe to an event that will only be triggered once
+     * @param {string} eventName - Name of the event
+     * @param {Function} callback - Function to call once
+     * @returns {Function} Unsubscribe function
+     */
+    once(eventName, callback) {
+        /** 
+         * @param {unknown} data - Data to pass to the callback
+         */
+        const onceWrapper = (data) => {
+            callback(data);
+            this.off(eventName, onceWrapper);
+        };
+        return this.on(eventName, onceWrapper);
     }
 }
 

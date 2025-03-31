@@ -1,3 +1,5 @@
+import { eventRegistry } from "./DOMinator/EventRegistry.js";
+
 const LANG_STORAGE_KEY = 'user-lang-setting';
 const THEME_STORAGE_KEY = 'user-dark-mode-setting';
 const DARK_MODE_CLASS = 'dark-mode';
@@ -13,17 +15,19 @@ export default class OptionButtons {
         this.#userLangSetting = localStorage.getItem(LANG_STORAGE_KEY);
         this.#prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-        if (this.#userThemeSetting !== null) {
-            this.setTheme(this.#userThemeSetting === 'true', false);
-        } else {
-            this.setTheme(this.#prefersDarkMode, false);
-        }
+        eventRegistry.on('dataLoaded', () => {
+            if (this.#userThemeSetting !== null) {
+                this.setTheme(this.#userThemeSetting === 'true', false);
+            } else {
+                this.setTheme(this.#prefersDarkMode, false);
+            }
 
-        if (this.#userLangSetting !== null) {
-            this.setLanguage(this.#userLangSetting ? 'en' : 'ko', false);
-        } else {
-            this.setLanguage(document.documentElement.lang === 'en' ? 'en' : 'ko', false);
-        }
+            if (this.#userLangSetting !== null) {
+                this.setLanguage(this.#userLangSetting ? 'en' : 'ko', false);
+            } else {
+                this.setLanguage(document.documentElement.lang === 'en' ? 'en' : 'ko', false);
+            }
+        });
 
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (localStorage.getItem(THEME_STORAGE_KEY) === null) {

@@ -211,7 +211,7 @@ const events = () => {
     eventRegistry.register('change-lang', (event) => {
         event.preventDefault();
 
-        const currentLang = document.documentElement.lang || 'en';
+        const currentLang = document.documentElement.lang;
         const nextLang = currentLang.toLowerCase().startsWith('en') ? 'ko' : 'en';
         optionButtons.setLanguage(nextLang, true);
     });

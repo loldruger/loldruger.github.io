@@ -76,10 +76,6 @@
                             "duration": "2021-01 ~ 2021-08",
                             "stacks": [
                                 {
-                                    "lang": "Docker",
-                                    "level": 5
-                                },
-                                {
                                     "lang": "Vue.js",
                                     "level": 5
                                 },
@@ -93,6 +89,10 @@
                                 },
                                 {
                                     "lang": "PostgreSQL",
+                                    "level": 4
+                                },
+                                {
+                                    "lang": "Docker",
                                     "level": 4
                                 },
                                 {

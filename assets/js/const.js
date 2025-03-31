@@ -702,7 +702,7 @@ const createCertificationsSection = (/** @type {ResumeCertifications} */ certDat
         const certItem = DOMComposer.new({ tag: 'div' })
             .setAttribute({ name: 'class', value: 'indent' })
             .setAttribute({ name: 'level', value: '1' })
-            .setAttribute({ name: 'from', value: item.date }) // Assuming 'from' attribute holds the date
+            .setAttribute({ name: 'from', value: item.date })
             .appendChild({
                 child: DOMComposer.new({ tag: 'div' })
                     .setAttribute({ name: 'class', value: 'title' })
@@ -719,22 +719,24 @@ const createCertificationsSection = (/** @type {ResumeCertifications} */ certDat
     return createSectionFrame({ titleContent, bodyContent });
 };
 
-/** Creates Skills Section */
-const createSkillsSection = (/** @type {ResumeSkills} */ skillsData) => {
+/**
+ * @param {ResumeSkills} skillsData
+ * @param {ProjectStrings} commonData
+ * @returns {DOMComposer}
+ */
+const createSkillsSection = (skillsData, commonData) => {
     const title = DOMComposer.new({ tag: 'h1' })
         .setInnerText({ text: i18n.t(skillsData.title) });
 
-    const subTitle = skillsData.subTitle ? DOMComposer.new({ tag: 'h2' })
+    const subTitle = DOMComposer.new({ tag: 'h2' })
         .setAttribute({ name: 'class', value: 'sub-title' })
-        .setInnerText({ text: i18n.t(skillsData.subTitle) }) : null;
+        .setInnerText({ text: i18n.t(commonData.stacksProficiency) });
 
     const titleContent = DOMComposer.fragment().appendChild({ child: title });
     let hasSubtitle = false;
 
-    if (subTitle) {
-        titleContent.appendChild({ child: subTitle });
-        hasSubtitle = true;
-    }
+    titleContent.appendChild({ child: subTitle });
+    hasSubtitle = true;
 
     const tableBody = DOMComposer.new({ tag: 'tbody' });
     (skillsData.categories || []).forEach(category => {
@@ -779,16 +781,14 @@ const createProjectProgressSection = (progressData, commonData) => {
     const title = DOMComposer.new({ tag: 'h1' })
         .setAttribute({ name: 'class', value: 'inline' }) // Add inline based on HTML
         .setInnerText({ text: i18n.t(progressData.title) });
-    const subTitle = progressData.subTitle ? DOMComposer.new({ tag: 'h2' })
+    const subTitle = DOMComposer.new({ tag: 'h2' })
         .setAttribute({ name: 'class', value: 'sub-title' })
-        .setInnerText({ text: i18n.t(progressData.subTitle) }) : null;
+        .setInnerText({ text: i18n.t(commonData.additionalInfo) });
 
     const titleContent = DOMComposer.fragment().appendChild({ child: title });
     let hasSubtitle = false;
-    if (subTitle) {
-        titleContent.appendChild({ child: subTitle });
-        hasSubtitle = true;
-    }
+    titleContent.appendChild({ child: subTitle });
+    hasSubtitle = true;
 
 
     // Create Table Header
@@ -892,7 +892,7 @@ const getResume = (resumeData, commonData) => {
     resumeComposed.push(createProjectSection(actualResumeData.maintainingProjects, actualCommonData.projects));
     resumeComposed.push(createProjectSection(actualResumeData.previousProjects, actualCommonData.projects));
     resumeComposed.push(createCertificationsSection(actualResumeData.certifications));
-    resumeComposed.push(createSkillsSection(actualResumeData.skills));
+    resumeComposed.push(createSkillsSection(actualResumeData.skills, actualCommonData.projects));
     resumeComposed.push(createProjectProgressSection(actualResumeData.projectProgress, actualCommonData.projects));
 
     return resumeComposed;

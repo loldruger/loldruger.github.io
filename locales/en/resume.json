@@ -50,12 +50,8 @@
                                 }
                             ],
                             "contents": [
-                                "Developed a web backend API for a 3D furniture placement simulator using Java Spring, Hibernate, QueryDSL, and Oracle 19c.",
-                                "Applied prior knowledge of OS, networks, and JPA implementation to quickly adapt and contribute to the project.",
-                                "Implemented core backend features, including DB connection pool utilization, <highlight>multi-threaded Spring scheduler management</highlight>, and <highlight>FTPS server functionality</highlight>.",
-                                "<highlight>Authored batch queries</highlight> to facilitate database migration (conceptually similar to Reflection).",
-                                "Assisted the frontend team by <highlight>analyzing memory leaks and performance bottlenecks</highlight> with Browser DevTools, aiding in <highlight>web application performance optimization</highlight>.",
-                                "Streamlined the development workflow by <highlight>integrating the Java backend and React frontend using Windows WSL2</highlight>."
+                                "Developed a web backend API for a 3D furniture placement simulator using Java Spring, Hibernate, QueryDSL, and Oracle 19c, applying prior knowledge of OS, networks, and JPA to quickly contribute. Implemented core backend features including DB connection pool utilization, <highlight>multi-threaded Spring scheduler management</highlight>, and <highlight>FTPS server functionality</highlight>. Also, <highlight>authored batch queries</highlight> to facilitate database migration (conceptually similar to Reflection).",
+                                "Assisted the frontend team by <highlight>analyzing memory leaks and performance bottlenecks</highlight> with Browser DevTools, aiding in <highlight>web application performance optimization</highlight>. Streamlined the development workflow by <highlight>integrating the Java backend and React frontend using Windows WSL2</highlight>."
                             ]
                         },
                         {
@@ -72,11 +68,7 @@
                                 }
                             ],
                             "contents": [
-                                "<highlight>Rapidly onboarded onto an urgent project</highlight> with a very tight deadline.",
-                                "Designed and implemented UI components with flexibility to <highlight>minimize code changes required when the unstable API protocol was updated</highlight>.",
-                                "<highlight>Developed several custom SwiftUI components</highlight> not available in iOS 13, including 'Pull to Refresh', 'Infinite Scroll', 'Wrap Around Container', and 'Universal Grid View'.",
-                                "Improved code quality and maintainability by applying <highlight>Swift's Protocol-Oriented Programming (POP) principles and creating useful extensions</highlight> (e.g., standardizing ISO time formatting).",
-                                "Dedicated intensive effort to <highlight>successfully deliver the project within the demanding two-month timeframe</highlight>."
+                                "<highlight>Rapidly onboarded onto an urgent project</highlight> with a very tight deadline. Despite challenges with an unstable API, designed and implemented UI components flexibly to <highlight>minimize code changes required upon API updates</highlight>. <highlight>Developed several custom SwiftUI components</highlight> not available in iOS 13 ('Pull to Refresh', 'Infinite Scroll', etc.) and improved code quality by applying <highlight>Swift's POP principles and creating useful extensions</highlight>. Dedicated intensive effort to <highlight>successfully deliver the project within the demanding two-month timeframe</highlight>."
                             ]
                         },
                         {
@@ -126,12 +118,8 @@
                             ],
                             "contents": [
                                 "<highlight>Independently developed a web-based writing service integrated with SNS features</highlight>, utilizing stacks including Vue.js, Vuex, GraphQL, PostgreSQL, and Docker.",
-                                "<highlight>Acquired proficiency in multiple new technologies</highlight> (listed in stacks) within the first two months to understand the existing codebase.",
-                                "<highlight>Redesigned the relational database schema</highlight> to better suit SNS functionalities, moving away from the original wiki-based structure.",
-                                "<highlight>Refactored the backend architecture</highlight> by separating it into distinct business logic, bridge, and endpoint layers.",
-                                "Handled both backend API development and frontend UI implementation.",
-                                "<highlight>Created comprehensive documentation and manuals</highlight> for environment setup, installation, and deployment.",
-                                "Configured the development environment using WSL and VSCode, including <highlight>writing PowerShell scripts for IP table setup and port forwarding</highlight> for remote debugging."
+                                "<highlight>Acquired proficiency in multiple new technologies</highlight> (listed in stacks) within the first two months to understand the existing codebase. Subsequently, <highlight>redesigned the relational database schema</highlight> to better suit SNS functionalities, moving away from the original wiki-based structure.",
+                                "<highlight>Refactored the backend architecture</highlight> by separating it into distinct business logic, bridge, and endpoint layers, handling both API and UI implementation. <highlight>Created comprehensive documentation and manuals</highlight> for setup and deployment, and configured the development environment using WSL/VSCode, including <highlight>writing PowerShell scripts for IP table setup and port forwarding</highlight>."
                             ]
                         }
                     ]
@@ -157,9 +145,7 @@
                                 }
                             ],
                             "contents": [
-                                "<highlight>Automated the generation of equipment installation status reports</highlight> using Google Sheets and Google Apps Script, replacing a manual process.",
-                                "Implemented functionality to <highlight>automatically email the generated reports to the supervisor</highlight>.",
-                                "This automation <highlight>significantly improved workflow efficiency and reduced report creation time</highlight>."
+                                "<highlight>Automated the generation and delivery of equipment installation status reports</highlight> using Google Sheets and Google Apps Script, replacing a manual process. Implemented functionality to <highlight>automatically email the generated reports to the supervisor</highlight>, which <highlight>significantly improved workflow efficiency and reduced report creation time</highlight>."
                             ]
                         },
                         {
@@ -176,10 +162,8 @@
                                 }
                             ],
                             "contents": [
-                                "Analyzed sensor data tables in firmware and <highlight>applied curve fitting using quadratic polynomial functions</highlight> to model sensor behavior mathematically.",
-                                "This refactoring removed significant amounts of code, <highlight>improving firmware readability and maintainability</highlight>.",
-                                "<highlight>Introduced interface concepts in C to abstract sensor objects</highlight>, making the system more flexible.",
-                                "<highlight>Developed drivers for various custom 8-segment displays</highlight>, designing them with a <highlight>universal API to facilitate easy hardware module replacement</highlight>."
+                                "Analyzed sensor data tables in firmware and <highlight>applied curve fitting using quadratic polynomial functions</highlight> to model sensor behavior mathematically. This refactoring removed significant amounts of code, <highlight>improving firmware readability and maintainability</highlight>. Also, <highlight>introduced interface concepts in C to abstract sensor objects</highlight>, making the system more flexible.",
+                                "Additionally, <highlight>developed drivers for various custom 8-segment displays</highlight>, designing them with a <highlight>universal API to facilitate easy hardware module replacement</highlight>."
                             ]
                         },
                         {
@@ -196,10 +180,8 @@
                                 }
                             ],
                             "contents": [
-                                "<highlight>Implemented a driver interface in ANSI C for a LoRa transmission module</highlight> to add remote control capabilities to existing firmware.",
-                                "<highlight>Incorporated a simple mutex mechanism</highlight> to prevent data races and memory corruption when handling simultaneous local and remote control inputs.",
-                                "Developed a <highlight>reusable, universal bitwise deserialization parser</highlight> to handle the LoRa module's data transmission limitations (approx. 60 bits per packet).",
-                                "Ensured the implementation <highlight>met the LoRa module protocol's conflict avoidance strategy requirements</highlight>, successfully passing SK Telecom's specifications."
+                                "<highlight>Implemented a driver interface in ANSI C for a LoRa transmission module</highlight> to add remote control capabilities to existing firmware. <highlight>Incorporated a simple mutex mechanism</highlight> to prevent data races and memory corruption when handling simultaneous local and remote control inputs.",
+                                "Developed a <highlight>reusable, universal bitwise deserialization parser</highlight> to handle the LoRa module's data transmission limitations (approx. 60 bits per packet). Ensured the implementation <highlight>met the LoRa module protocol's conflict avoidance strategy requirements</highlight>, successfully passing SK Telecom's specifications."
                             ]
                         },
                         {
@@ -216,10 +198,8 @@
                                 }
                             ],
                             "contents": [
-                                "Solely developed the firmware for controlling industrial refrigeration systems using ANSI C, focusing on automation and user-friendly features.",
-                                "Conducted necessary research on component datasheets and refrigeration system principles.",
-                                "Ensured firmware stability and reliability for 24/7 operation, considering potential cumulative errors and memory leaks.",
-                                "<highlight>Designed and implemented a modular firmware architecture</highlight> by <highlight>separating concerns into three distinct layers</highlight>: Business Logic (Application), Bridge, and Hardware Abstraction (HAL Integration)."
+                                "Solely developed the firmware for controlling industrial refrigeration systems using ANSI C, focusing on automation and user-friendly features, after conducting necessary research on components and system principles.",
+                                "Ensured firmware stability for 24/7 operation by considering potential errors and memory leaks, and <highlight>designed and implemented a modular firmware architecture</highlight> by <highlight>separating concerns into three distinct layers</highlight>: Business Logic (Application), Bridge, and Hardware Abstraction (HAL Integration)."
                             ]
                         }
                     ]

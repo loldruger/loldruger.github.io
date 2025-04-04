@@ -16,16 +16,41 @@ export default class OptionButtons {
         this.#prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
         eventRegistry.on('dataLoaded', () => {
-            if (this.#userThemeSetting !== null) {
-                this.setTheme(this.#userThemeSetting === 'true', false);
+            console.log('[OptionButtons] dataLoaded event received.'); // Add log
+
+            // --- Theme Logic (Keep As Is) ---
+            const currentThemeSetting = localStorage.getItem(THEME_STORAGE_KEY); // Re-read for theme
+            if (currentThemeSetting !== null) {
+                this.setTheme(currentThemeSetting === 'true', false);
             } else {
                 this.setTheme(this.#prefersDarkMode, false);
             }
 
-            if (this.#userLangSetting !== null) {
-                this.setLanguage(this.#userLangSetting ? 'en' : 'ko', false);
+            // --- Language Logic (FIXED) ---
+            // Re-read language setting from storage inside the handler
+            const currentLangSetting = localStorage.getItem(LANG_STORAGE_KEY);
+            console.log(`[OptionButtons] dataLoaded: Read LANG_STORAGE_KEY: '${currentLangSetting}'`);
+
+            if (currentLangSetting !== null) {
+                // Check the actual value stored ('en' or 'ko')
+                const langToSet = currentLangSetting === 'en' ? 'en' : 'ko';
+                console.log(`[OptionButtons] dataLoaded: Applying lang setting from localStorage: '${langToSet}'`);
+                // Call setLanguage only if it differs from the current document lang? Optional optimization.
+                // if (document.documentElement.lang !== langToSet) {
+                this.setLanguage(langToSet, false); // Apply setting from storage
+                // } else {
+                //    console.log(`[OptionButtons] dataLoaded: Document lang already matches storage ('${langToSet}'), skipping redundant setLanguage call.`);
+                //    this.updateLanguageUI(langToSet === 'en'); // Still update UI just in case
+                // }
             } else {
-                this.setLanguage(document.documentElement.lang === 'en' ? 'en' : 'ko', false);
+                // No setting in storage, determine based on current document lang
+                // (which loadAndRenderData should have set correctly)
+                const currentDocLang = document.documentElement.lang === 'ko' ? 'ko' : 'en';
+                console.log(`[OptionButtons] dataLoaded: No lang setting in localStorage, ensuring UI matches document lang: '${currentDocLang}'`);
+                // Update UI to match the document state set by loadAndRenderData
+                this.updateLanguageUI(currentDocLang === 'en');
+                // Optionally save the detected lang as the initial preference if none exists?
+                // localStorage.setItem(LANG_STORAGE_KEY, currentDocLang);
             }
         });
 
@@ -95,6 +120,7 @@ export default class OptionButtons {
      * @param {boolean} savePreference
      */
     setLanguage(lang, savePreference) {
+        console.log('[OptionButtons] setLanguage called with:', lang, 'Save:', savePreference);
         document.documentElement.lang = lang;
 
         this.updateLanguageUI(lang === 'en');

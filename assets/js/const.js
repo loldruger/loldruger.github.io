@@ -198,43 +198,69 @@ import { i18n } from './i18n/lib.js';
  * @property {ResumeStructure} resume
  */
 
+/**
+ * Initializes event listeners for UI interactions.
+ * JSDoc 타입을 사용합니다.
+ */
 const events = () => {
     const optionButtons = new OptionButtons();
 
+    console.log('[events] Registering event handlers...');
 
-    eventRegistry.register('change-theme', (event) => {
+    eventRegistry.register('change-theme', (/** @type {Event} */ event) => {
         event.preventDefault();
-
         const currentlyDark = optionButtons.isDarkMode();
-        optionButtons.setTheme(!currentlyDark, true); // Toggle the theme
+        optionButtons.setTheme(!currentlyDark, true);
+        console.log('[events] Theme changed.');
     });
 
-    eventRegistry.register('change-lang', (event) => {
+    eventRegistry.register('change-lang', (/** @type {Event} */ event) => {
+        console.log('[events] change-lang start. Current lang:', document.documentElement.lang);
         event.preventDefault();
 
-        const currentLang = document.documentElement.lang;
+        /** @type {string} */
+        const currentLang = document.documentElement.lang || 'en'; // Default to 'en'
+        /** @type {'en'|'ko'} */
         const nextLang = currentLang.toLowerCase().startsWith('en') ? 'ko' : 'en';
+
+        console.log(`[events] 'change-lang' triggered. Current: ${currentLang}, Next: ${nextLang}`);
+
+        // Optional: Update UI elements immediately if needed
         optionButtons.setLanguage(nextLang, true);
+
+        // --- Crucial Change ---
+        // Emit an event to notify other parts of the application about the change request.
+        // Do NOT call rendering logic directly from here.
+        console.log(`[events] Emitting 'languageChanged' event for locale: ${nextLang}`);
+        eventRegistry.emit('languageChanged', { language: nextLang });
+        // --- End Crucial Change ---
     });
 
-    eventRegistry.register('fold-section', (event) => {
-        if (!(event instanceof Event) || !(event.target instanceof Element)) return;
+    eventRegistry.register('fold-section', (/** @type {Event} */ event) => {
+        // Use instanceof for type checking elements
+        if (!(event.target instanceof Element)) return;
         event.preventDefault();
+        // Optional chaining for safety
         event.target.parentElement?.classList.toggle('folded');
 
-        const section = event.target.closest('section')?.getElementsByClassName('content-body')[0];
-        if (section) {
-            section.classList.toggle('rolled-up');
+        const sectionContent = event.target.closest('section')?.getElementsByClassName('content-body')[0];
+        // Check if sectionContent exists before toggling class
+        if (sectionContent instanceof HTMLElement) {
+            sectionContent.classList.toggle('rolled-up');
         }
+        console.log('[events] Section folded/unfolded.');
     });
 
-    eventRegistry.register('scroll-to-top', (event) => {
+    eventRegistry.register('scroll-to-top', (/** @type {Event} */ event) => {
         event.preventDefault();
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
+        console.log('[events] Scrolled to top.');
     });
+
+    console.log('[events] Event handlers registered.');
 };
 
 // Retrieve callbacks for use in DOMComposer.setEvent

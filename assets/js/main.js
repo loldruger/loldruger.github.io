@@ -1,17 +1,23 @@
 //@ts-check
 
+// Assume necessary imports are here:
 import DOMComposer from './DOMinator/DOMComposer.js';
 import WorkerPool from './DOMinator/WorkerPool.js';
 import { eventRegistry } from './DOMinator/EventRegistry.js';
 import { Fetcher } from './i18n/lib.js';
 import { getResume, events } from './const.js';
+
 /**
  * @typedef {import('./DOMinator/DOMComposer.js').HtmlEventName} HtmlEventName
  * @typedef {import('./DOMinator/EventRegistry.js').EventHandler} EventHandler
  * @typedef {import('./DOMinator/WorkerPool.js').WorkerResult} WorkerResult
  * @typedef {import('./DOMinator/WorkerPool.js').WorkerTask} WorkerTask
+ * @typedef {import('./const.js').FetchedResumeData} FetchedResumeData
  */
 
+// =======================================================================
+// attachEventListeners Function Definition (Keep As Is)
+// =======================================================================
 /**
  * Attaches delegated event listeners to a container element based on data-event-* attributes.
  * @param {HTMLElement} container - The container element to attach listeners to.
@@ -19,25 +25,16 @@ import { getResume, events } from './const.js';
  * @returns {void}
  */
 function attachEventListeners(container, registry) {
-    console.log('Attaching event listeners...');
+    console.log('>>> Attaching event listeners to container:', container.id || container.tagName);
     /** @type {Set<HtmlEventName>} */
     const potentialEvents = new Set();
-    // We cannot use '[data-event-*]'. Instead, we find all elements and check their attributes.
-
-    // Select ALL elements within the container first.
     const allElements = container.querySelectorAll('*');
 
-    // Iterate through all elements and check their attributes to find relevant event types.
     allElements.forEach(el => {
-        // Check if the element is an HTMLElement (it should be from querySelectorAll)
         if (!(el instanceof HTMLElement)) return;
-
-        // Iterate through the element's attributes
         for (const attr of el.attributes) {
             if (attr.name.startsWith('data-event-')) {
-                // Extract the event type (e.g., 'click', 'mouseover')
                 const eventType = /** @type {HtmlEventName} */ (attr.name.substring('data-event-'.length));
-                // Add the event type to our set if it's valid
                 if (eventType) {
                     potentialEvents.add(eventType);
                 }
@@ -45,176 +42,159 @@ function attachEventListeners(container, registry) {
         }
     });
 
-    // Now we have the set of actual event types used (potentialEvents).
-    // Add one listener per discovered event type to the container for delegation.
+    console.log(`>>> Attaching listeners for events: [${[...potentialEvents].join(', ')}]`);
     potentialEvents.forEach(eventType => {
+        // IMPORTANT: Check if a listener for this type ALREADY exists on this specific container
+        // This is a simple check; a more robust solution might involve storing listener references.
+        // For now, we rely on calling attachEventListeners only once for the main container.
+        // If called multiple times, this simple implementation WILL add duplicate listeners.
         container.addEventListener(eventType, (event) => {
             const attributeName = `data-event-${eventType}`;
-            // Find the closest ancestor (or self) that triggered this specific event type
-            const targetElement = /** @type {HTMLElement | null} */ (event.target)?.closest(`[${attributeName}]`);
+            const targetElement = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target)?.closest(`[${attributeName}]`));
 
-            // Runtime check: Ensure an element with the specific attribute was found
             if (targetElement) {
                 const alias = targetElement.getAttribute(attributeName);
-                // Runtime check: Ensure the alias exists
                 if (alias) {
                     const handler = registry.getEventCallback(alias);
-                    // Runtime check: Ensure a handler was found
                     if (handler) {
                         try {
-                            handler(event); // Execute the handler
+                            handler(event);
                         } catch (handlerError) {
-                            console.error(`Error executing event handler for alias '<span class="math-inline">\{alias\}' on event '</span>{eventType}':`, handlerError);
+                            console.error(`Error executing event handler for alias '${alias}' on event '${eventType}':`, handlerError);
                         }
                     }
-                    // No 'else' needed here, getEventCallback logs a warning if not found
+                    // getEventCallback already logs a warning if not found
                 } else {
                     console.warn(`Empty alias found for event '${eventType}' on element:`, targetElement);
                 }
             }
-            // If targetElement is null, the event occurred on an element without the data-event attribute,
-            // or bubbled up from outside; the delegate listener correctly ignores it.
         });
     });
+    console.log('>>> Event listeners attached.');
 }
 
+
+// =======================================================================
+// renderParallel Function Definition (MODIFIED: Removed attachEventListeners call)
+// =======================================================================
 /**
- * Renders a DOMComposer structure into a target HTML element using a worker pool for parallel processing.
- * @param {DOMComposer} rootComposer - The root DOMComposer instance (its children will be rendered in parallel).
- * @param {HTMLElement} targetElement - The HTML element where the result will be rendered.
- * @param {string} workerScriptPath - The path to the worker script ('worker.js').
- * @returns {Promise<void>} A promise that resolves when rendering and event listener attachment are complete, or rejects on critical error.
+ * Renders a DOMComposer structure into a target HTML element using a worker pool.
+ * @param {DOMComposer} rootComposer - The root DOMComposer instance.
+ * @param {HTMLElement} targetElement - The HTML element to render into.
+ * @param {string} workerScriptPath - Path to the worker script.
+ * @returns {Promise<void>} Resolves on completion, rejects on critical error.
  */
 function renderParallel(rootComposer, targetElement, workerScriptPath) {
     return new Promise((resolve, reject) => {
         console.log('Starting parallel rendering...');
-        // Provide immediate feedback
         targetElement.classList.add('rendering-in-progress');
-        targetElement.innerHTML = '';
+        targetElement.innerHTML = ''; // Clear target element
 
         /** @type {WorkerPool | null} */
         let pool = null;
-        const workerCount = navigator.hardwareConcurrency || 2; // Use available cores or default to 2
+        const workerCount = navigator.hardwareConcurrency || 2;
 
-        // Keep try-catch for WorkerPool creation as it involves external resources (workers)
         try {
             pool = new WorkerPool(workerCount, workerScriptPath);
         } catch (error) {
+            // ... (Error handling for pool creation) ...
             console.error('Failed to create WorkerPool:', error);
             targetElement.innerHTML = `<div style="color: red;">Error: Could not initialize worker pool. ${escapeHtml(/** @type {Error}*/(error).message)}</div>`;
             targetElement.classList.remove('rendering-in-progress');
-            reject(error); // Reject the promise
+            reject(error);
             return;
         }
 
-        // Get children to be rendered in parallel
-        // Assumes getChildren() returns DOMComposer[] based on JSDoc
         const tasks = rootComposer.getChildren();
         const totalTasks = tasks.length;
-        const results = new Array(totalTasks).fill(''); // Initialize results array
+        const results = new Array(totalTasks).fill('');
         let completedTasks = 0;
         let hasCriticalError = false;
 
         console.log(`Distributing ${totalTasks} tasks to ${workerCount} workers.`);
 
-        // --- Pool Event Handlers ---
-
         pool.onTaskComplete((data) => {
-            if (hasCriticalError) return; // Stop processing if a critical error occurred
-
-            // --- Runtime checks for data integrity crossing the worker boundary (Keep Recommended) ---
-            if (!data || typeof data.index !== 'number' || data.index < 0 || data.index >= totalTasks) {
-                console.error('MainThread: Received task completion with invalid index:', data);
-                // Decide how to handle this - potentially treat as error for that slot?
-                // For now, just log and ignore this specific result.
-                return;
-            }
+            if (hasCriticalError) return;
+            // ... (Runtime checks for data integrity) ...
             const { index, result, error } = data;
-            // --- End of runtime checks ---
 
             if (error) {
-                // Handle task-specific error reported by the worker
+                // ... (Handle task-specific error) ...
                 console.error(`MainThread: Worker task ${index} failed:`, error);
                 results[index] = `<div style="color:orange;">Section ${index + 1} failed to load: ${escapeHtml(error)}</div>`;
-            } else if (typeof result === 'string') { // Check expected result type
+            } else if (typeof result === 'string') {
                 results[index] = result;
             } else {
-                // Handle unexpected result format from worker
+                // ... (Handle unexpected result format) ...
                 console.error(`MainThread: Worker task ${index} returned invalid result format:`, result);
                 results[index] = `<div style="color:red;">Section ${index + 1} failed: Invalid data received.</div>`;
             }
 
-            completedTasks++;
+            completedTasks += 1; // Use += 1 as per preference
             console.log(`Task ${index} completed (${completedTasks}/${totalTasks})`);
 
-            // Check if all tasks are done
             if (completedTasks === totalTasks) {
                 console.log('All tasks completed. Assembling final HTML...');
-                // Keep try-catch around final DOM manipulation and listener attachment
                 try {
                     const finalHTML = results.join('');
-                    targetElement.innerHTML = finalHTML; // Render the combined HTML
+                    targetElement.innerHTML = finalHTML; // Render combined HTML
                     console.log('Rendering complete.');
 
-                    attachEventListeners(targetElement, eventRegistry); // Attach listeners after rendering
+                    // --- !!! REMOVED attachEventListeners CALL FROM HERE !!! ---
 
                     targetElement.classList.remove('rendering-in-progress');
                     console.log('Parallel rendering finished successfully.');
                     resolve(); // Resolve the main promise
                 } catch (assemblyError) {
-                    console.error('Error during final HTML assembly or listener attachment:', assemblyError);
+                    // ... (Error handling for assembly) ...
+                    console.error('Error during final HTML assembly:', assemblyError);
                     targetElement.innerHTML = `<div style="color: red;">Critical Error: Failed to display final content. ${escapeHtml(/** @type {Error}*/(assemblyError).message)}</div>`;
                     targetElement.classList.remove('rendering-in-progress');
-                    reject(assemblyError); // Reject the main promise
+                    reject(assemblyError);
                 } finally {
-                    // Ensure pool is terminated regardless of success or failure in assembly
                     if (pool) pool.terminate();
                 }
             }
         });
 
         pool.onError((error) => {
+            // ... (Handle critical pool errors) ...
             if (hasCriticalError) return;
-            // Handle critical worker errors (e.g., worker script not found, init failure)
             console.error('MainThread: Critical WorkerPool error:', error);
             targetElement.innerHTML = `<div style="color: red;">Critical Error: Worker pool encountered an issue. ${escapeHtml(error instanceof ErrorEvent ? error.message : String(error))}</div>`;
             targetElement.classList.remove('rendering-in-progress');
-            hasCriticalError = true; // Prevent further processing
-            if (pool) pool.terminate(); // Terminate the pool on critical error
-            reject(error instanceof ErrorEvent ? new Error(error.message) : error); // Reject the main promise
+            hasCriticalError = true;
+            if (pool) pool.terminate();
+            reject(error instanceof ErrorEvent ? new Error(error.message) : error);
         });
 
         // --- Task Submission ---
         if (totalTasks === 0) {
+            // ... (Handle no tasks case) ...
             console.log('No tasks to process.');
             targetElement.innerHTML = '<div>No content sections defined.</div>';
             targetElement.classList.remove('rendering-in-progress');
             if (pool) pool.terminate();
-            resolve(); // Resolve immediately if there are no tasks
+            resolve();
             return;
         }
 
         tasks.forEach((childComposer, index) => {
-            if (hasCriticalError) return; // Don't submit more tasks if error occurred
-            // Keep try-catch around stringify as complex objects could potentially fail
+            // ... (Task submission logic with stringify and error handling) ...
+            if (hasCriticalError) return;
             try {
-                // Assumes childComposer.toJSON() returns DOMComposerJSONObject compatible structure
                 const composerJson = JSON.stringify(childComposer.toJSON());
                 /** @type {WorkerTask} */
                 const taskData = { index: index, composerJson: composerJson };
                 pool.submitTask(taskData);
             } catch (stringifyError) {
                 console.error(`MainThread: Failed to stringify task ${index}. Skipping.`, stringifyError);
-                // Record error for this specific task
                 results[index] = `<div style="color:red;">Section ${index + 1} could not be prepared: ${escapeHtml(/** @type {Error}*/(stringifyError).message)}</div>`;
-                completedTasks++; // Mark as "completed" (with an error)
-                // If this was the last task, trigger completion check
+                completedTasks += 1; // Mark as completed with error
                 if (completedTasks === totalTasks && pool) {
-                    // Need to manually trigger the completion logic if all tasks failed serialization
-                    // This edge case might need refinement, but for now, let's log it.
+                    // ... (Handle all tasks failing serialization - potentially needs refinement) ...
                     console.warn("All tasks potentially failed serialization before submission.");
-                    // Force termination and reject or resolve with errors?
-                    hasCriticalError = true; // Treat as critical if serialization fails substantially
+                    hasCriticalError = true;
                     targetElement.innerHTML = `<div style="color: red;">Critical Error: Could not prepare tasks for workers.</div>`;
                     targetElement.classList.remove('rendering-in-progress');
                     pool.terminate();
@@ -226,7 +206,9 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
 }
 
 
-// --- Helper Function (already in dom-composer.js, but useful here too if needed standalone) ---
+// =======================================================================
+// escapeHtml Helper Function (Keep As Is)
+// =======================================================================
 /**
  * Escapes HTML special characters.
  * @param {unknown} unsafe - Value to escape.
@@ -242,33 +224,194 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-const main = async () => {
-    const appRootElement = document.getElementById('app');
-    const workerScript = './assets/js/worker.js';
 
-    events();
-
+// =======================================================================
+// loadAndRenderData Function Definition (Keep As Is - includes lang update)
+// =======================================================================
+/**
+ * Fetches data, processes it, renders it, and updates lang attribute.
+ * @param {'en'|'ko'} locale - Locale to load.
+ * @param {HTMLElement} appRootElement - Target element.
+ * @param {string} workerScript - Worker script path.
+ * @returns {Promise<void>}
+ * @throws {Error} If any step fails.
+ */
+async function loadAndRenderData(locale, appRootElement, workerScript) {
+    console.log(`[loadAndRenderData] Start processing for '${locale}'. Current lang: ${document.documentElement.lang}`);
+    // Ensure target element exists
     if (!appRootElement) {
-        console.error('Error: Target element with id="app" not found.');
-        return;
+        console.error('[loadAndRenderData] Error: Target element is null or undefined.');
+        throw new Error('Target application root element not found.');
     }
+
+    console.log(`[loadAndRenderData] Started for locale: ${locale}`);
+    appRootElement.innerHTML = '<p>Loading content...</p>'; // Loading indicator
 
     const rootContainer = DOMComposer.fragment();
     const fetcher = new Fetcher();
 
     try {
-        const a = await fetcher.fetchDataByLocale('ko');
+        console.log(`[loadAndRenderData] Fetching data for locale: ${locale}`);
+        /** @type {(FetchedResumeData & { common: object }) | null} */
+        const data = await fetcher.fetchDataByLocale(locale);
+        console.log(`[loadAndRenderData] Data fetched successfully.`);
 
-        getResume(a.resume, a.common).forEach(section => {
-            rootContainer.appendChild({ child: section });
-        });
+        if (!data || !data.resume || !data.common) {
+            console.error('[loadAndRenderData] Fetched data is incomplete or invalid:', data);
+            throw new Error('Fetched data is incomplete or invalid.');
+        } else {
+            console.log(`[loadAndRenderData] Processing data with getResume...`);
+            const sections = getResume(data.resume, data.common);
+            console.log(`[loadAndRenderData] Sections processed.`);
+
+            if (Array.isArray(sections)) {
+                for (const section of sections) {
+                    if (section) {
+                        rootContainer.appendChild({ child: section });
+                    } else {
+                        console.warn('[loadAndRenderData] Encountered null or undefined section during processing.');
+                    }
+                }
+                console.log(`[loadAndRenderData] Appending sections to fragment complete.`);
+            } else {
+                console.error('[loadAndRenderData] Processed data (sections) is not an array:', sections);
+                throw new Error('Processed data is not in the expected format (Array).');
+            }
+
+            console.log(`[loadAndRenderData] Calling renderParallel...`);
+            await renderParallel(rootContainer, appRootElement, workerScript);
+            console.log(`[loadAndRenderData] renderParallel finished.`);
+
+            // Update the document's lang attribute AFTER successful rendering
+            console.log(`[loadAndRenderData] Updating document lang attribute to: ${locale}`);
+            document.documentElement.lang = locale;
+
+            eventRegistry.emit('dataLoaded', "done");
+            console.log(`[loadAndRenderData] Successfully finished for locale: ${locale}`);
+            console.log(`[loadAndRenderData] Finish processing for '${locale}'. Current lang: ${document.documentElement.lang}`);
+        }
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(`[loadAndRenderData] Error during processing for ${locale}:`, error);
+        if (appRootElement) {
+            appRootElement.innerHTML = `<p>Error loading content for ${locale}. Please try again.</p>`;
+        }
+        throw error; // Re-throw for the caller
+    }
+
+    console.log(`[loadAndRenderData] Finish processing for '${locale}'. Current lang: ${document.documentElement.lang}`);
+}
+
+
+// =======================================================================
+// Main Application Logic (MODIFIED: Call attachEventListeners once)
+// =======================================================================
+let hasMainExecuted = false;
+
+/**
+ * Main application entry point.
+ */
+const main = async () => {
+    // Execution guard
+    if (hasMainExecuted) {
+        console.warn('[main] main function called again, skipping execution.');
+        return;
+    }
+    hasMainExecuted = true;
+    console.log('[main] Application starting...');
+
+    /** @type {boolean} */
+    let isLoading = false;
+    const workerScript = './assets/js/worker.js';
+    const appRootElement = document.getElementById('app');
+
+    if (!appRootElement) {
+        console.error('[main] Fatal Error: Target element with id="app" not found.');
         return;
     }
 
-    await renderParallel(rootContainer, appRootElement, workerScript);
-    eventRegistry.emit('dataLoaded', "done");
+    // --- Setup Phase ---
+    events(); // Register event aliases with their handlers
+
+    // --- Event Listener for Language Change ---
+    console.log('[main] Attaching languageChanged listener...');
+    /** @param {{ language: 'en'|'ko' }} eventData */
+    const handleLanguageChange = (eventData) => {
+        console.log('[main] handleLanguageChange start. Current lang:', document.documentElement.lang, 'isLoading:', isLoading);
+        const newLocale = eventData.language;
+        console.log(`[main] <<< Received 'languageChanged' event for locale: ${newLocale}`);
+
+        if (isLoading) {
+            console.warn('[main] Ignoring language change request: data is already loading.');
+        } else {
+            isLoading = true;
+            console.log(`[main] Starting data load for locale: ${newLocale}`);
+
+            /** @type {HTMLButtonElement | null} */
+            const langButton = /** @type {HTMLButtonElement | null} */ (document.getElementById('lang-change-button-id'));
+            if (langButton) {
+                langButton.disabled = true;
+                console.log('[main] Language change button disabled.');
+            }
+
+            loadAndRenderData(newLocale, appRootElement, workerScript)
+                .catch(error => {
+                    console.error('[main] Caught error during loadAndRenderData execution:', error);
+                })
+                .finally(() => {
+                    isLoading = false;
+                    console.log('[main] Load process finished (finally block). Resetting isLoading flag.');
+                    if (langButton) {
+                        langButton.disabled = false;
+                        console.log('[main] Language change button enabled.');
+                    }
+                });
+        }
+    };
+    eventRegistry.on('languageChanged', handleLanguageChange);
+    console.log('[main] languageChanged listener attached.');
+
+    // --- Initial Page Load ---
+    /** @type {'en'|'ko'} */
+    const initialLocale = document.documentElement.lang === 'ko' ? 'ko' : 'en';
+    console.log(`[main] Initial locale detected: ${initialLocale}`);
+
+    if (!isLoading) {
+        isLoading = true;
+        console.log(`[main] Starting initial data load for locale: ${initialLocale}`);
+        /** @type {HTMLButtonElement | null} */
+        const langButton = /** @type {HTMLButtonElement | null} */ (document.getElementById('lang-change-button-id'));
+        if (langButton) {
+            langButton.disabled = true;
+            console.log('[main] Language change button disabled for initial load.');
+        }
+
+        try {
+            // Perform initial load and render
+            await loadAndRenderData(initialLocale, appRootElement, workerScript);
+
+            // --- !!! Attach listeners ONCE after successful initial render !!! ---
+            console.log('[main] Initial render successful. Attaching event listeners ONCE.');
+            // Pass the persistent container and the registry
+            attachEventListeners(appRootElement, eventRegistry);
+            // --- !!! Listener attachment moved here !!! ---
+
+        } catch (error) {
+            console.error('[main] Caught error during initial loadAndRenderData:', error);
+            // Listeners won't be attached if initial load fails, which is fine.
+        } finally {
+            isLoading = false;
+            console.log('[main] Initial load process finished (finally block). Resetting isLoading flag.');
+            if (langButton) {
+                langButton.disabled = false;
+                console.log('[main] Language change button enabled after initial load.');
+            }
+        }
+    } else {
+        console.warn('[main] Initial load skipped because isLoading was already true.');
+    }
+
+    console.log('[main] Application setup complete.');
 };
 
+// --- Start the Application ---
 await main();

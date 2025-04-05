@@ -1,6 +1,7 @@
 //@ts-check
 import DOMComposer from './DOMinator/DOMComposer.js';
-import OptionButtons from './OptionButtons.js';
+// Import the singleton instance instead of the class
+import { optionButtons } from './OptionButtons.js';
 import { eventRegistry } from './DOMinator/EventRegistry.js';
 import { i18n } from './i18n/lib.js';
 
@@ -177,7 +178,6 @@ import { i18n } from './i18n/lib.js';
  * @property {Array<ResumeProjectProgressItem>} items
  */
 
-
 /**
  * @typedef {object} ResumeStructure
  * @property {string} title
@@ -200,29 +200,14 @@ import { i18n } from './i18n/lib.js';
 
 /**
  * Initializes event listeners for UI interactions.
- * JSDoc 타입을 사용합니다.
+ * Uses JSDoc types.
  */
 const events = () => {
-    const optionButtons = new OptionButtons();
-
     console.log('[events] Registering event handlers...');
-
-    const lastUpdateElement = document.getElementById('last-update');
-    if (lastUpdateElement) {
-        try {
-            // Call the updated method
-            const lastUpdateText = optionButtons.getLastUpdateDate();
-            const label = i18n.t('common.general.lastUpdate'); // Get translated label
-            // Update the element text, handle potential null/error return
-            lastUpdateElement.innerText = `${label}: ${lastUpdateText || 'N/A'}`;
-        } catch (error) {
-            console.error("Error getting last update time:", error);
-            lastUpdateElement.innerText = `${i18n.t('common.general.lastUpdate')}: Error`;
-        }
-    }
 
     eventRegistry.register('change-theme', (/** @type {Event} */ event) => {
         event.preventDefault();
+        // Use the imported singleton instance
         const currentlyDark = optionButtons.isDarkMode();
         optionButtons.setTheme(!currentlyDark, true);
         console.log('[events] Theme changed.');
@@ -239,15 +224,13 @@ const events = () => {
 
         console.log(`[events] 'change-lang' triggered. Current: ${currentLang}, Next: ${nextLang}`);
 
-        // Optional: Update UI elements immediately if needed
+        // Update the language setting and save preference immediately
         optionButtons.setLanguage(nextLang, true);
+        console.log(`[events] Called optionButtons.setLanguage('${nextLang}', true)`);
 
-        // --- Crucial Change ---
         // Emit an event to notify other parts of the application about the change request.
-        // Do NOT call rendering logic directly from here.
         console.log(`[events] Emitting 'languageChanged' event for locale: ${nextLang}`);
         eventRegistry.emit('languageChanged', { language: nextLang });
-        // --- End Crucial Change ---
     });
 
     eventRegistry.register('fold-section', (/** @type {Event} */ event) => {
@@ -940,13 +923,17 @@ const getResume = (resumeData, commonData) => {
         })
     );
 
-    resumeComposed.push(DOMComposer.new({ tag: 'time' })
-        .setAttribute({ name: 'id', value: 'last-update' })
-        .setAttribute({ name: 'class', value: 'block text-align-right-h' })
-        // Use a placeholder initially
-        .setInnerText({ text: i18n.t(actualCommonData.general.lastUpdate) + ': Loading...' })
-    );
 
+
+    const lastUpdateContainer = DOMComposer.new({ tag: 'div' })
+        .setAttribute({ name: 'class', value: 'last-update-container' })
+        .appendChild({
+            child: DOMComposer.new({ tag: 'time' })
+                .setAttribute({ name: 'id', value: 'last-update' })
+                .setAttribute({ name: 'class', value: 'block text-align-right-h' })
+                .setInnerText({ text: '' })
+        });
+    resumeComposed.push(lastUpdateContainer);
     resumeComposed.push(createProfileSection(actualResumeData.profile, actualCommonData.general));
     resumeComposed.push(createEducationSection(actualResumeData.education, actualCommonData.education));
     resumeComposed.push(createWorkExperienceSection(actualResumeData.workExperience, actualCommonData.projects));
@@ -956,8 +943,8 @@ const getResume = (resumeData, commonData) => {
     resumeComposed.push(createCertificationsSection(actualResumeData.certifications));
     resumeComposed.push(createSkillsSection(actualResumeData.skills, actualCommonData.projects));
     resumeComposed.push(createProjectProgressSection(actualResumeData.projectProgress, actualCommonData.projects));
-    resumeComposed.push(createScrollToTopButton());
+
     return resumeComposed;
 };
 
-export { getResume, events };
+export { getResume, events, createScrollToTopButton };

@@ -8,7 +8,7 @@ const LAST_UPDATE_FILE_PATH = './assets/data/last_update.json';
 // Define the key for caching the fetched timestamp in localStorage
 const LAST_UPDATE_CACHE_KEY = 'last-update-timestamp';
 
-export default class OptionButtons {
+class OptionButtons {
     // foldingCircles
     // @ts-ignore
     #userThemeSetting;
@@ -22,7 +22,7 @@ export default class OptionButtons {
         this.#prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
         eventRegistry.on('dataLoaded', () => {
-            console.log('[OptionButtons] dataLoaded event received.'); // Add log
+            console.log('[OptionButtons] dataLoaded event received.');
 
             // --- Theme Logic (Keep As Is) ---
             const currentThemeSetting = localStorage.getItem(THEME_STORAGE_KEY); // Re-read for theme
@@ -32,31 +32,21 @@ export default class OptionButtons {
                 this.setTheme(this.#prefersDarkMode, false);
             }
 
-            // --- Language Logic (FIXED) ---
-            // Re-read language setting from storage inside the handler
-            const currentLangSetting = localStorage.getItem(LANG_STORAGE_KEY);
+            // --- Language Logic (FIXED COMPARISON) ---
+            const currentLangSetting = localStorage.getItem(LANG_STORAGE_KEY); // Reads 'en' or 'ko'
             console.log(`[OptionButtons] dataLoaded: Read LANG_STORAGE_KEY: '${currentLangSetting}'`);
 
             if (currentLangSetting !== null) {
-                // Check the actual value stored ('en' or 'ko')
-                const langToSet = currentLangSetting === 'en' ? 'en' : 'ko';
+                // Correctly check the stored value ('en' or 'ko')
+                const langToSet = currentLangSetting; // The value itself is 'en' or 'ko'
                 console.log(`[OptionButtons] dataLoaded: Applying lang setting from localStorage: '${langToSet}'`);
-                // Call setLanguage only if it differs from the current document lang? Optional optimization.
-                // if (document.documentElement.lang !== langToSet) {
-                this.setLanguage(langToSet, false); // Apply setting from storage
-                // } else {
-                //    console.log(`[OptionButtons] dataLoaded: Document lang already matches storage ('${langToSet}'), skipping redundant setLanguage call.`);
-                //    this.updateLanguageUI(langToSet === 'en'); // Still update UI just in case
-                // }
+                // Apply setting from storage, ensure UI matches
+                this.setLanguage(langToSet, false); // Use false to not re-save
             } else {
-                // No setting in storage, determine based on current document lang
-                // (which loadAndRenderData should have set correctly)
+                // No setting in storage, ensure UI matches current document state
                 const currentDocLang = document.documentElement.lang === 'ko' ? 'ko' : 'en';
                 console.log(`[OptionButtons] dataLoaded: No lang setting in localStorage, ensuring UI matches document lang: '${currentDocLang}'`);
-                // Update UI to match the document state set by loadAndRenderData
                 this.updateLanguageUI(currentDocLang === 'en');
-                // Optionally save the detected lang as the initial preference if none exists?
-                // localStorage.setItem(LANG_STORAGE_KEY, currentDocLang);
             }
         });
 
@@ -211,3 +201,6 @@ export default class OptionButtons {
         }
     }
 }
+
+// Create and export a single instance of the class
+export const optionButtons = new OptionButtons();

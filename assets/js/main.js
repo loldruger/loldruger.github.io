@@ -4,8 +4,10 @@
 import DOMComposer from './DOMinator/DOMComposer.js';
 import WorkerPool from './DOMinator/WorkerPool.js';
 import { eventRegistry } from './DOMinator/EventRegistry.js';
-import { Fetcher } from './i18n/lib.js';
-import { getResume, events } from './const.js';
+import { Fetcher } from './i18n/fetcher.js'; // Corrected import path assumption
+import { i18n } from './i18n/lib.js'; // Assuming i18n is from lib.js
+import { getResume, events, createScrollToTopButton } from './const.js';
+import { optionButtons } from './OptionButtons.js'; // Import the singleton instance
 
 /**
  * @typedef {import('./DOMinator/DOMComposer.js').HtmlEventName} HtmlEventName
@@ -44,10 +46,6 @@ function attachEventListeners(container, registry) {
 
     console.log(`>>> Attaching listeners for events: [${[...potentialEvents].join(', ')}]`);
     potentialEvents.forEach(eventType => {
-        // IMPORTANT: Check if a listener for this type ALREADY exists on this specific container
-        // This is a simple check; a more robust solution might involve storing listener references.
-        // For now, we rely on calling attachEventListeners only once for the main container.
-        // If called multiple times, this simple implementation WILL add duplicate listeners.
         container.addEventListener(eventType, (event) => {
             const attributeName = `data-event-${eventType}`;
             const targetElement = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target)?.closest(`[${attributeName}]`));
@@ -63,7 +61,6 @@ function attachEventListeners(container, registry) {
                             console.error(`Error executing event handler for alias '${alias}' on event '${eventType}':`, handlerError);
                         }
                     }
-                    // getEventCallback already logs a warning if not found
                 } else {
                     console.warn(`Empty alias found for event '${eventType}' on element:`, targetElement);
                 }
@@ -75,7 +72,7 @@ function attachEventListeners(container, registry) {
 
 
 // =======================================================================
-// renderParallel Function Definition (MODIFIED: Removed attachEventListeners call)
+// renderParallel Function Definition (Keep As Is)
 // =======================================================================
 /**
  * Renders a DOMComposer structure into a target HTML element using a worker pool.
@@ -97,7 +94,6 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
         try {
             pool = new WorkerPool(workerCount, workerScriptPath);
         } catch (error) {
-            // ... (Error handling for pool creation) ...
             console.error('Failed to create WorkerPool:', error);
             targetElement.innerHTML = `<div style="color: red;">Error: Could not initialize worker pool. ${escapeHtml(/** @type {Error}*/(error).message)}</div>`;
             targetElement.classList.remove('rendering-in-progress');
@@ -115,38 +111,31 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
 
         pool.onTaskComplete((data) => {
             if (hasCriticalError) return;
-            // ... (Runtime checks for data integrity) ...
             const { index, result, error } = data;
 
             if (error) {
-                // ... (Handle task-specific error) ...
                 console.error(`MainThread: Worker task ${index} failed:`, error);
                 results[index] = `<div style="color:orange;">Section ${index + 1} failed to load: ${escapeHtml(error)}</div>`;
             } else if (typeof result === 'string') {
                 results[index] = result;
             } else {
-                // ... (Handle unexpected result format) ...
                 console.error(`MainThread: Worker task ${index} returned invalid result format:`, result);
                 results[index] = `<div style="color:red;">Section ${index + 1} failed: Invalid data received.</div>`;
             }
 
-            completedTasks += 1; // Use += 1 as per preference
+            completedTasks += 1;
             console.log(`Task ${index} completed (${completedTasks}/${totalTasks})`);
 
             if (completedTasks === totalTasks) {
                 console.log('All tasks completed. Assembling final HTML...');
                 try {
                     const finalHTML = results.join('');
-                    targetElement.innerHTML = finalHTML; // Render combined HTML
+                    targetElement.innerHTML = finalHTML;
                     console.log('Rendering complete.');
-
-                    // --- !!! REMOVED attachEventListeners CALL FROM HERE !!! ---
-
                     targetElement.classList.remove('rendering-in-progress');
                     console.log('Parallel rendering finished successfully.');
-                    resolve(); // Resolve the main promise
+                    resolve();
                 } catch (assemblyError) {
-                    // ... (Error handling for assembly) ...
                     console.error('Error during final HTML assembly:', assemblyError);
                     targetElement.innerHTML = `<div style="color: red;">Critical Error: Failed to display final content. ${escapeHtml(/** @type {Error}*/(assemblyError).message)}</div>`;
                     targetElement.classList.remove('rendering-in-progress');
@@ -158,7 +147,6 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
         });
 
         pool.onError((error) => {
-            // ... (Handle critical pool errors) ...
             if (hasCriticalError) return;
             console.error('MainThread: Critical WorkerPool error:', error);
             targetElement.innerHTML = `<div style="color: red;">Critical Error: Worker pool encountered an issue. ${escapeHtml(error instanceof ErrorEvent ? error.message : String(error))}</div>`;
@@ -168,9 +156,7 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
             reject(error instanceof ErrorEvent ? new Error(error.message) : error);
         });
 
-        // --- Task Submission ---
         if (totalTasks === 0) {
-            // ... (Handle no tasks case) ...
             console.log('No tasks to process.');
             targetElement.innerHTML = '<div>No content sections defined.</div>';
             targetElement.classList.remove('rendering-in-progress');
@@ -180,7 +166,6 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
         }
 
         tasks.forEach((childComposer, index) => {
-            // ... (Task submission logic with stringify and error handling) ...
             if (hasCriticalError) return;
             try {
                 const composerJson = JSON.stringify(childComposer.toJSON());
@@ -190,9 +175,8 @@ function renderParallel(rootComposer, targetElement, workerScriptPath) {
             } catch (stringifyError) {
                 console.error(`MainThread: Failed to stringify task ${index}. Skipping.`, stringifyError);
                 results[index] = `<div style="color:red;">Section ${index + 1} could not be prepared: ${escapeHtml(/** @type {Error}*/(stringifyError).message)}</div>`;
-                completedTasks += 1; // Mark as completed with error
+                completedTasks += 1;
                 if (completedTasks === totalTasks && pool) {
-                    // ... (Handle all tasks failing serialization - potentially needs refinement) ...
                     console.warn("All tasks potentially failed serialization before submission.");
                     hasCriticalError = true;
                     targetElement.innerHTML = `<div style="color: red;">Critical Error: Could not prepare tasks for workers.</div>`;
@@ -226,7 +210,7 @@ function escapeHtml(unsafe) {
 
 
 // =======================================================================
-// loadAndRenderData Function Definition (Keep As Is - includes lang update)
+// loadAndRenderData Function Definition (MODIFIED: Use singleton instance)
 // =======================================================================
 /**
  * Fetches data, processes it, renders it, and updates lang attribute.
@@ -238,14 +222,13 @@ function escapeHtml(unsafe) {
  */
 async function loadAndRenderData(locale, appRootElement, workerScript) {
     console.log(`[loadAndRenderData] Start processing for '${locale}'. Current lang: ${document.documentElement.lang}`);
-    // Ensure target element exists
     if (!appRootElement) {
         console.error('[loadAndRenderData] Error: Target element is null or undefined.');
         throw new Error('Target application root element not found.');
     }
 
     console.log(`[loadAndRenderData] Started for locale: ${locale}`);
-    appRootElement.innerHTML = '<p>Loading content...</p>'; // Loading indicator
+    appRootElement.innerHTML = '<p>Loading content...</p>';
 
     const rootContainer = DOMComposer.fragment();
     const fetcher = new Fetcher();
@@ -282,20 +265,61 @@ async function loadAndRenderData(locale, appRootElement, workerScript) {
             await renderParallel(rootContainer, appRootElement, workerScript);
             console.log(`[loadAndRenderData] renderParallel finished.`);
 
-            // Update the document's lang attribute AFTER successful rendering
+            // --- Check if element exists immediately after render ---
+            const checkElementExists = document.getElementById('last-update');
+            if (checkElementExists) {
+                console.log(`[loadAndRenderData] SUCCESS: #last-update element FOUND immediately after renderParallel.`);
+            } else {
+                console.error(`[loadAndRenderData] FAILURE: #last-update element NOT FOUND immediately after renderParallel.`);
+                // Optionally log the container's HTML for inspection
+                // console.log("Debug: appRootElement innerHTML after render:", appRootElement.innerHTML);
+            }
+            // --- End Check ---
+
+            // --- Update Last Update Time AFTER renderParallel completes ---
+            console.log(`[loadAndRenderData] Attempting to fetch and update last update time...`);
+            const lastUpdateElement = document.getElementById('last-update');
+            if (lastUpdateElement) {
+                console.log(`[loadAndRenderData] Found #last-update element.`);
+                try {
+                    const lastUpdateText = await optionButtons.getLastUpdateDate();
+                    console.log(`[loadAndRenderData] Fetched last update text: ${lastUpdateText}`);
+                    const label = i18n.t(data.common.common.general.lastUpdate); // Ensure i18n is initialized before this
+                    console.log(`[loadAndRenderData] Fetched label: ${label}`);
+                    // Update the element text, handle potential null/error return
+                    lastUpdateElement.innerText = `${label}: ${lastUpdateText || 'N/A'}`;
+                    console.log(`[loadAndRenderData] Updated #last-update element text.`);
+                } catch (error) {
+                    console.error("[loadAndRenderData] Error getting last update time:", error);
+                    lastUpdateElement.innerText = `${i18n.t(data.common.common.general.lastUpdate)}: Error`;
+                }
+            } else {
+                console.error("[loadAndRenderData] Could not find #last-update element after rendering.");
+            }
+            // --- End Update Last Update Time ---
+
             console.log(`[loadAndRenderData] Updating document lang attribute to: ${locale}`);
             document.documentElement.lang = locale;
 
+            // --- Add Scroll-to-Top Button AFTER rendering --- 
+            // Check if button already exists to prevent duplicates on re-render
+            if (!document.getElementById('scroll-to-top-btn')) {
+                const topButtonElement = createScrollToTopButton().toHTMLElement();
+                document.body.appendChild(topButtonElement); // Append to body for fixed positioning
+                console.log(`[loadAndRenderData] Scroll-to-top button added.`);
+            }
+            // --- End Add Button ---
+
             eventRegistry.emit('dataLoaded', "done");
+
             console.log(`[loadAndRenderData] Successfully finished for locale: ${locale}`);
-            console.log(`[loadAndRenderData] Finish processing for '${locale}'. Current lang: ${document.documentElement.lang}`);
         }
     } catch (error) {
         console.error(`[loadAndRenderData] Error during processing for ${locale}:`, error);
         if (appRootElement) {
             appRootElement.innerHTML = `<p>Error loading content for ${locale}. Please try again.</p>`;
         }
-        throw error; // Re-throw for the caller
+        throw error;
     }
 
     console.log(`[loadAndRenderData] Finish processing for '${locale}'. Current lang: ${document.documentElement.lang}`);
@@ -303,7 +327,7 @@ async function loadAndRenderData(locale, appRootElement, workerScript) {
 
 
 // =======================================================================
-// Main Application Logic (MODIFIED: Call attachEventListeners once)
+// Main Application Logic (MODIFIED: Use singleton instance)
 // =======================================================================
 let hasMainExecuted = false;
 
@@ -311,7 +335,6 @@ let hasMainExecuted = false;
  * Main application entry point.
  */
 const main = async () => {
-    // Execution guard
     if (hasMainExecuted) {
         console.warn('[main] main function called again, skipping execution.');
         return;
@@ -329,10 +352,8 @@ const main = async () => {
         return;
     }
 
-    // --- Setup Phase ---
-    events(); // Register event aliases with their handlers
+    events();
 
-    // --- Event Listener for Language Change ---
     console.log('[main] Attaching languageChanged listener...');
     /** @param {{ language: 'en'|'ko' }} eventData */
     const handleLanguageChange = (eventData) => {
@@ -370,8 +391,6 @@ const main = async () => {
     eventRegistry.on('languageChanged', handleLanguageChange);
     console.log('[main] languageChanged listener attached.');
 
-    // --- Initial Page Load ---
-    /** @type {'en'|'ko'} */
     const initialLocale = document.documentElement.lang === 'ko' ? 'ko' : 'en';
     console.log(`[main] Initial locale detected: ${initialLocale}`);
 
@@ -386,18 +405,11 @@ const main = async () => {
         }
 
         try {
-            // Perform initial load and render
             await loadAndRenderData(initialLocale, appRootElement, workerScript);
-
-            // --- !!! Attach listeners ONCE after successful initial render !!! ---
             console.log('[main] Initial render successful. Attaching event listeners ONCE.');
-            // Pass the persistent container and the registry
             attachEventListeners(appRootElement, eventRegistry);
-            // --- !!! Listener attachment moved here !!! ---
-
         } catch (error) {
             console.error('[main] Caught error during initial loadAndRenderData:', error);
-            // Listeners won't be attached if initial load fails, which is fine.
         } finally {
             isLoading = false;
             console.log('[main] Initial load process finished (finally block). Resetting isLoading flag.');
@@ -413,5 +425,4 @@ const main = async () => {
     console.log('[main] Application setup complete.');
 };
 
-// --- Start the Application ---
 await main();

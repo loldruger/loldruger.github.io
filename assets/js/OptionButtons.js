@@ -10,7 +10,9 @@ const LAST_UPDATE_CACHE_KEY = 'last-update-timestamp';
 
 export default class OptionButtons {
     // foldingCircles
+    // @ts-ignore
     #userThemeSetting;
+    // @ts-ignore
     #userLangSetting;
     #prefersDarkMode;
 

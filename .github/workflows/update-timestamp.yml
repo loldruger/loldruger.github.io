@@ -1,0 +1,49 @@
+name: Update Last Commit Timestamp
+
+on:
+  push:
+    branches:
+      - main # Or your default branch name
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    # Grant permission for the action to write to the repository
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        # Checks out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history for all tags and branches
+          fetch-depth: 0
+
+      - name: Get latest commit timestamp
+        id: commit_timestamp
+        # Get the committer date of the latest commit on the current branch in ISO 8601 format
+        run: echo "TIMESTAMP=$(git log -1 --format=%cI)" >> $GITHUB_ENV
+
+      - name: Create or Update timestamp file
+        run: |
+          # Ensure the target directory exists
+          mkdir -p assets/data
+          # Create the JSON file with the timestamp
+          echo '{ "lastUpdate": "${{ env.TIMESTAMP }}" }' > assets/data/last_update.json
+          echo "Timestamp file updated with: ${{ env.TIMESTAMP }}"
+
+      - name: Commit and push if changed
+        # Use a dedicated action to automatically commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          # Message for the commit
+          commit_message: "chore: Update last commit timestamp [skip ci]" # Add [skip ci] to prevent triggering this workflow again
+          # Specify the file pattern to watch for changes
+          file_pattern: "assets/data/last_update.json"
+          # Optional: Define the committer name and email
+          commit_user_name: "GitHub Action Bot"
+          commit_user_email: "actions@github.com"
+          commit_author: "GitHub Action Bot <actions@github.com>"
+          # Prevent the action from failing if there are no changes to commit
+          skip_dirty_check: false
+          skip_fetch: true # Already checked out

@@ -11,5 +11,8 @@
         "editor.defaultFormatter":"vscode.html-language-features",
         "editor.tabSize": 4,
         "editor.insertSpaces": true
+    },
+    "[json]": {
+        "editor.wordWrap": "off"
     }
 }

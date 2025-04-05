@@ -207,6 +207,20 @@ const events = () => {
 
     console.log('[events] Registering event handlers...');
 
+    const lastUpdateElement = document.getElementById('last-update');
+    if (lastUpdateElement) {
+        try {
+            // Call the updated method
+            const lastUpdateText = optionButtons.getLastUpdateDate();
+            const label = i18n.t('common.general.lastUpdate'); // Get translated label
+            // Update the element text, handle potential null/error return
+            lastUpdateElement.innerText = `${label}: ${lastUpdateText || 'N/A'}`;
+        } catch (error) {
+            console.error("Error getting last update time:", error);
+            lastUpdateElement.innerText = `${i18n.t('common.general.lastUpdate')}: Error`;
+        }
+    }
+
     eventRegistry.register('change-theme', (/** @type {Event} */ event) => {
         event.preventDefault();
         const currentlyDark = optionButtons.isDarkMode();
@@ -929,7 +943,8 @@ const getResume = (resumeData, commonData) => {
     resumeComposed.push(DOMComposer.new({ tag: 'time' })
         .setAttribute({ name: 'id', value: 'last-update' })
         .setAttribute({ name: 'class', value: 'block text-align-right-h' })
-        .setInnerText({ text: i18n.t(actualCommonData.general.lastUpdate) + ': ' + 'lastUpdateText' })
+        // Use a placeholder initially
+        .setInnerText({ text: i18n.t(actualCommonData.general.lastUpdate) + ': Loading...' })
     );
 
     resumeComposed.push(createProfileSection(actualResumeData.profile, actualCommonData.general));

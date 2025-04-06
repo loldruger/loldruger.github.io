@@ -33,7 +33,7 @@ class OptionButtons {
             }
 
             // --- Language Logic (FIXED COMPARISON) ---
-            const currentLangSetting = localStorage.getItem(LANG_STORAGE_KEY); // Reads 'en' or 'ko'
+            const currentLangSetting = /** @type {'en'|'ko'} */ (localStorage.getItem(LANG_STORAGE_KEY)); // Reads 'en' or 'ko'
             console.log(`[OptionButtons] dataLoaded: Read LANG_STORAGE_KEY: '${currentLangSetting}'`);
 
             if (currentLangSetting !== null) {

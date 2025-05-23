@@ -452,7 +452,7 @@ const createEducationSection = (eduData, commonData) => {
     bodyContent.appendChild({ child: createInfoDiv(commonData.university, eduData.university) });
     bodyContent.appendChild({ child: createInfoDiv(commonData.major, eduData.major) });
     bodyContent.appendChild({ child: createInfoDiv(commonData.graduation, eduData.graduation) });
-    bodyContent.appendChild({ child: createInfoDiv(commonData.gpa, eduData.gpa) });
+    // bodyContent.appendChild({ child: createInfoDiv(commonData.gpa, eduData.gpa) });
 
     return createSectionFrame({ titleContent, bodyContent });
 };
